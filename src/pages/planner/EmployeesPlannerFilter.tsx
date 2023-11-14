@@ -4,8 +4,10 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Box} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
+import CancelButton from "../../components/button/CancelButton.tsx";
+import SaveButton from "../../components/button/SaveButton.tsx";
 
-const UserFilter = () => {
+const EmployeesPlannerFilter = () => {
     const {
         reset,
         trigger,
@@ -33,24 +35,11 @@ const UserFilter = () => {
                             name='type'
                             type='text'
                         />
-                        <TextFieldInput
-                            label={'Type'}
-                            control={control}
-                            name='type'
-                            type='text'
-                        />
-                        <TextFieldInput
-                            label={'Type'}
-                            control={control}
-                            name='type'
-                            type='text'
-                        />
-                        <TextFieldInput
-                            label={'Type'}
-                            control={control}
-                            name='type'
-                            type='text'
-                        />
+                    </Box>
+                    <Box sx={{ display: 'inline'}}>
+                        <CancelButton text={'Send notification'} />
+                        <SaveButton text={'Reopen month'} />
+                        <SaveButton text={'Close month'} />
                     </Box>
                 </Box>
             </ContentCard>
@@ -58,4 +47,4 @@ const UserFilter = () => {
     );
 };
 
-export default UserFilter;
+export default EmployeesPlannerFilter;

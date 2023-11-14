@@ -2,6 +2,9 @@ import {Box} from "@mui/material";
 import {useForm} from "react-hook-form";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
+import AddButton from "../../components/button/AddButton.tsx";
+import ProjectTable from "../projects/ProjectTable.tsx";
+import UserFilter from "./UserFilter.tsx";
 
 const UserList = () => {
     const { control, reset, handleSubmit, setValue } = useForm({
@@ -20,30 +23,20 @@ const UserList = () => {
 
     return (
         <Box>
-            <PageHeader text={'Alkalmazottak'}/>
+            <PageHeader text={'Employees'}/>
+
+            <Box sx={{ display: 'flex'}}>
+                <UserFilter />
+            </Box>
+
             <ContentCard>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                        <form autoComplete="off" noValidate onSubmit={onSubmit}>
-                            {/*<TextFieldInput
-                                label={'NAME'}
-                                control={control}
-                                name="name"
-                            />
-                            <TextFieldInput
-                                label={'POSITION'}
-                                control={control}
-                                name="position"
-                            />*/}
-                        </form>
-                    </Box>
+                <Box sx={{ display: 'flex', marginTop: 5, marginBottom: 10}}>
+                    <ProjectTable />
                 </Box>
             </ContentCard>
-            {/*<NoBackgroundCard>
-                <UserTableComponent />
-            </NoBackgroundCard>*/}
         </Box>
     );
 };
+
 
 export default UserList;

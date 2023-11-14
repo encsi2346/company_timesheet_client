@@ -4,6 +4,13 @@ import NormalText from "../../components/text/NormalText.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
+import {useForm} from "react-hook-form";
+import {loginFormSchema, LoginFormSchema} from "../login/schemas/login-form-schema.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
+import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
+import MediumText from "../../components/text/MediumText.tsx";
+import ProjectTable from "../projects/ProjectTable.tsx";
+import SectionCard from "../../components/layout/SectionCard.tsx";
 
 interface Props {
     isEditing?: boolean;
@@ -12,101 +19,155 @@ interface Props {
 
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
+    const {
+        reset,
+        trigger,
+        watch,
+        control,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<LoginFormSchema>({
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+        resolver: zodResolver(loginFormSchema),
+        mode: 'all',
+    });
+
     return (
         <Box>
-            <PageHeader text={'Új alkalmazott felvétele'}/>
+            <PageHeader text={'Employees Name'}/>
             <ContentCard>
-                {/*<Headline text={'Személyes adatok'} />*/}
-                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Vezetéknév'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Keresztnév'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                    <SectionCard>
+                        <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+                            <MediumText text={'Personal Data'} />
+                            <NormalText text={'First Name'} />
+                            <TextFieldInput
+                                label={'First Name'}
+                                control={control}
+                                name='firstName'
+                                type='text'
+                            />
+                            <NormalText text={'Family Name'} />
+                            <TextFieldInput
+                                label={'Family Name'}
+                                control={control}
+                                name='familyName'
+                                type='text'
+                            />
+                            <NormalText text={'Birth Date'} />
+                            <TextFieldInput
+                                label={'Birth Date'}
+                                control={control}
+                                name='birthDate'
+                                type='text'
+                            />
+                            <NormalText text={'Birth Place'} />
+                            <TextFieldInput
+                                label={'Birth Place'}
+                                control={control}
+                                name='birthPlace'
+                                type='text'
+                            />
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Nem'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Állampolgárság'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    </SectionCard>
+                   <SectionCard>
+                       <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+                           <MediumText text={'Contact information'} />
+                           <NormalText text={'Email'} />
+                           <TextFieldInput
+                               label={'Email'}
+                               control={control}
+                               name='email'
+                               type='email'
+                           />
+                           <NormalText text={'Phone'} />
+                           <TextFieldInput
+                               label={'Phone'}
+                               control={control}
+                               name='phone'
+                               type='text'
+                           />
+                           <NormalText text={'Address'} />
+                           <TextFieldInput
+                               label={'Address'}
+                               control={control}
+                               name='address'
+                               type='text'
+                           />
+                       </Box>
+                   </SectionCard>
+                    <SectionCard>
+                        <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+                            <MediumText text={'Position information'} />
+                            <NormalText text={'Date of Registration'} />
+                            <TextFieldInput
+                                label={'Date of Registration'}
+                                control={control}
+                                name='dateOfRegistration'
+                                type='text'
+                            />
+                            <NormalText text={'Direct Manager'} />
+                            <TextFieldInput
+                                label={'Direct Manager'}
+                                control={control}
+                                name='directManager'
+                                type='text'
+                            />
+                            <NormalText text={'Seniority'} />
+                            <TextFieldInput
+                                label={'Seniority'}
+                                control={control}
+                                name='seniority'
+                                type='text'
+                            />
+                            <NormalText text={'Position'} />
+                            <TextFieldInput
+                                label={'Position'}
+                                control={control}
+                                name='position'
+                                type='text'
+                            />
+                            <NormalText text={'Gross hourly wage'} />
+                            <TextFieldInput
+                                label={'Gross hourly wage'}
+                                control={control}
+                                name='grossHourlyWage'
+                                type='text'
+                            />
+                            <NormalText text={'Net hourly wage'} />
+                            <TextFieldInput
+                                label={'Net hourly wage'}
+                                control={control}
+                                name='netHourlyWage'
+                                type='text'
+                            />
+                            <NormalText text={'Gross Value For Projects'} />
+                            <TextFieldInput
+                                label={'Gross Value For Projects'}
+                                control={control}
+                                name='grossValueForProjects'
+                                type='text'
+                            />
+                            <NormalText text={'Net Value For Projects'} />
+                            <TextFieldInput
+                                label={'Net Value For Projects'}
+                                control={control}
+                                name='netValueForProjects'
+                                type='text'
+                            />
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Születési hely'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Születési idő'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Személyigazolvány szám'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Személyigazolvány érvényessége'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Jogosítvány száma'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Jogosítvány kategóriák'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Jogosítvány érvényessége'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Orvosi alkalmassági időpontja'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Orvosi alkalmassági érvényessége'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                    </Box>
-                {/*<Headline text={'Elérhetőség'} />*/}
-                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Email'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Telefonszám'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Ország'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Irányítószám'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Település'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Közterület neve'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Közterület jellege'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Házszám'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                    </Box>
-                {/*<Headline text={'Alkalmazotti jogviszony'} />*/}
-                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Regisztráció dátuma'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Szerződés kezdete'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Szerződés vége'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Pozíció'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Közvetlen felettes'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                    </Box>
-                {/*<Headline text={'Egyéb'} />*/}
-                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Egészségügyi problémák'} />
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Box>
-                    </Box>
-                <Box sx={{ display: 'inline', paddingLeft: 142}}>
+                    </SectionCard>
+                </Box>
+
+                <Box sx={{ display: 'flex', marginTop: 5, marginBottom: 10}}>
+                    <MediumText text={'Current Projects'} />
+                    <ProjectTable />
+                </Box>
+
+                <Box sx={{ display: 'inline', paddingLeft: 100}}>
                     <CancelButton text={'Mégsem'} />
                     <SaveButton text={'Mentés'} />
                 </Box>

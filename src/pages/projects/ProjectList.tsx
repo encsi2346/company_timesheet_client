@@ -2,6 +2,9 @@ import {Box} from "@mui/material";
 import {useForm} from "react-hook-form";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
+import AddButton from "../../components/button/AddButton.tsx";
+import ProjectTable from "./ProjectTable.tsx";
+import ProjectFilter from "./ProjectFilter.tsx";
 
 const ProjectList = () => {
     const { control, reset, handleSubmit, setValue } = useForm({
@@ -20,28 +23,20 @@ const ProjectList = () => {
 
     return (
         <Box>
-            <PageHeader text={'Projektek'}/>
+            <PageHeader text={'Projects Overview'}/>
+            <Box sx={{ display: 'flex'}}>
+                <AddButton text={'Create new project'}/>
+            </Box>
+
+            <Box sx={{ display: 'flex'}}>
+                <ProjectFilter />
+            </Box>
+
             <ContentCard>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                        <form autoComplete="off" noValidate onSubmit={onSubmit}>
-                            {/*<TextFieldInput
-                                label={'NAME'}
-                                control={control}
-                                name="name"
-                            />
-                            <TextFieldInput
-                                label={'POSITION'}
-                                control={control}
-                                name="position"
-                            />*/}
-                        </form>
-                    </Box>
+                <Box sx={{ display: 'flex', marginTop: 5, marginBottom: 10}}>
+                    <ProjectTable />
                 </Box>
             </ContentCard>
-            {/*<NoBackgroundCard>
-                <UserTableComponent />
-            </NoBackgroundCard>*/}
         </Box>
     );
 };

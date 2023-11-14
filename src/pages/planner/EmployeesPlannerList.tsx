@@ -4,9 +4,9 @@ import PageHeader from "../../components/text/PageHeader.tsx";
 import AddButton from "../../components/button/AddButton.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import ProjectTable from "../projects/ProjectTable.tsx";
-import LogsFilter from "./LogsFilter.tsx";
+import EmployeesPlannerFilter from "./EmployeesPlannerFilter.tsx";
 
-const LogsList = () => {
+const EmployeesPlannerList = () => {
     const { control, reset, handleSubmit, setValue } = useForm({
         defaultValues: {
             taskIdIn: [],
@@ -23,10 +23,13 @@ const LogsList = () => {
 
     return (
         <Box>
-            <PageHeader text={'History'}/>
+            <PageHeader text={'Projects Overview'}/>
+            <Box sx={{ display: 'flex'}}>
+                <AddButton text={'Create new project'}/>
+            </Box>
 
             <Box sx={{ display: 'flex'}}>
-                <LogsFilter />
+                <EmployeesPlannerFilter />
             </Box>
 
             <ContentCard>
@@ -38,5 +41,4 @@ const LogsList = () => {
     );
 };
 
-
-export default LogsList;
+export default EmployeesPlannerList;

@@ -147,7 +147,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                     <ProjectTable />
                 </Box>
 
-                <Box sx={{ display: 'inline', paddingLeft: 142}}>
+                <Box sx={{ display: 'inline', paddingLeft: 130}}>
                     <CancelButton text={'Mégsem'} />
                     <SaveButton text={'Mentés'} />
                 </Box>

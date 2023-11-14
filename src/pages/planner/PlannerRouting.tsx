@@ -1,14 +1,14 @@
 import {Route, Routes} from "react-router-dom";
 import PlannerSelector from "./PlannerSelector.tsx";
-import EmployeesPlanner from "./EmployeesPlanner.tsx";
-import OwnPlanner from "./OwnPlanner.tsx";
+import EmployeesPlannerList from "./EmployeesPlannerList.tsx";
+import MyPlanner from "./MyPlanner.tsx";
 
 const PlannerRouting = () => {
     return (
         <Routes>
             <Route path="/" element={<PlannerSelector />} />
-            <Route path="/own/:id" element={<OwnPlanner isInputDisabled isEditing />} />
-            <Route path="/employees-planner/" element={<EmployeesPlanner />} />
+            <Route path="/my-planner/:id" element={<MyPlanner isInputDisabled isEditing />} />
+            <Route path="/employees-planner" element={<EmployeesPlannerList />} />
         </Routes>
     );
 };
