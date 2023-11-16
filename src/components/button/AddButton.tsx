@@ -1,4 +1,4 @@
-import {Button} from "@mui/material";
+import {Button, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
@@ -24,6 +24,8 @@ interface Props {
 }
 
 const AddButton = ({ text }: Props) => {
+    const { palette } = useTheme();
+
     return (
         <Button sx={titleStyle}>
             <AddRoundedIcon sx={{ marginRight: 2}}/>

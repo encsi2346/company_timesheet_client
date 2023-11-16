@@ -6,32 +6,31 @@ import {
     useTheme,
     useMediaQuery
 } from "@mui/material";
-import {
-    DarkMode,
-    LightMode,
-} from '@mui/icons-material';
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
+import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import { useNavigate } from "react-router-dom";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Sidebar from "../sidebar/Sidebar.tsx";
+import {useDispatch} from "react-redux";
+import {setMode} from "../../state.ts";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
+    const dispatch = useDispatch();
     const theme = useTheme();
 
     return (
         <>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: -1, marginLeft: -1, marginRight: -1, paddingTop: 2, paddingBottom: 2, backgroundColor: '#29005C'}} >
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 2, paddingBottom: 2, backgroundColor: `${theme.palette.component.darkMax}`}} >
                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
-                   <IconButton
-                       onClick={() => setIsOpen(!isOpen)}
-                   >
+                   <IconButton onClick={() => setIsOpen(!isOpen)} >
                        {isOpen
-                           ? <CloseRoundedIcon sx={{color: '#ffffff', fontSize: "25px"}}/>
-                           : <MenuRoundedIcon sx={{color: '#ffffff', fontSize: "25px"}}/>
+                           ? <CloseRoundedIcon sx={{color: `${theme.palette.textColor.light}`, fontSize: "25px"}}/>
+                           : <MenuRoundedIcon sx={{color: `${theme.palette.textColor.light}`, fontSize: "25px"}}/>
                        }
                    </IconButton>
                    <Sidebar isSidebarOpen={isOpen} />
@@ -41,11 +40,11 @@ const Navbar = () => {
                     <Typography
                         fontWeight="bold"
                         fontSize="clamp(1rem, 2rem, 2.25rem)"
-                        color={"#ffffff"}
+                        color={`${theme.palette.textColor.light}`}
                         onClick={() => navigate("/dashboard/my-dashboard")}
                         sx={{
                             "&:hover": {
-                                color: '#aeaeae',
+                                color: `${theme.palette.component.light}`,
                                 cursor: "pointer",
                             },
                         }}>
@@ -53,14 +52,13 @@ const Navbar = () => {
                     </Typography>
                 </Box>
 
-
                 {isNonMobileScreens && (
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <IconButton>
+                        <IconButton onClick={() => dispatch(setMode())}>
                             {theme.palette.mode === "dark" ? (
-                                <DarkMode sx={{ color: '#ffffff', fontSize: "25px" }} />
+                                <DarkModeRoundedIcon sx={{ color: `${theme.palette.textColor.light}`, fontSize: "25px" }} />
                             ) : (
-                                <LightMode sx={{ color: '#ffffff', fontSize: "25px" }} />
+                                <LightModeRoundedIcon sx={{ color: `${theme.palette.textColor.light}`, fontSize: "25px" }} />
                             )}
                         </IconButton>
                     </Box>

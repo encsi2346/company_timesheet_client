@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import { useLocation } from "react-router-dom";
-import { Drawer } from '@mui/material';
+import {Drawer, useTheme} from '@mui/material';
 import SidebarItem from "./SidebarItem.tsx";
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
 }
 
 const Sidebar = ({ isSidebarOpen }: Props) => {
+    const { palette } = useTheme();
     const location = useLocation();
 
     const navLinks = [
@@ -42,10 +43,6 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-       console.log(isSidebarOpen);
-    }, []);
-
     return (
         <Drawer
             id="sidebar"
@@ -59,7 +56,7 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
                     position: 'fixed',
                     minHeight: 100,
                     height: 800,
-                    backgroundColor: '#29005C',
+                    backgroundColor: `${palette.component.darkMax}`,
                     marginTop: 10
             },
             }}

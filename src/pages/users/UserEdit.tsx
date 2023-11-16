@@ -1,5 +1,5 @@
 import PageHeader from "../../components/text/PageHeader.tsx";
-import {Box, Grid} from "@mui/material";
+import {Box, Grid, IconButton, InputAdornment} from "@mui/material";
 import NormalText from "../../components/text/NormalText.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
@@ -13,6 +13,11 @@ import SectionCard from "../../components/layout/SectionCard.tsx";
 import CardText from "../../components/text/CardText.tsx";
 import PersonIcon from "@mui/icons-material/Person";
 import UserProjectTableQuery from "./UserProjectTableQuery.tsx";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import SelectInput from "../../components/inputFields/SelectInput.tsx";
+import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
+import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
+import {useState} from "react";
 
 interface Props {
     isEditing?: boolean;
@@ -20,6 +25,7 @@ interface Props {
 }
 
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
+    const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
 
     const {
         reset,
@@ -27,6 +33,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         watch,
         control,
         handleSubmit,
+        setValue,
         formState: { isValid },
     } = useForm<LoginFormSchema>({
         defaultValues: {
@@ -36,6 +43,24 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         resolver: zodResolver(loginFormSchema),
         mode: 'all',
     });
+
+    const positionOptions={
+        softwareDeveloper: 'Szoftverfejlesztő',
+        projectManager: 'Project Manager',
+        softwareTester: 'Szoftvertesztelő'
+    };
+
+    const seniorityOptions={
+        junior: 'Junior',
+        medior: 'Medior',
+        senior: 'Senior'
+    };
+
+    const directManagerOptions={
+        managerA: 'Példa Kata',
+        managerB: 'Példa Éva',
+        managerC: 'Példa Zoltán'
+    };
 
     return (
         <Box sx={{ display: 'block', width: 1300}}>
@@ -66,11 +91,12 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Birth Date'} />
-                                    <TextFieldInput
+                                    <DatePickerInput
                                         label={'Birth Date'}
                                         control={control}
                                         name='birthDate'
-                                        type='text'
+                                        parseDate={parseDatePickerDate}
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -132,20 +158,38 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Grid item xs={4} md={6}>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Date of Registration'} />
-                                    <TextFieldInput
+                                    <DatePickerInput
                                         label={'Date of Registration'}
                                         control={control}
                                         name='dateOfRegistration'
-                                        type='text'
+                                        parseDate={parseDatePickerDate}
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Seniority'} />
-                                    <TextFieldInput
-                                        label={'Seniority'}
+                                    <SelectInput
+                                        label={'Szint'}
                                         control={control}
                                         name='seniority'
-                                        type='text'
+                                        options={Object.values(seniorityOptions).map((seniority) => ({
+                                            id: seniority,
+                                            title: seniority
+                                        }))}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                                        <ClearRoundedIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                            sx: {
+                                                '.MuiSelect-icon': {
+                                                    display: 'none',
+                                                },
+                                            },
+                                        }}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -170,20 +214,54 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Grid item xs={4} md={6}>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Direct Manager'} />
-                                    <TextFieldInput
-                                        label={'Direct Manager'}
+                                    <SelectInput
+                                        label={'Közvetlen felettes'}
                                         control={control}
                                         name='directManager'
-                                        type='text'
+                                        options={Object.values(directManagerOptions).map((directManager) => ({
+                                            id: directManager,
+                                            title: directManager
+                                        }))}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                                        <ClearRoundedIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                            sx: {
+                                                '.MuiSelect-icon': {
+                                                    display: 'none',
+                                                },
+                                            },
+                                        }}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Position'} />
-                                    <TextFieldInput
-                                        label={'Position'}
+                                    <SelectInput
+                                        label={'Pozíció'}
                                         control={control}
                                         name='position'
-                                        type='text'
+                                        options={Object.values(positionOptions).map((position) => ({
+                                            id: position,
+                                            title: position
+                                        }))}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                                        <ClearRoundedIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                            sx: {
+                                                '.MuiSelect-icon': {
+                                                    display: 'none',
+                                                },
+                                            },
+                                        }}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>

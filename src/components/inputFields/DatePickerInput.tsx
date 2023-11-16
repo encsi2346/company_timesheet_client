@@ -3,8 +3,8 @@ import type { DatePickerProps } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
 import { parseISO } from 'date-fns';
 import { Control, Controller, ControllerProps, FieldError, FieldValues, Path } from 'react-hook-form';
+import { DatePickerContext } from './context/DatePickerContext.tsx';
 
-import { DatePickerContext } from '../context/DatePickerContext.tsx';
 import DatePickerTextField from './DatePickerTextField.tsx';
 
 export declare type ParseableDate<TDate> = string | number | Date | null | undefined | TDate;

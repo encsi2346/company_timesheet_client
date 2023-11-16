@@ -1,4 +1,4 @@
-import {Box} from "@mui/material";
+import {Box, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 
@@ -6,10 +6,8 @@ const backgroundStyle: SxProps<Theme> = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#29005C',
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#ffffff',
     paddingLeft: '50px',
     paddingRight: '50px',
     paddingTop: '50px',
@@ -19,8 +17,9 @@ const backgroundStyle: SxProps<Theme> = {
     marginLeft: '5px',
     marginRight: '5px',
     borderRadius: '13px',
-    height: 150,
-    width: 350,
+    height: 250,
+    width: 450,
+    cursor: 'pointer'
 }
 
 interface Props {
@@ -28,8 +27,10 @@ interface Props {
 }
 
 const MyPlannerCard = ({ text }: Props) => {
+    const { palette } = useTheme();
+
     return (
-        <Box sx={backgroundStyle}>
+        <Box bgcolor={`${palette.component.darkMax}`} color={`${palette.textColor.light}`} sx={backgroundStyle}>
             <PersonIcon sx={{ height: 150, width: 150, marginRight: 3}} />
             {text}
         </Box>

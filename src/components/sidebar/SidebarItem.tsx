@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import {Box, useTheme} from '@mui/material';
 import { ReactNode } from 'react';
 import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const SidebarItem = ({ link, isSidebarOpen, removeSelectionStyles = false }: Props) => {
+    const { palette } = useTheme();
     const location = useLocation();
     const path = useResolvedPath(link.route);
 
@@ -37,14 +38,11 @@ const SidebarItem = ({ link, isSidebarOpen, removeSelectionStyles = false }: Pro
             minHeight="40px"
             height="40px"
             pl={isSidebarOpen ? 3 : 0}
-            bgcolor={isActive ? 'primary.100' : 'inherit'}
-            boxShadow={isActive && isSidebarOpen ? 'inset -3px 0px 0px #7C9A2A' : 'none'}
+            bgcolor={isActive ? `${palette.component.lightMax}` : `${palette.component.darkMax}`}
             sx={{ textDecoration: 'none', cursor: 'pointer' }}
             data-testid={link.route}
-            color='#ffffff'
+            color={isActive ? `${palette.component.darkMax}` : `${palette.textColor.light}`}
         >
-            {link.icon}
-
             {isSidebarOpen && (
                 <Box ml={link.icon ? '10px' : '36px'} fontSize="14px">
                     {link.label}

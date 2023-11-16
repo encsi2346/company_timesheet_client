@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import Layout from "./components/layout/Layout.tsx";
 import UserRouting from "./pages/users/UserRouting.tsx";
 import ProjectRouting from "./pages/projects/ProjectRouting.tsx";
@@ -7,7 +7,11 @@ import LogsList from "./pages/log/LogsList.tsx";
 import DashboardRouting from "./pages/dashboard/DashboardRouting.tsx";
 import LoginPage from "./pages/login/LoginPage.tsx";
 
-const Router = () => {
+interface Props {
+    isAuth: boolean;
+}
+
+const Router = ({ isAuth = false }: Props) => {
     return (
         <Routes>
             <Route>
@@ -16,11 +20,11 @@ const Router = () => {
 
             <Route>
                 <Route element={<Layout />}>
-                    <Route path="dashboard/*" element={<DashboardRouting />} />
-                    <Route path="users/*" element={<UserRouting />} />
-                    <Route path="projects/*" element={<ProjectRouting />} />
-                    <Route path="planner/*" element={<PlannerRouting />} />
-                    <Route path="logs/*" element={<LogsList />} />
+                    <Route path="dashboard/*" element={/*isAuth ?*/ <DashboardRouting /> /*: <Navigate to="/login" />*/ } />
+                    <Route path="users/*" element={ /*isAuth ?*/ <UserRouting /> /*: <Navigate to="/login" />*/ } />
+                    <Route path="projects/*" element={/*isAuth ?*/ <ProjectRouting /> /*: <Navigate to="/login" />*/ } />
+                    <Route path="planner/*" element={/*isAuth ?*/ <PlannerRouting /> /*: <Navigate to="/login" />*/ } />
+                    <Route path="logs/*" element={/*isAuth ?*/ <LogsList /> /*: <Navigate to="/login" />*/ } />
                 </Route>
             </Route>
         </Routes>

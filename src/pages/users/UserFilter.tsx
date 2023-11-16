@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import {loginFormSchema, LoginFormSchema} from "../login/schemas/login-form-schema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Box} from "@mui/material";
+import {Box, IconButton, InputAdornment} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
@@ -9,6 +9,8 @@ import SaveButton from "../../components/button/SaveButton.tsx";
 import {useEffect, useState} from "react";
 import SelectOption from "../../components/inputFields/utils/SelectOption.tsx";
 import useQueryParam from "../../components/inputFields/hooks/useQueryParam.tsx";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import SelectInput from "../../components/inputFields/SelectInput.tsx";
 
 interface Props {
     enableQueryParams?: boolean;
@@ -27,6 +29,7 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
         watch,
         control,
         handleSubmit,
+        setValue,
         formState: { isValid },
     } = useForm<LoginFormSchema>({
         defaultValues: {
@@ -59,6 +62,24 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
         onSubmit();
     };
 
+    const positionOptions={
+        softwareDeveloper: 'Szoftverfejlesztő',
+        projectManager: 'Project Manager',
+        softwareTester: 'Szoftvertesztelő'
+    };
+
+    const seniorityOptions={
+        junior: 'Junior',
+        medior: 'Medior',
+        senior: 'Senior'
+    };
+
+    const projectOptions={
+        projectA: 'A Projekt',
+        projectB: 'B Projekt',
+        projectC: 'C Projekt'
+    };
+
     return (
         <ContentCard>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
@@ -69,23 +90,74 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                         name='fullName'
                         type='text'
                     />
-                    <TextFieldInput
+                    <SelectInput
                         label={'Szint'}
                         control={control}
                         name='seniority'
-                        type='text'
+                        options={Object.values(seniorityOptions).map((seniority) => ({
+                            id: seniority,
+                            title: seniority
+                        }))}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position='end'>
+                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                        <ClearRoundedIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                            sx: {
+                                '.MuiSelect-icon': {
+                                    display: 'none',
+                                },
+                            },
+                        }}
                     />
-                    <TextFieldInput
+                    <SelectInput
                         label={'Pozíció'}
                         control={control}
                         name='position'
-                        type='text'
+                        options={Object.values(positionOptions).map((position) => ({
+                            id: position,
+                            title: position
+                        }))}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position='end'>
+                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                        <ClearRoundedIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                            sx: {
+                                '.MuiSelect-icon': {
+                                    display: 'none',
+                                },
+                            },
+                        }}
                     />
-                    <TextFieldInput
+                    <SelectInput
                         label={'Jelenlegi projekt'}
                         control={control}
                         name='currentProject'
-                        type='text'
+                        options={Object.values(projectOptions).map((projectType) => ({
+                            id: projectType,
+                            title: projectType
+                        }))}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position='end'>
+                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                        <ClearRoundedIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                            sx: {
+                                '.MuiSelect-icon': {
+                                    display: 'none',
+                                },
+                            },
+                        }}
                     />
                 </Box>
             </Box>
