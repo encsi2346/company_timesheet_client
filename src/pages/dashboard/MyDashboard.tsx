@@ -1,9 +1,11 @@
+import PageHeader from "../../components/text/PageHeader.tsx";
+import ContentCard from "../../components/layout/ContentCard.tsx";
 
 const MyDashboard = () => {
     return (
-        <div>
-            My dashboard
-        </div>
+        <ContentCard>
+            <PageHeader text={'MyDashboard'} />
+        </ContentCard>
     );
 };
 

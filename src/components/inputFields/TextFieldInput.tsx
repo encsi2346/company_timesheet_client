@@ -3,6 +3,8 @@ import {TextField} from '@mui/material';
 import { Control, Controller, ControllerProps, FieldError, FieldValues, Path } from 'react-hook-form';
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
+import {styled} from "@mui/material/styles";
+import {DataGrid} from "@mui/x-data-grid";
 
 export type TextFieldInputProps<T extends FieldValues> = Omit<TextFieldProps, 'name'> & {
     validation?: ControllerProps['rules'];
@@ -52,17 +54,19 @@ export default function TextFieldInput<T extends FieldValues>({
                     required={required}
                     type={type}
                     error={!!error || externalError}
-                    sx={{ backgroundColor: isAuth ? 'rgba(41, 0, 92, 0.12)' : 'rgba(41, 0, 92, 0.84)', borderRadius: '13px', color: '#ffffff', textDecoration: 'none', height: 40, width: 300 }}
-                    inputProps={{
-                        sx: {
-                            color: '#ffffff',
-                            padding: '9px',
-                            paddingLeft: '20px',
-                            fontSize: '15px',
-                        },
-                    }}
                     InputProps={{
-                        disableUnderline: true
+                        disableUnderline: 'true',
+                        style: {
+                            backgroundColor: isAuth ? 'rgba(41, 0, 92, 0.12)' : 'rgba(41, 0, 92, 0.84)',
+                            borderRadius: '13px',
+                            color: '#ffffff',
+                            textDecoration: 'none',
+                            height: 40,
+                            width: 250,
+                            fontSize: "15px",
+                            paddingLeft: 10,
+                            paddingBottom: 10
+                        }
                     }}
                     helperText={
                         showErrorMessage

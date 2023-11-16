@@ -62,23 +62,15 @@ const LogsFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
     return (
         <ContentCard>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3}}>
                     <TextFieldInput
-                        label={'Dátum'}
-                        control={control}
-                        name='date'
-                        type='text'
-                    />
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                    <TextFieldInput
-                        label={'Alkalmazott...'}
+                        placeholder={'Alkalmazott...'}
                         control={control}
                         name='employee'
                         type='text'
                     />
                     <TextFieldInput
-                        label={'Projekt'}
+                        placeholder={'Projekt'}
                         control={control}
                         name='project'
                         type='text'

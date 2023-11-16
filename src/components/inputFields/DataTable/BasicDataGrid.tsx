@@ -13,7 +13,7 @@ const BasicDataGrid = styled(DataGrid)(() => ({
     },
     '& .MuiDataGrid-columnHeaders': {
         backgroundColor: 'rgba(0, 0, 0, 0.00)',
-        border: 'none',
+        border: '2px',
     },
     '& .MuiDataGrid-columnHeaderTitle': {
         textOverflow: 'clip',
@@ -28,19 +28,19 @@ const BasicDataGrid = styled(DataGrid)(() => ({
         boxShadow: '-13px 0px 0px -12px rgba(0, 0, 0, 0.06)',
         textAlign: 'center',
         justifyContent: 'center',
-        display: 'flex'
+        display: 'flex',
+        border: '2px solid rgba(41, 0, 92, 0.3)',
     },
     '& .MuiDataGrid-cell': {
         border: 'none',
         padding: '0 16px',
+        border: '2px solid rgba(41, 0, 92, 0.3)',
+        borderTop: 0,
+        borderBottom: 0,
     },
     '& .MuiDataGrid-cell.vertical-top': {
         alignItems: 'flex-start',
         paddingTop: '10px',
-    },
-    '& .MuiDataGrid-cell.wage-table-vertical-padding': {
-        alignItems: 'flex-start',
-        paddingTop: '12px',
     },
     '& .MuiDataGrid-cell.vertical-padding': {
         alignItems: 'flex-start',
@@ -56,20 +56,16 @@ const BasicDataGrid = styled(DataGrid)(() => ({
         paddingBottom: '15px',
     },
     "& .MuiDataGrid-row": {
-        backgroundColor: 'rgba(255, 255, 255, 0.36)',
-        borderRadius: '13px',
-        paddingTop: 30,
-        paddingBottom: 30,
-        marginTop:10,
+        backgroundColor: 'rgba(255, 255, 255, 0.00)',
+        paddingTop: 10,
+        paddingBottom: 10,
         display: 'flex',
         alignItems: 'center',
         color: '#29005C',
-        fontSize: 15
-    },
-    '& .MuiDataGrid-row:nth-of-type(even):not(.Mui-selected):not(.MuiDataGrid-row:hover)': {
-        backgroundColor: 'rgba(41, 0, 92, 0.32)',
-        borderRadius: '13px',
-        color: '#ffffff'
+        fontSize: 15,
+        border: '2px solid rgba(41, 0, 92, 0.3)',
+        borderLeft: 0,
+        borderRight: 0
     },
     "& .MuiDataGrid-row:hover": {
         backgroundColor: 'rgba(41, 0, 92, 0.12)',
@@ -86,14 +82,13 @@ const BasicDataGrid = styled(DataGrid)(() => ({
     },
     '& .MuiPaginationItem-root': {
         borderRadius: 0,
-    },
+    }
 })) as typeof DataGrid;
 
 export default BasicDataGrid;
 
 export const basicDataGridProps = {
-    autoHeight: false,
-    height: '100%',
+    autoHeight: true,
     checkboxSelection: true,
     disableSelectionOnClick: true,
     disableColumnMenu: true,

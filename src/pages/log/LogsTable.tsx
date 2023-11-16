@@ -2,10 +2,7 @@ import { Pagination } from '@modules/components/inputFields/hooks/usePagination.
 import { Sort } from '@modules/components/inputFields/hooks/useSort.tsx';
 import type { GridActionsColDef, GridColDef, GridSelectionModel, GridSortModel } from '@mui/x-data-grid';
 import { useLocation, useNavigate } from 'react-router-dom';
-import StyledDataGrid, {
-    handleDataGridCellClick,
-    sharedDataGridProps
-} from "../../components/inputFields/DataTable/StyledDataGrid.tsx";
+import BasicDataGrid, {basicDataGridProps, handleDataGridCellClick} from "../../components/inputFields/DataTable/BasicDataGrid.tsx";
 
 interface Props {
     data?: string[];
@@ -40,17 +37,17 @@ const LogsTable = ({
         {
             field: 'employeeName',
             headerName: 'Alkalmazott',
-            width: 200,
+            width: 280,
         },
         {
             field: 'projectName',
             headerName: 'Projekt',
-            width: 200,
+            width: 270,
         },
         {
             field: 'date',
             headerName: 'Dátum',
-            width: 200,
+            width: 270,
         },
         {
             field: 'description',
@@ -60,8 +57,8 @@ const LogsTable = ({
     ];
 
     return (
-        <StyledDataGrid
-            {...sharedDataGridProps}
+        <BasicDataGrid
+            {...basicDataGridProps}
             pagination
             rows={data ?? []}
             columns={columns}

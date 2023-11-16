@@ -38,10 +38,6 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         alignItems: 'flex-start',
         paddingTop: '10px',
     },
-    '& .MuiDataGrid-cell.wage-table-vertical-padding': {
-        alignItems: 'flex-start',
-        paddingTop: '12px',
-    },
     '& .MuiDataGrid-cell.vertical-padding': {
         alignItems: 'flex-start',
         paddingTop: '10px',

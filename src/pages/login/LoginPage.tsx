@@ -32,13 +32,13 @@ const LoginPage = () => {
                 </Box>
                 <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 3}}>
                     <TextFieldInput
-                        label={'Email'}
+                        placeholder={'Email'}
                         control={control}
                         name='email'
                         type='email'
                     />
                     <PasswordInput
-                        label={'Password'}
+                        placeholder={'Password'}
                         control={control}
                         name='password'
                     />

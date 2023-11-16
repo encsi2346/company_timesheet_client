@@ -119,7 +119,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={'Partner'} />
                                 <TextFieldInput
-                                    label={'partner'}
+                                    placeholder={'partner'}
                                     control={control}
                                     name='partner'
                                     type='text'
@@ -138,7 +138,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={'Estimated hours'} />
                                 <TextFieldInput
-                                    label={'estimated hours'}
+                                    placeholder={'estimated hours'}
                                     control={control}
                                     name='estimatedHours'
                                     type='text'
@@ -157,7 +157,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={'Estimated value'} />
                                 <TextFieldInput
-                                    label={'estimated value'}
+                                    placeholder={'estimated value'}
                                     control={control}
                                     name='estimatedValue'
                                     type='text'
@@ -194,7 +194,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={'Project Manager'} />
                                 <TextFieldInput
-                                    label={'project manager'}
+                                    placeholder={'project manager'}
                                     control={control}
                                     name='projectManager'
                                     type='text'
@@ -213,7 +213,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={'Real hours'} />
                                 <TextFieldInput
-                                    label={'real hours'}
+                                    placeholder={'real hours'}
                                     control={control}
                                     name='realHours'
                                     type='text'
@@ -232,7 +232,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={'Real value'} />
                                 <TextFieldInput
-                                    label={'real value'}
+                                    placeholder={'real value'}
                                     control={control}
                                     name='realValue'
                                     type='text'

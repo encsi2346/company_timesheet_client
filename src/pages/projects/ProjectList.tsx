@@ -84,7 +84,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
             </Box>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10}}>
+                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 500}}>
                     <ProjectTableQuery
                         filters={actualFilters}
                         selectionModel={selectionModel}

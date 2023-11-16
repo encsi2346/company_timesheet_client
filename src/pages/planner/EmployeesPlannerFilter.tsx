@@ -64,7 +64,7 @@ const EmployeesPlannerFilter = ({ enableQueryParams = true, onFiltersChanged }: 
             <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                 <Box sx={{ display: 'inline', alignItems: 'center', justifyContent: 'center'}}>
                     <TextFieldInput
-                        label={'Type'}
+                        placeholder={'Type'}
                         control={control}
                         name='type'
                         type='text'

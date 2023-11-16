@@ -55,7 +55,6 @@ export default function SelectInput<T extends FieldValues>({
                         name={name}
                         value={type === 'boolean' ? value : value ?? ''}
                         onBlur={onBlur}
-                        sx={{ backgroundColor: 'rgba(41, 0, 92, 0.12)', borderRadius: '13px', color: '#ffffff', textDecoration: 'none', height: 40, width: 300 }}
                         onChange={(event) => {
                             let item: number | string | boolean = event.target.value;
                             if (type === 'number') {
@@ -72,6 +71,20 @@ export default function SelectInput<T extends FieldValues>({
                         select
                         required={required}
                         error={invalid}
+                        InputProps={{
+                            disableUnderline: 'true',
+                            style: {
+                                backgroundColor: 'rgba(41, 0, 92, 0.12)',
+                                borderRadius: '13px',
+                                color: '#ffffff',
+                                textDecoration: 'none',
+                                height: 40,
+                                width: 250,
+                                fontSize: "15px",
+                                paddingLeft: 10,
+                                paddingBottom: 0,
+                            }
+                        }}
                         helperText={
                             showErrorMessage
                                 ? error

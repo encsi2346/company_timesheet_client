@@ -85,9 +85,9 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
     return (
         <ContentCard>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3}}>
                     <TextFieldInput
-                        label={t('BUTTON.FULLNAME')}
+                        placeholder={t('BUTTON.FULLNAME')}
                         control={control}
                         name={t('fullName')}
                         type='text'

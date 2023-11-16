@@ -74,7 +74,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'First Name'} />
                                     <TextFieldInput
-                                        label={'First Name'}
+                                        placeholder={'First Name'}
                                         control={control}
                                         name='firstName'
                                         type='text'
@@ -83,7 +83,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Family Name'} />
                                     <TextFieldInput
-                                        label={'Family Name'}
+                                        placeholder={'Family Name'}
                                         control={control}
                                         name='familyName'
                                         type='text'
@@ -102,7 +102,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Birth Place'} />
                                     <TextFieldInput
-                                        label={'Birth Place'}
+                                        placeholder={'Birth Place'}
                                         control={control}
                                         name='birthPlace'
                                         type='text'
@@ -123,7 +123,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                    <NormalText text={'Email'} />
                                    <TextFieldInput
-                                       label={'Email'}
+                                       placeholder={'Email'}
                                        control={control}
                                        name='email'
                                        type='email'
@@ -132,7 +132,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                    <NormalText text={'Address'} />
                                    <TextFieldInput
-                                       label={'Address'}
+                                       placeholder={'Address'}
                                        control={control}
                                        name='address'
                                        type='text'
@@ -143,7 +143,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                    <NormalText text={'Phone'} />
                                    <TextFieldInput
-                                       label={'Phone'}
+                                       placeholder={'Phone'}
                                        control={control}
                                        name='phone'
                                        type='text'
@@ -195,7 +195,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Gross hourly wage'} />
                                     <TextFieldInput
-                                        label={'Gross hourly wage'}
+                                        placeholder={'Gross hourly wage'}
                                         control={control}
                                         name='grossHourlyWage'
                                         type='text'
@@ -204,7 +204,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Gross Value For Projects'} />
                                     <TextFieldInput
-                                        label={'Gross Value For Projects'}
+                                        placeholder={'Gross Value For Projects'}
                                         control={control}
                                         name='grossValueForProjects'
                                         type='text'
@@ -267,7 +267,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Net hourly wage'} />
                                     <TextFieldInput
-                                        label={'Net hourly wage'}
+                                        placeholder={'Net hourly wage'}
                                         control={control}
                                         name='netHourlyWage'
                                         type='text'
@@ -276,7 +276,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={'Net Value For Projects'} />
                                     <TextFieldInput
-                                        label={'Net Value For Projects'}
+                                        placeholder={'Net Value For Projects'}
                                         control={control}
                                         name='netValueForProjects'
                                         type='text'

@@ -64,7 +64,7 @@ const ProjectFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) =>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'row'}}>
                     <TextFieldInput
-                        label={'Projekt neve...'}
+                        placeholder={'Projekt neve...'}
                         control={control}
                         name='search'
                         type='text'
