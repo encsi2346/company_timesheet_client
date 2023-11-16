@@ -1,37 +1,96 @@
-import {Box} from "@mui/material";
-import {useForm} from "react-hook-form";
+import {Box, Button} from "@mui/material";
+import type {SxProps, Theme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
-import AddButton from "../../components/button/AddButton.tsx";
-import ProjectTable from "../projects/ProjectTable.tsx";
 import UserFilter from "./UserFilter.tsx";
+import {useState} from "react";
+import { isEqual } from 'lodash';
+import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
+import omitEmptyValues from "../../components/inputFields/utils/omit-empty-values.tsx";
+import UserTableQuery from "./UserTableQuery.tsx";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import {Link, useLocation} from "react-router-dom";
 
-const UserList = () => {
-    const { control, reset, handleSubmit, setValue } = useForm({
-        defaultValues: {
-            taskIdIn: [],
-            onlyActives: false,
-        },
-    });
+const addButtonStyle: SxProps<Theme> = {
+    fontWeight: 'regular',
+    fontSize: '14px',
+    color: '#ffffff',
+    backgroundColor: '#29005C',
+    borderRadius: '13px',
+    marginLeft: '20px',
+    marginRight: '20px',
+    marginTop: '80px',
+    marginBottom: '20px',
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    paddingLeft: '30px',
+    paddingRight: '30px',
+    textTransform: 'none',
+}
 
-    const onSubmit = handleSubmit((data) => {});
+interface Props {
+    onCreateClicked?: () => void;
+}
 
-    const onReset = () => {
-        reset();
-        onSubmit();
+const UserList = ({ onCreateClicked }: Props) => {
+    const location = useLocation();
+    const [filters, setFilters] = useState({});
+    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
+
+    const actualFilters = omitEmptyValues(filters);
+
+    const handleDataChange = () => {
+        handleSelectionChange(selectionModel);
     };
 
     return (
-        <Box>
-            <PageHeader text={'Employees'}/>
+        <Box sx={{ display: 'block', width: 1300}}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <PageHeader text={'Alkalmazottak'}/>
 
-            <Box sx={{ display: 'flex'}}>
-                <UserFilter />
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                    {!onCreateClicked && (
+                        <Button
+                            disabled={!!selectionModel.length}
+                            sx={ addButtonStyle }
+                            startIcon={<AddRoundedIcon />}
+                            component={Link}
+                            to="new"
+                            state={{ queryParams: location.search }}
+                        >
+                            {'Új alkalmazott létrehozása'}
+                        </Button>
+                    )}
+                    {onCreateClicked && (
+                        <Button
+                            disabled={!!selectionModel.length}
+                            sx={ addButtonStyle }
+                            startIcon={<AddRoundedIcon />}
+                            onClick={onCreateClicked}
+                        >
+                            {'Új alkalmazott létrehozása'}
+                        </Button>
+                    )}
+                </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', marginTop: 2}}>
+                <UserFilter
+                    onFiltersChanged={(newFilters) => {
+                        if (isEqual(newFilters, filters)) {}
+                        setFilters(newFilters);
+                    }}
+                />
             </Box>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 5, marginBottom: 10}}>
-                    <ProjectTable />
+                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10}}>
+                    <UserTableQuery
+                        filters={actualFilters}
+                        selectionModel={selectionModel}
+                        onSelectionChange={handleSelectionChange}
+                        onDataChange={handleDataChange}
+                    />
                 </Box>
             </ContentCard>
         </Box>

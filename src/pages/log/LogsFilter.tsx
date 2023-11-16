@@ -4,8 +4,23 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Box} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
+import {useEffect, useState} from "react";
+import SelectOption from "../../components/inputFields/utils/SelectOption.tsx";
+import useQueryParam from "../../components/inputFields/hooks/useQueryParam.tsx";
+import CancelButton from "../../components/button/CancelButton.tsx";
+import SaveButton from "../../components/button/SaveButton.tsx";
 
-const LogsFilter = () => {
+interface Props {
+    enableQueryParams?: boolean;
+    onFiltersChanged: (filters: string[]) => void;
+}
+
+const LogsFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
+    const [tasks, setTasks] = useState<SelectOption[]>([]);
+    const [languages, setLanguages] = useState<SelectOption[]>([]);
+
+    const [filters, setFilters] = useQueryParam('filters');
+
     const {
         reset,
         trigger,
@@ -22,33 +37,59 @@ const LogsFilter = () => {
         mode: 'all',
     });
 
+    const onSubmit = handleSubmit((data) => {
+        if (enableQueryParams) {
+            setFilters(data, { replace: true });
+        }
+
+        onFiltersChanged(data);
+    });
+
+    useEffect(() => {
+        if (filters) {
+            reset(filters, { keepDefaultValues: true });
+        }
+
+        onSubmit();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const onReset = () => {
+        reset();
+        onSubmit();
+    };
+
     return (
-        <Box>
-            <ContentCard>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                        <TextFieldInput
-                            label={'Type'}
-                            control={control}
-                            name='type'
-                            type='text'
-                        />
-                        <TextFieldInput
-                            label={'Type'}
-                            control={control}
-                            name='type'
-                            type='text'
-                        />
-                        <TextFieldInput
-                            label={'Type'}
-                            control={control}
-                            name='type'
-                            type='text'
-                        />
-                    </Box>
+        <ContentCard>
+            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                    <TextFieldInput
+                        label={'Dátum'}
+                        control={control}
+                        name='date'
+                        type='text'
+                    />
                 </Box>
-            </ContentCard>
-        </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                    <TextFieldInput
+                        label={'Alkalmazott...'}
+                        control={control}
+                        name='employee'
+                        type='text'
+                    />
+                    <TextFieldInput
+                        label={'Projekt'}
+                        control={control}
+                        name='project'
+                        type='text'
+                    />
+                </Box>
+            </Box>
+            <Box sx={{ display: 'inline', marginLeft: -2.5}}>
+                <CancelButton text={'Szűrők törlése'} />
+                <SaveButton text={'Szűrés'} />
+            </Box>
+        </ContentCard>
     );
 };
 

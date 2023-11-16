@@ -21,40 +21,40 @@ interface Props {
     onSelectionChange?: (selection: GridSelectionModel) => void;
 }
 
-const ProjectTable = ({
-   data,
-   selectionModel,
-   defaultPagination,
-   defaultSort,
-   allowSelection = false,
-   allowNavigation = true,
-   onPageChange,
-   onPageSizeChange,
-   onSortChange,
-   onSelectionChange,
+const UserTable = ({
+  data,
+  selectionModel,
+  defaultPagination,
+  defaultSort,
+  allowSelection = false,
+  allowNavigation = true,
+  onPageChange,
+  onPageSizeChange,
+  onSortChange,
+  onSelectionChange,
 }: Props) => {
     const location = useLocation();
     const navigate = useNavigate();
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'projectName',
-            headerName: 'Projekt név',
+            field: 'fullName',
+            headerName: 'Név',
             width: 250,
         },
         {
-            field: 'type',
-            headerName: 'Típus',
+            field: 'seniority',
+            headerName: 'Szint',
             width: 250,
         },
         {
-            field: 'projectManager',
-            headerName: 'Projekt manager',
+            field: 'position',
+            headerName: 'Pozíció',
             width: 250,
         },
         {
-            field: 'status',
-            headerName: 'Státusz',
+            field: 'currentProject',
+            headerName: 'Jelenlegi projekt',
             width: 250,
         },
     ];
@@ -83,7 +83,7 @@ const ProjectTable = ({
             }}
             initialState={{
                 sorting: {
-                    sortModel: [{ field: defaultSort?.sortBy ?? 'projectName', sort: defaultSort?.sortDir ?? 'asc' }],
+                    sortModel: [{ field: defaultSort?.sortBy ?? 'fullName', sort: defaultSort?.sortDir ?? 'asc' }],
                 },
                 pagination: { page: defaultPagination?.page, pageSize: defaultPagination?.pageSize },
             }}
@@ -91,4 +91,4 @@ const ProjectTable = ({
     );
 };
 
-export default ProjectTable;
+export default UserTable;

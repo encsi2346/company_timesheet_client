@@ -1,8 +1,8 @@
 import type { GridSelectionModel } from '@mui/x-data-grid';
 import { useEffect } from 'react';
-import ProjectTable from "./ProjectTable.tsx";
 import usePagination from "../../components/inputFields/hooks/usePagination.tsx";
 import useSort from "../../components/inputFields/hooks/useSort.tsx";
+import UserTable from "./UserTable.tsx";
 
 interface Props {
     filters: string[];
@@ -15,7 +15,7 @@ interface Props {
     enableQueryParams?: boolean;
 }
 
-const ProjectTableQuery = ({
+const UserTableQuery = ({
     filters,
     selectionModel = [],
     onSelectionChange,
@@ -26,43 +26,43 @@ const ProjectTableQuery = ({
     enableQueryParams = true,
 }: Props) => {
     const { pagination, handlePageChange, handlePageSizeChange } = usePagination(undefined, undefined, enableQueryParams);
-    const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'projectName', sortDir: 'asc' }, enableQueryParams);
+    const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'fullName', sortDir: 'asc' }, enableQueryParams);
 
-    const projectData = [
+    const userData = [
         {
             id: 1,
-            projectName: 'Project1',
-            type: 'inside',
-            projectManager: 'Példa Éva',
-            status: 'Under coding'
+            fullName: 'Példa Elek',
+            seniority: 'Senior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'Projekt1'
         },
         {
             id: 2,
-            projectName: 'Project2',
-            type: 'inside',
-            projectManager: 'Példa Éva',
-            status: 'Under coding'
+            fullName: 'Példa Tibor',
+            seniority: 'Junior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'Projekt2'
         },
         {
             id: 3,
-            projectName: 'B Project',
-            type: 'inside',
-            projectManager: 'Példa Éva',
-            status: 'Under coding'
+            fullName: 'Példa Zoltán',
+            seniority: 'Medior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'Projekt1'
         },
         {
             id: 4,
-            projectName: 'A Project',
-            type: 'inside',
-            projectManager: 'Példa Éva',
-            status: 'Under coding'
+            fullName: 'Példa Kata',
+            seniority: 'Junior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'B Projekt1'
         },
         {
             id: 5,
-            projectName: 'C Project',
-            type: 'inside',
-            projectManager: 'Példa Éva',
-            status: 'Under coding'
+            fullName: 'Példa Sára',
+            seniority: 'Senior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'A Projekt'
         }
     ];
 
@@ -71,14 +71,14 @@ const ProjectTableQuery = ({
             onDataChange();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [projectData]);
+    }, [userData]);
 
     return (
-        <ProjectTable
+        <UserTable
             allowSelection={allowSelection}
             allowNavigation={allowNavigation}
             showActions={showActions}
-            data={projectData}
+            data={userData}
             selectionModel={selectionModel}
             defaultPagination={pagination}
             defaultSort={sort}
@@ -90,4 +90,4 @@ const ProjectTableQuery = ({
     );
 };
 
-export default ProjectTableQuery;
+export default UserTableQuery;

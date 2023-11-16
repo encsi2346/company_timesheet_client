@@ -49,7 +49,7 @@ export default function TextFieldInput<T extends FieldValues>({
                     required={required}
                     type={type}
                     error={!!error || externalError}
-                    sx={{ backgroundColor: 'rgba(41, 0, 92, 0.84)', borderRadius: '13px', color: '#ffffff', textDecoration: 'none', height: 40, width: 300 }}
+                    sx={{ backgroundColor: 'rgba(41, 0, 92, 0.12)', borderRadius: '13px', color: '#ffffff', textDecoration: 'none', height: 40, width: 300 }}
                     inputProps={{
                         sx: {
                             color: '#ffffff',

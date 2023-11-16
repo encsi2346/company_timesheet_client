@@ -16,23 +16,23 @@ const Sidebar = ({ drawerOpenWidth, drawerClosedWidth, headerHeight }: Props) =>
 
     const navLinks = [
         {
-            label: 'USERS',
+            label: 'Alkalmazottak',
             route: '/users',
         },
         {
-            label: 'DASHBOARD',
+            label: 'Dashboard',
             route: '/dashboard',
         },
         {
-            label: 'PROJECTS',
+            label: 'Projektek',
             route: '/projects',
         },
         {
-            label: 'PLANNER',
+            label: 'Tervezők',
             route: '/planner',
         },
         {
-            label: 'LOGS',
+            label: 'Logok',
             route: '/logs',
         },
     ];
