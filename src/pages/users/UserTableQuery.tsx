@@ -63,6 +63,48 @@ const UserTableQuery = ({
             seniority: 'Senior',
             position: 'Szoftverfejlesztő',
             currentProject: 'A Projekt'
+        },
+        {
+            id: 6,
+            fullName: 'Példa Elek',
+            seniority: 'Senior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'Projekt1'
+        },
+        {
+            id: 7,
+            fullName: 'Példa Tibor',
+            seniority: 'Junior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'Projekt2'
+        },
+        {
+            id: 8,
+            fullName: 'Példa Zoltán',
+            seniority: 'Medior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'Projekt1'
+        },
+        {
+            id: 9,
+            fullName: 'Példa Kata',
+            seniority: 'Junior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'B Projekt1'
+        },
+        {
+            id: 10,
+            fullName: 'Példa Sára',
+            seniority: 'Senior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'A Projekt'
+        },
+        {
+            id: 11,
+            fullName: 'Példa Sára',
+            seniority: 'Senior',
+            position: 'Szoftverfejlesztő',
+            currentProject: 'A Projekt'
         }
     ];
 

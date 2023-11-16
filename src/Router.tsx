@@ -27,6 +27,10 @@ const Router = ({ isAuth = false }: Props) => {
                     <Route path="logs/*" element={/*isAuth ?*/ <LogsList /> /*: <Navigate to="/login" />*/ } />
                 </Route>
             </Route>
+
+            <Route>
+                <Route path="/logout" element={<LoginPage />} />
+            </Route>
         </Routes>
     );
 };

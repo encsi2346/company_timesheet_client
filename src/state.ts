@@ -4,6 +4,7 @@ const initialState = {
     mode: "light",
     user: null,
     token: null,
+    language: "hu",
 };
 
 export const authSlice = createSlice({
@@ -20,6 +21,9 @@ export const authSlice = createSlice({
         setLogout: (state) => {
             state.user = null;
             state.token = null;
+        },
+        setLanguage: (state, action) => {
+            state.language = action.payload.language;
         },
     }
 })

@@ -11,6 +11,7 @@ import SelectOption from "../../components/inputFields/utils/SelectOption.tsx";
 import useQueryParam from "../../components/inputFields/hooks/useQueryParam.tsx";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputFields/SelectInput.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     enableQueryParams?: boolean;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
+    const { t } = useTypeSafeTranslation();
     const [tasks, setTasks] = useState<SelectOption[]>([]);
     const [languages, setLanguages] = useState<SelectOption[]>([]);
 
@@ -85,9 +87,9 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'row'}}>
                     <TextFieldInput
-                        label={'Név...'}
+                        label={t('BUTTON.FULLNAME')}
                         control={control}
-                        name='fullName'
+                        name={t('fullName')}
                         type='text'
                     />
                     <SelectInput

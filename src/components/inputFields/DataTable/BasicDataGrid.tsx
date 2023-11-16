@@ -5,7 +5,7 @@ import type { NavigateFunction } from 'react-router-dom';
 
 import CustomPagination from './CustomPagination.tsx';
 
-const StyledDataGrid = styled(DataGrid)(() => ({
+const BasicDataGrid = styled(DataGrid)(() => ({
     border: 0,
 
     '& .MuiDataGrid-iconSeparator': {
@@ -89,9 +89,9 @@ const StyledDataGrid = styled(DataGrid)(() => ({
     },
 })) as typeof DataGrid;
 
-export default StyledDataGrid;
+export default BasicDataGrid;
 
-export const sharedDataGridProps = {
+export const basicDataGridProps = {
     autoHeight: false,
     height: '100%',
     checkboxSelection: true,

@@ -32,6 +32,10 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
             label: 'Logok',
             route: '/logs',
         },
+        {
+            label: 'Kijelentkezés',
+            route: '/logout',
+        },
     ];
 
     useEffect(() => {

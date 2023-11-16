@@ -65,7 +65,7 @@ const UserTable = ({
             pagination
             rows={data ?? []}
             columns={columns}
-            rowHeight={data?.length ? 48 : 120}
+            rowHeight={data?.length ? 60 : 120}
             rowCount={data?.length ?? 0}
             checkboxSelection={allowSelection}
             selectionModel={selectionModel ?? []}
