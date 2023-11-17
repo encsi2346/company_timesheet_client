@@ -1,4 +1,4 @@
-import {Box, Button} from "@mui/material";
+import {Box, Button, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
@@ -15,8 +15,6 @@ import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useType
 const addButtonStyle: SxProps<Theme> = {
     fontWeight: 'regular',
     fontSize: '14px',
-    color: '#ffffff',
-    backgroundColor: '#29005C',
     borderRadius: '13px',
     marginLeft: '20px',
     marginRight: '20px',
@@ -35,6 +33,7 @@ interface Props {
 
 const UserList = ({ onCreateClicked }: Props) => {
     const { t } = useTypeSafeTranslation();
+    const theme = useTheme();
     const location = useLocation();
     const [filters, setFilters] = useState({});
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
@@ -54,7 +53,7 @@ const UserList = ({ onCreateClicked }: Props) => {
                     {!onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
-                            sx={ addButtonStyle }
+                            sx={{ backgroundColor: `${theme.palette.component.darkMax}`, color: `${theme.palette.textColor.light}` }}
                             startIcon={<AddRoundedIcon />}
                             component={Link}
                             to="new"
@@ -66,7 +65,7 @@ const UserList = ({ onCreateClicked }: Props) => {
                     {onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
-                            sx={ addButtonStyle }
+                            sx={{ backgroundColor: `${theme.palette.component.darkMax}`, color: `${theme.palette.textColor.light}` }}
                             startIcon={<AddRoundedIcon />}
                             onClick={onCreateClicked}
                         >

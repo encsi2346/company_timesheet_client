@@ -6,6 +6,7 @@ import { Control, Controller, ControllerProps, FieldError, FieldValues, Path } f
 
 import { DatePickerContext } from '../context/DatePickerContext.tsx';
 import DatePickerTextField from './DatePickerTextField.tsx';
+import {useTheme} from "@mui/material";
 
 export declare type ParseableDate<TDate> = string | number | Date | null | undefined | TDate;
 
@@ -36,6 +37,8 @@ export default function DateTimePickerInput<TFieldValues extends FieldValues>({
     showErrorMessage = true,
     ...rest
 }: DateTimePickerInputProps<TFieldValues, any>): JSX.Element {
+    const { palette } = useTheme();
+
     return (
         <Controller
             name={name}
@@ -62,7 +65,7 @@ export default function DateTimePickerInput<TFieldValues extends FieldValues>({
                         {...rest}
                         value={value ? parseISO(value) : null}
                         onClose={onBlur}
-                        sx={{ backgroundColor: 'rgba(41, 0, 92, 0.12)', borderRadius: '13px', color: '#ffffff', textDecoration: 'none', height: 40, width: 300 }}
+                        sx={{ backgroundColor: `${palette.component.medium}`, borderRadius: '13px', color: `${palette.textColor.light}`, textDecoration: 'none', height: 40, width: 300 }}
                         onChange={(date: Date, validation) => {
                             if (!validation.validationError) {
                                 let parsedDate: string | null = date?.toISOString();

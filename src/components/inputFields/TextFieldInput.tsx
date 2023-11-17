@@ -1,5 +1,5 @@
 import type {TextFieldProps} from '@mui/material';
-import {TextField} from '@mui/material';
+import {TextField, useTheme} from '@mui/material';
 import { Control, Controller, ControllerProps, FieldError, FieldValues, Path } from 'react-hook-form';
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
@@ -26,6 +26,7 @@ export default function TextFieldInput<T extends FieldValues>({
     externalError = false,
     ...rest
 }: TextFieldInputProps<T>): JSX.Element {
+    const { palette } = useTheme();
     const isAuth = true /*Boolean(useSelector((state) => state.token))*/; //TODO
 
     if (required) {
@@ -57,9 +58,9 @@ export default function TextFieldInput<T extends FieldValues>({
                     InputProps={{
                         disableUnderline: 'true',
                         style: {
-                            backgroundColor: isAuth ? 'rgba(41, 0, 92, 0.12)' : 'rgba(41, 0, 92, 0.84)',
+                            backgroundColor: isAuth ? `${palette.component.medium}` : `${palette.component.dark}`,
                             borderRadius: '13px',
-                            color: '#ffffff',
+                            color: `${palette.textColor.light}`,
                             textDecoration: 'none',
                             height: 40,
                             width: 250,

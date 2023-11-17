@@ -1,11 +1,10 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, useTheme} from "@mui/material";
 import {SxProps, Theme} from "@mui/material";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
     fontSize: '22px',
     lineHeight: '20px',
-    color: '#ffffff',
     marginTop: '80px',
     marginBottom: '40px',
     marginLeft: '10px',
@@ -18,10 +17,12 @@ interface Props {
 }
 
 const CardText = ({ text }: Props) => {
+    const { palette } = useTheme();
+
     return (
         <>
             <Box>
-                <Typography sx={titleStyle}>{text}</Typography>
+                <Typography color={`${palette.textColor.light}`} sx={titleStyle}>{text}</Typography>
             </Box>
         </>
     );

@@ -1,11 +1,9 @@
-import {Button} from "@mui/material";
+import {Button, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'regular',
     fontSize: '14px',
-    color: '#ffffff',
-    backgroundColor: '#29005C',
     borderRadius: '13px',
     marginLeft: '20px',
     marginRight: '20px',
@@ -23,8 +21,10 @@ interface Props {
 }
 
 const SaveButton = ({ text }: Props) => {
+    const { palette } = useTheme();
+
     return (
-        <Button sx={titleStyle}>
+        <Button sx={{backgroundColor: `${palette.component.darkMax}`, color: `${palette.textColor.light}` }}>
             {text}
         </Button>
     );

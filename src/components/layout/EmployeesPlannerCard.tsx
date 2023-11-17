@@ -7,7 +7,7 @@ const backgroundStyle: SxProps<Theme> = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: 'regular',
     paddingLeft: '50px',
     paddingRight: '50px',
     paddingTop: '50px',

@@ -1,5 +1,5 @@
 import type { TextFieldProps } from '@mui/material';
-import { ListSubheader, MenuItem, TextField } from '@mui/material';
+import {ListSubheader, MenuItem, TextField, useTheme} from '@mui/material';
 import { Control, Controller, ControllerProps, FieldError, FieldValues, Path } from 'react-hook-form';
 
 export type SelectInputProps<T extends FieldValues> = Omit<TextFieldProps, 'name' | 'type' | 'onChange'> & {
@@ -30,6 +30,7 @@ export default function SelectInput<T extends FieldValues>({
      showErrorMessage = true,
      ...rest
  }: SelectInputProps<T>): JSX.Element {
+    const { palette } = useTheme();
 
     if (required) {
         validation.required = 'REQUIRED';
@@ -74,9 +75,9 @@ export default function SelectInput<T extends FieldValues>({
                         InputProps={{
                             disableUnderline: 'true',
                             style: {
-                                backgroundColor: 'rgba(41, 0, 92, 0.12)',
+                                backgroundColor: `${palette.component.medium}`,
                                 borderRadius: '13px',
-                                color: '#ffffff',
+                                color: `${palette.textColor.light}`,
                                 textDecoration: 'none',
                                 height: 40,
                                 width: 250,

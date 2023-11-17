@@ -10,13 +10,13 @@ export const colorTokens = {
         6: "#29005C",
     },
     secondary: { //TODO: change testing colors
-        0: "#ff0000",
-        1: "#ffef00",
-        2: "#00ff0c",
-        3: "#ff00b8",
+        0: "#DEDEDE",
+        1: "#ffffff",
+        2: "#DEDEDE",
+        3: "#909090",
         4: "#000000",
         5: "#00D5FA",
-        6: "#ff5900",
+        6: "#1a082a",
     },
 };
 
@@ -66,7 +66,7 @@ export const themeSettings = (mode) => {
                 }),
         },
         typography: {
-            fontFamily: ["Rubik", "sans-serif"].join(","),
+            fontFamily: ["Koulen", "sans-serif"].join(","),
             fontSize: 12,
             h1: {
                 fontFamily: ["Rubik", "sans-serif"].join(","),

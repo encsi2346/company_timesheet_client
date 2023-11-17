@@ -1,9 +1,8 @@
-import {Box} from "@mui/material";
+import {Box, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 import {ReactNode} from "react";
 
 const backgroundStyle: SxProps<Theme> = {
-    backgroundColor: '#DEDEDE',
     paddingLeft: '70px',
     paddingRight: '70px',
     paddingTop: '5px',
@@ -21,8 +20,10 @@ interface Props {
 }
 
 const SectionCard = ({ children }: Props) => {
+    const { palette } = useTheme();
+
     return (
-        <Box sx={backgroundStyle}>
+        <Box bgcolor={`${palette.component.lightMax}`} sx={backgroundStyle}>
             {children}
         </Box>
     );

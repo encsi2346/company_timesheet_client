@@ -1,3 +1,6 @@
-body {
-  background-color: #EEEEEE !important;
+@import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');
+
+body, html {
+  background-color: #eeeeee !important; /*#29005C*/
+  font-family: 'Koulen', sans-serif !important;
 }

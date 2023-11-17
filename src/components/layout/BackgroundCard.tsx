@@ -1,9 +1,8 @@
-import {Box} from "@mui/material";
+import {Box, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 import {ReactNode} from "react";
 
 const backgroundStyle: SxProps<Theme> = {
-    backgroundColor: '#ffffff',
     paddingLeft: '100px',
     paddingRight: '100px',
     paddingTop: '50px',
@@ -21,8 +20,10 @@ interface Props {
 }
 
 const BackgroundCard = ({ children }: Props) => {
+    const { palette } = useTheme();
+
     return (
-        <Box sx={backgroundStyle}>
+        <Box bgcolor={`${palette.component.lightMin}`} sx={backgroundStyle}>
             {children}
         </Box>
     );

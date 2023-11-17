@@ -1,11 +1,10 @@
-import {Box, Typography} from '@mui/material';
+import {Box, Typography, useTheme} from '@mui/material';
 import type {SxProps, Theme} from "@mui/material";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
     fontSize: '30px',
     lineHeight: '20px',
-    color: '#29005C',
     marginTop: '70px',
     marginBottom: '40px',
     marginLeft: '20px',
@@ -18,10 +17,12 @@ interface Props {
 }
 
 const PageHeader = ({ text }: Props) => {
+    const { palette } = useTheme();
+
     return (
         <>
             <Box>
-                <Typography sx={titleStyle}>{text}</Typography>
+                <Typography color={`${palette.textColor.dark}`} sx={titleStyle}>{text}</Typography>
             </Box>
         </>
     );

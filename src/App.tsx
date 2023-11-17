@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router.tsx";
+import "./index.css";
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { CssBaseline, ThemeProvider } from '@mui/material';
