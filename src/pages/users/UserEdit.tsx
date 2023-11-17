@@ -18,6 +18,7 @@ import SelectInput from "../../components/inputFields/SelectInput.tsx";
 import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {useState} from "react";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     isEditing?: boolean;
@@ -25,14 +26,11 @@ interface Props {
 }
 
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
+    const { t } = useTypeSafeTranslation();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
 
     const {
-        reset,
-        trigger,
-        watch,
         control,
-        handleSubmit,
         setValue,
         formState: { isValid },
     } = useForm<LoginFormSchema>({
@@ -64,35 +62,35 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     return (
         <Box sx={{ display: 'block', width: 1300}}>
-            <PageHeader text={'Employees Name'}/>
+            <PageHeader text={t('TEXT.FULL_NAME')}/>
             <ContentCard>
                 <Grid sx={{ flexGrow: 1 }}>
                     <SectionCard>
-                        <CardText text={'Personal Data'} />
+                        <CardText text={t('TEXT.PERSONAL_DATA')} />
                         <Grid container spacing={2}>
                             <Grid item xs={4} md={5}>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'First Name'} />
+                                    <NormalText text={t('TEXT.FIRST_NAME')} />
                                     <TextFieldInput
-                                        placeholder={'First Name'}
+                                        placeholder={t('TEXT.FIRST_NAME')}
                                         control={control}
                                         name='firstName'
                                         type='text'
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Family Name'} />
+                                    <NormalText text={t('TEXT.FAMILY_NAME')} />
                                     <TextFieldInput
-                                        placeholder={'Family Name'}
+                                        placeholder={t('TEXT.FAMILY_NAME')}
                                         control={control}
                                         name='familyName'
                                         type='text'
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Birth Date'} />
+                                    <NormalText text={t('TEXT.BIRTH_DATE')} />
                                     <DatePickerInput
-                                        label={'Birth Date'}
+                                        label={t('TEXT.BIRTH_DATE')}
                                         control={control}
                                         name='birthDate'
                                         parseDate={parseDatePickerDate}
@@ -100,9 +98,9 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Birth Place'} />
+                                    <NormalText text={t('TEXT.BIRTH_PLACE')} />
                                     <TextFieldInput
-                                        placeholder={'Birth Place'}
+                                        placeholder={t('TEXT.BIRTH_PLACE')}
                                         control={control}
                                         name='birthPlace'
                                         type='text'
@@ -117,22 +115,22 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                         </Grid>
                     </SectionCard>
                     <SectionCard>
-                       <CardText text={'Contact information'} />
+                       <CardText text={t('TEXT.CONTACT_INFORMATION')} />
                        <Grid container spacing={8}>
                            <Grid item xs={4} md={6}>
                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                   <NormalText text={'Email'} />
+                                   <NormalText text={t('TEXT.EMAIL')} />
                                    <TextFieldInput
-                                       placeholder={'Email'}
+                                       placeholder={t('TEXT.EMAIL')}
                                        control={control}
                                        name='email'
                                        type='email'
                                    />
                                </Box>
                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                   <NormalText text={'Address'} />
+                                   <NormalText text={t('TEXT.ADDRESS')} />
                                    <TextFieldInput
-                                       placeholder={'Address'}
+                                       placeholder={t('TEXT.ADDRESS')}
                                        control={control}
                                        name='address'
                                        type='text'
@@ -141,9 +139,9 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                            </Grid>
                            <Grid item xs={4} md={6}>
                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                   <NormalText text={'Phone'} />
+                                   <NormalText text={t('TEXT.PHONE')} />
                                    <TextFieldInput
-                                       placeholder={'Phone'}
+                                       placeholder={t('TEXT.PHONE')}
                                        control={control}
                                        name='phone'
                                        type='text'
@@ -153,13 +151,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                        </Grid>
                    </SectionCard>
                     <SectionCard>
-                        <CardText text={'Position information'} />
+                        <CardText text={t('TEXT.POSITION_INFORMATION')} />
                         <Grid container spacing={8}>
                             <Grid item xs={4} md={6}>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Date of Registration'} />
+                                    <NormalText text={t('TEXT.DATE_OF_REGISTRATION')} />
                                     <DatePickerInput
-                                        label={'Date of Registration'}
+                                        label={t('TEXT.DATE_OF_REGISTRATION')}
                                         control={control}
                                         name='dateOfRegistration'
                                         parseDate={parseDatePickerDate}
@@ -167,9 +165,9 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Seniority'} />
+                                    <NormalText text={t('TEXT.SENIORITY')} />
                                     <SelectInput
-                                        label={'Szint'}
+                                        label={t('TEXT.SENIORITY')}
                                         control={control}
                                         name='seniority'
                                         options={Object.values(seniorityOptions).map((seniority) => ({
@@ -193,18 +191,18 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Gross hourly wage'} />
+                                    <NormalText text={t('TEXT.GROSS_HOURLY_WAGE')} />
                                     <TextFieldInput
-                                        placeholder={'Gross hourly wage'}
+                                        placeholder={t('TEXT.GROSS_HOURLY_WAGE')}
                                         control={control}
                                         name='grossHourlyWage'
                                         type='text'
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Gross Value For Projects'} />
+                                    <NormalText text={t('TEXT.GROSS_VALUE_FOR_PROJECTS')} />
                                     <TextFieldInput
-                                        placeholder={'Gross Value For Projects'}
+                                        placeholder={t('TEXT.GROSS_VALUE_FOR_PROJECTS')}
                                         control={control}
                                         name='grossValueForProjects'
                                         type='text'
@@ -213,9 +211,9 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             </Grid>
                             <Grid item xs={4} md={6}>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Direct Manager'} />
+                                    <NormalText text={t('TEXT.DIRECT_MANAGER')} />
                                     <SelectInput
-                                        label={'Közvetlen felettes'}
+                                        label={t('TEXT.DIRECT_MANAGER')}
                                         control={control}
                                         name='directManager'
                                         options={Object.values(directManagerOptions).map((directManager) => ({
@@ -239,9 +237,9 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Position'} />
+                                    <NormalText text={t('TEXT.POSITION')} />
                                     <SelectInput
-                                        label={'Pozíció'}
+                                        label={t('TEXT.POSITION')}
                                         control={control}
                                         name='position'
                                         options={Object.values(positionOptions).map((position) => ({
@@ -265,18 +263,18 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Net hourly wage'} />
+                                    <NormalText text={t('TEXT.NET_HOURLY_WAGE')} />
                                     <TextFieldInput
-                                        placeholder={'Net hourly wage'}
+                                        placeholder={t('TEXT.NET_HOURLY_WAGE')}
                                         control={control}
                                         name='netHourlyWage'
                                         type='text'
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={'Net Value For Projects'} />
+                                    <NormalText text={t('TEXT.NET_VALUE_FOR_PROJECT')} />
                                     <TextFieldInput
-                                        placeholder={'Net Value For Projects'}
+                                        placeholder={t('TEXT.NET_VALUE_FOR_PROJECT')}
                                         control={control}
                                         name='netValueForProjects'
                                         type='text'
@@ -287,15 +285,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                     </SectionCard>
                 </Grid>
 
-                <MediumText text={'Current Projects'} />
+                <MediumText text={t('TEXT.CURRENT_PROJECT')} />
 
                 <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10}}>
                     <UserProjectTableQuery />
                 </Box>
 
                 <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                    <CancelButton text={'Mégsem'} />
-                    <SaveButton text={'Mentés'} />
+                    <CancelButton text={t('TEXT.CANCEL')} />
+                    <SaveButton text={t('TEXT.SAVE')} />
                 </Box>
             </ContentCard>
         </Box>

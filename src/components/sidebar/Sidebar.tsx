@@ -2,38 +2,40 @@ import {useEffect} from "react";
 import { useLocation } from "react-router-dom";
 import {Drawer, useTheme} from '@mui/material';
 import SidebarItem from "./SidebarItem.tsx";
+import {useTypeSafeTranslation} from "../inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     isSidebarOpen: boolean;
 }
 
 const Sidebar = ({ isSidebarOpen }: Props) => {
+    const { t } = useTypeSafeTranslation();
     const { palette } = useTheme();
     const location = useLocation();
 
     const navLinks = [
         {
-            label: 'Alkalmazottak',
+            label: t('TEXT.USERS'),
             route: '/users',
         },
         {
-            label: 'Dashboard',
+            label: t('TEXT.MY_DASHBOARD'),
             route: '/dashboard/my-dashboard',
         },
         {
-            label: 'Projektek',
+            label: t('TEXT.PROJECTS'),
             route: '/projects',
         },
         {
-            label: 'Tervezők',
+            label: t('TEXT.PLANNER'),
             route: '/planner',
         },
         {
-            label: 'Logok',
+            label: t('TEXT.LOGS'),
             route: '/logs',
         },
         {
-            label: 'Kijelentkezés',
+            label: t('TEXT.LOG_OUT'),
             route: '/logout',
         },
     ];

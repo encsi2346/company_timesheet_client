@@ -8,6 +8,7 @@ import {themeSettings} from "./theme.ts";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import useLocaleLoader from "./components/inputFields/hooks/useLocaleLoader.tsx";
+import NiceModal from "@ebay/nice-modal-react";
 
 const App = () => {
     const locale=useLocaleLoader();
@@ -21,8 +22,10 @@ const App = () => {
         <BrowserRouter>
             <ThemeProvider theme={theme}>
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>
-                    <CssBaseline />
-                    <Router isAuth={isAuth}/>
+                    <NiceModal.Provider>
+                        <CssBaseline />
+                        <Router isAuth={isAuth}/>
+                    </NiceModal.Provider>
                 </LocalizationProvider>
             </ThemeProvider>
         </BrowserRouter>

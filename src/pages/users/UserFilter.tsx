@@ -6,8 +6,7 @@ import ContentCard from "../../components/layout/ContentCard.tsx";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
-import {useEffect, useState} from "react";
-import SelectOption from "../../components/inputFields/utils/SelectOption.tsx";
+import {useEffect} from "react";
 import useQueryParam from "../../components/inputFields/hooks/useQueryParam.tsx";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputFields/SelectInput.tsx";
@@ -20,15 +19,11 @@ interface Props {
 
 const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
     const { t } = useTypeSafeTranslation();
-    const [tasks, setTasks] = useState<SelectOption[]>([]);
-    const [languages, setLanguages] = useState<SelectOption[]>([]);
 
     const [filters, setFilters] = useQueryParam('filters');
 
     const {
         reset,
-        trigger,
-        watch,
         control,
         handleSubmit,
         setValue,
@@ -87,13 +82,13 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3}}>
                     <TextFieldInput
-                        placeholder={t('BUTTON.FULLNAME')}
+                        placeholder={t('TEXT.FULL_NAME')}
                         control={control}
-                        name={t('fullName')}
+                        name='fullName'
                         type='text'
                     />
                     <SelectInput
-                        label={'Szint'}
+                        label={t('TEXT.SENIORITY')}
                         control={control}
                         name='seniority'
                         options={Object.values(seniorityOptions).map((seniority) => ({
@@ -116,7 +111,7 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                         }}
                     />
                     <SelectInput
-                        label={'Pozíció'}
+                        label={t('TEXT.POSITION')}
                         control={control}
                         name='position'
                         options={Object.values(positionOptions).map((position) => ({
@@ -139,7 +134,7 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                         }}
                     />
                     <SelectInput
-                        label={'Jelenlegi projekt'}
+                        label={t('TEXT.CURRENT_PROJECT')}
                         control={control}
                         name='currentProject'
                         options={Object.values(projectOptions).map((projectType) => ({
@@ -165,8 +160,8 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
             </Box>
 
             <Box sx={{ display: 'inline', marginLeft: -2.5}}>
-                <CancelButton text={'Szűrők törlése'} />
-                <SaveButton text={'Szűrés'} />
+                <CancelButton text={t('TEXT.REMOVE_FILTERS')} />
+                <SaveButton text={t('TEXT.FILTER')} />
             </Box>
         </ContentCard>
     );

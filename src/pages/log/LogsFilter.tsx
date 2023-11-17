@@ -4,11 +4,11 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Box} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
-import {useEffect, useState} from "react";
-import SelectOption from "../../components/inputFields/utils/SelectOption.tsx";
+import {useEffect} from "react";
 import useQueryParam from "../../components/inputFields/hooks/useQueryParam.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     enableQueryParams?: boolean;
@@ -16,15 +16,11 @@ interface Props {
 }
 
 const LogsFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
-    const [tasks, setTasks] = useState<SelectOption[]>([]);
-    const [languages, setLanguages] = useState<SelectOption[]>([]);
-
+    const { t } = useTypeSafeTranslation();
     const [filters, setFilters] = useQueryParam('filters');
 
     const {
         reset,
-        trigger,
-        watch,
         control,
         handleSubmit,
         formState: { isValid },
@@ -64,13 +60,13 @@ const LogsFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3}}>
                     <TextFieldInput
-                        placeholder={'Alkalmazott...'}
+                        placeholder={t('TEXT.FULL_NAME')}
                         control={control}
                         name='employee'
                         type='text'
                     />
                     <TextFieldInput
-                        placeholder={'Projekt'}
+                        placeholder={t('TEXT.PROJECT')}
                         control={control}
                         name='project'
                         type='text'
@@ -78,8 +74,8 @@ const LogsFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                 </Box>
             </Box>
             <Box sx={{ display: 'inline', marginLeft: -2.5}}>
-                <CancelButton text={'Szűrők törlése'} />
-                <SaveButton text={'Szűrés'} />
+                <CancelButton text={t('TEXT.REMOVE_FILTERS')} />
+                <SaveButton text={t('TEXT.FILTER')} />
             </Box>
         </ContentCard>
     );

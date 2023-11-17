@@ -10,6 +10,7 @@ import ProjectTableQuery from "./ProjectTableQuery.tsx";
 import {useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 import omitEmptyValues from "../../components/inputFields/utils/omit-empty-values.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 const addButtonStyle: SxProps<Theme> = {
     fontWeight: 'regular',
@@ -33,6 +34,7 @@ interface Props {
 }
 
 const ProjectList = ({ onCreateClicked }: Props) => {
+    const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const [filters, setFilters] = useState({});
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
@@ -46,7 +48,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
     return (
         <Box sx={{ display: 'block', width: 1300}}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                <PageHeader text={'Projektek'}/>
+                <PageHeader text={t('TEXT.PROJECTS')}/>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     {!onCreateClicked && (
@@ -58,7 +60,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
                             to="new"
                             state={{ queryParams: location.search }}
                         >
-                            {'Új projekt létrehozása'}
+                            {t('TEXT.NEW_PROJECT')}
                         </Button>
                     )}
                     {onCreateClicked && (
@@ -68,7 +70,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
                             startIcon={<AddRoundedIcon />}
                             onClick={onCreateClicked}
                         >
-                            {'Új projekt létrehozása'}
+                            {t('TEXT.NEW_PROJECT')}
                         </Button>
                     )}
                 </Box>

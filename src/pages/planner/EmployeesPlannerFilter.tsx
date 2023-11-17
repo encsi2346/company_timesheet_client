@@ -6,9 +6,9 @@ import ContentCard from "../../components/layout/ContentCard.tsx";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
-import {useEffect, useState} from "react";
-import SelectOption from "../../components/inputFields/utils/SelectOption.tsx";
+import {useEffect} from "react";
 import useQueryParam from "../../components/inputFields/hooks/useQueryParam.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     enableQueryParams?: boolean;
@@ -16,15 +16,11 @@ interface Props {
 }
 
 const EmployeesPlannerFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
-    const [tasks, setTasks] = useState<SelectOption[]>([]);
-    const [languages, setLanguages] = useState<SelectOption[]>([]);
-
+    const { t } = useTypeSafeTranslation();
     const [filters, setFilters] = useQueryParam('filters');
 
     const {
         reset,
-        trigger,
-        watch,
         control,
         handleSubmit,
         formState: { isValid },
@@ -64,15 +60,15 @@ const EmployeesPlannerFilter = ({ enableQueryParams = true, onFiltersChanged }: 
             <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                 <Box sx={{ display: 'inline', alignItems: 'center', justifyContent: 'center'}}>
                     <TextFieldInput
-                        placeholder={'Type'}
+                        placeholder={t('TEXT.TYPE')}
                         control={control}
                         name='type'
                         type='text'
                     />
 
-                    <CancelButton text={'Send notification'} />
-                    <SaveButton text={'Reopen month'} />
-                    <SaveButton text={'Close month'} />
+                    <CancelButton text={t('TEXT.SEND_NOTIFICATION')} />
+                    <SaveButton text={t('TEXT.OPENING_MONTH')} />
+                    <SaveButton text={t('TEXT.CLOSING_MONTH')} />
                 </Box>
             </Box>
         </ContentCard>

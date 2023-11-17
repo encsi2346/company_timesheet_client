@@ -3,6 +3,7 @@ import { Sort } from '@modules/components/inputFields/hooks/useSort.tsx';
 import type { GridActionsColDef, GridColDef, GridSelectionModel, GridSortModel } from '@mui/x-data-grid';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BasicDataGrid, {basicDataGridProps, handleDataGridCellClick} from "../../components/inputFields/DataTable/BasicDataGrid.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     data?: string[];
@@ -30,28 +31,29 @@ const LogsTable = ({
   onSortChange,
   onSelectionChange,
 }: Props) => {
+    const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const navigate = useNavigate();
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
             field: 'employeeName',
-            headerName: 'Alkalmazott',
+            headerName: t('TEXT.FULL_NAME'),
             width: 280,
         },
         {
             field: 'projectName',
-            headerName: 'Projekt',
+            headerName: t('TEXT.PROJECT'),
             width: 270,
         },
         {
             field: 'date',
-            headerName: 'Dátum',
+            headerName: t('TEXT.DATE'),
             width: 270,
         },
         {
             field: 'description',
-            headerName: 'Leírás',
+            headerName: t('TEXT.DESCRIPTION'),
             width: 450,
         },
     ];

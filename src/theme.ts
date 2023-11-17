@@ -9,7 +9,7 @@ export const colorTokens = {
         5: "rgba(41, 0, 92, 0.84)",
         6: "#29005C",
     },
-    secondary: { //TODO: change colors
+    secondary: { //TODO: change testing colors
         0: "#ff0000",
         1: "#ffef00",
         2: "#00ff0c",

@@ -7,7 +7,7 @@ const PlannerRouting = () => {
     return (
         <Routes>
             <Route path="/" element={<PlannerSelector />} />
-            <Route path="/my-planner/:id" element={<MyPlanner isInputDisabled isEditing />} />
+            <Route path="/my-planner" element={<MyPlanner isInputDisabled isEditing />} />
             <Route path="/employees-planner" element={<EmployeesPlannerList />} />
         </Routes>
     );

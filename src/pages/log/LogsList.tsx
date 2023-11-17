@@ -7,8 +7,10 @@ import {useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 import omitEmptyValues from "../../components/inputFields/utils/omit-empty-values.tsx";
 import LogsTableQuery from "./LogsTableQuery.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 const LogsList = () => {
+    const { t } = useTypeSafeTranslation();
     const [filters, setFilters] = useState({});
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
@@ -20,7 +22,7 @@ const LogsList = () => {
 
     return (
         <Box sx={{ display: 'block', width: 1300}}>
-            <PageHeader text={'Műveletek'}/>
+            <PageHeader text={t('TEXT.ACTIVITIES')}/>
 
             <Box sx={{ display: 'flex', marginTop: 2}}>
                 <LogsFilter

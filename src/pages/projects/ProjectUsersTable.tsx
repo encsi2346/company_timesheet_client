@@ -6,6 +6,7 @@ import StyledDataGrid, {
     handleDataGridCellClick,
     sharedDataGridProps
 } from "../../components/inputFields/DataTable/StyledDataGrid.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     data?: string[];
@@ -29,28 +30,29 @@ const ProjectUsersTable = ({
   onPageSizeChange,
   onSortChange,
 }: Props) => {
+    const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const navigate = useNavigate();
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
             field: 'fullName',
-            headerName: 'Név',
+            headerName: t('TEXT.FULL_NAME'),
             width: 350,
         },
         {
             field: 'seniority',
-            headerName: 'Szint',
+            headerName: t('TEXT.SENIORITY'),
             width: 350,
         },
         {
             field: 'position',
-            headerName: 'Pozíció',
+            headerName: t('TEXT.POSITION'),
             width: 350,
         },
         {
             field: 'value',
-            headerName: 'Értéke a projekten',
+            headerName: t('TEXT.VALUE_FOR_PROJECT'),
             width: 350,
         }
     ];

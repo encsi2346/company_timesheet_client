@@ -6,9 +6,9 @@ import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import {loginFormSchema, LoginFormSchema} from "../login/schemas/login-form-schema.ts";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import useQueryParam from "../../components/inputFields/hooks/useQueryParam.tsx";
-import SelectOption from "../../components/inputFields/utils/SelectOption.tsx";
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     enableQueryParams?: boolean;
@@ -16,8 +16,7 @@ interface Props {
 }
 
 const ProjectFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
-    const [tasks, setTasks] = useState<SelectOption[]>([]);
-    const [languages, setLanguages] = useState<SelectOption[]>([]);
+    const { t } = useTypeSafeTranslation();
 
     const [filters, setFilters] = useQueryParam('filters');
 
@@ -64,16 +63,16 @@ const ProjectFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) =>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'row'}}>
                     <TextFieldInput
-                        placeholder={'Projekt neve...'}
+                        placeholder={t('TEXT.PROJECT_NAME')}
                         control={control}
-                        name='search'
+                        name='projectName'
                         type='text'
                     />
                 </Box>
             </Box>
             <Box sx={{ display: 'inline', marginLeft: -2.5}}>
-                <CancelButton text={'Szűrők törlése'} />
-                <SaveButton text={'Szűrés'} />
+                <CancelButton text={t('TEXT.REMOVE_FILTERS')} />
+                <SaveButton text={t('TEXT.FILTER')} />
             </Box>
         </ContentCard>
     );

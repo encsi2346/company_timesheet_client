@@ -5,11 +5,12 @@ import StyledDataGrid, {
     handleDataGridCellClick,
     sharedDataGridProps
 } from "../../components/inputFields/DataTable/StyledDataGrid.tsx";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {GridActionsCellItem} from "@mui/x-data-grid";
 import {Tooltip} from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     data?: string[];
@@ -38,33 +39,34 @@ const EmployeesPlannerTable = ({
    onSortChange,
    onSelectionChange,
 }: Props) => {
+    const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const navigate = useNavigate();
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
             field: 'fullName',
-            headerName: 'Név',
+            headerName: t('TEXT.FULL_NAME'),
             width: 200,
         },
         {
             field: 'workedTime',
-            headerName: 'Ledolgozott óra',
+            headerName: t('TEXT.WORKED_TIME'),
             width: 200,
         },
         {
             field: 'holidayTime',
-            headerName: 'Szabadsággal töltött óra',
+            headerName: t('TEXT.HOLIDAY_TIME'),
             width: 200,
         },
         {
             field: 'fullTime',
-            headerName: 'Összes óra',
+            headerName: t('TEXT.FULL_TIME'),
             width: 200,
         },
         {
             field: 'closingTime',
-            headerName: 'Lezárás időpontja',
+            headerName: t('TEXT.CLOSING_TIME'),
             width: 250,
         },
     ];
@@ -72,26 +74,26 @@ const EmployeesPlannerTable = ({
     if (showActions) {
         columns.push({
             field: 'actions',
-            headerName: 'Lezárás',
+            headerName: t('TEXT.CLOSING'),
             type: 'actions',
             getActions: (params: GridRowParams) => [
                 <GridActionsCellItem
                     key={`${params.id}_open`}
                     icon={
-                        <Tooltip title={'EDIT'}>
+                        <Tooltip title={t('TEXT.OPENING')}>
                             <LockOpenIcon width="16px" height="16px" sx={{ color: "#29005C"}}/>
                         </Tooltip>
                     }
-                    label={'EDIT'}
+                    label={t('TEXT.OPENING')}
                 />,
                 <GridActionsCellItem
                     key={`${params.id}_locked`}
                     icon={
-                        <Tooltip title={'DELETE'}>
+                        <Tooltip title={t('TEXT.LOCKING')}>
                             <LockIcon width="16px" height="16px" sx={{ color: "#29005C"}}/>
                         </Tooltip>
                     }
-                    label={'DELETE'}
+                    label={t('TEXT.LOCKING')}
                 />,
             ],
         });
