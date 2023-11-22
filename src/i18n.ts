@@ -6,11 +6,14 @@ i18n
     .use(Backend)
     .use(initReactI18next)
     .init({
-        fallbackLng: 'hu',
+        fallbackLng: 'hu', //TODO: this change the language
         debug: false,
         interpolation: {
             escapeValue: false,
         },
+        react: {
+            useSuspense: false,
+        }
     });
 
 export default i18n;

@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');
 
 body, html {
-  background-color: #eeeeee !important; /*#29005C*/
+  background-color: #eeeeee !important;
   font-family: 'Koulen', sans-serif !important;
+}
+
+.background-light {
+  background-color: #eeeeee !important;
+}
+
+.background-dark {
+  background-color: #29005C !important;
 }

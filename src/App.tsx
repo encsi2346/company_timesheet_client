@@ -22,7 +22,8 @@ const App = () => {
     const isAuth = Boolean(useSelector((state) => state.token));
 
     return (
-    <>
+    <div class={mode === 'light' ? 'background-light' : 'background-dark'}>
+        <Suspense fallback={null}>
             <ThemeProvider theme={theme}>
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>
                     <BrowserRouter>
@@ -36,7 +37,8 @@ const App = () => {
                     </BrowserRouter>
                 </LocalizationProvider>
             </ThemeProvider>
-    </>
+        </Suspense>
+    </div>
   );
 }
 

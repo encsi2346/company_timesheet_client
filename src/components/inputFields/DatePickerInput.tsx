@@ -65,7 +65,17 @@ export default function DatePickerInput<TFieldValues extends FieldValues>({
                         {...rest}
                         value={value ? parseISO(value) : null}
                         onClose={onBlur}
-                        sx={{ disableUnderline: 'true', textDecoration: 'none', backgroundColor: `${palette.component.medium}`, borderRadius: '13px', border: 'none', color: `${palette.textColor.light}`, textDecoration: 'none', height: 40, width: 300 }}
+                        sx={{
+                            disableUnderline: 'true',
+                            textDecoration: 'none',
+                            backgroundColor: `${palette.component.medium}`,
+                            borderRadius: '13px',
+                            border: 'none',
+                            color: `${palette.textColor.light}`,
+                            textDecoration: 'none',
+                            height: 40,
+                            width: 300
+                        }}
                         onChange={(date: Date, validation) => {
                             if (!validation.validationError) {
                                 let parsedDate: string | null = date?.toISOString();

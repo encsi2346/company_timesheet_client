@@ -15,6 +15,7 @@ const Router = ({ isAuth = false }: Props) => {
     return (
         <Routes>
             <Route>
+                <Route path="/" element={<LoginPage />} />
                 <Route path="/login" element={<LoginPage />} />
             </Route>
 

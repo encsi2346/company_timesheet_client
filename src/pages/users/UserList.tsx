@@ -1,5 +1,4 @@
 import {Box, Button, useTheme} from "@mui/material";
-import type {SxProps, Theme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import UserFilter from "./UserFilter.tsx";
@@ -11,21 +10,6 @@ import UserTableQuery from "./UserTableQuery.tsx";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import {Link, useLocation} from "react-router-dom";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
-
-const addButtonStyle: SxProps<Theme> = {
-    fontWeight: 'regular',
-    fontSize: '14px',
-    borderRadius: '13px',
-    marginLeft: '20px',
-    marginRight: '20px',
-    marginTop: '80px',
-    marginBottom: '20px',
-    paddingTop: '8px',
-    paddingBottom: '8px',
-    paddingLeft: '30px',
-    paddingRight: '30px',
-    textTransform: 'none',
-}
 
 interface Props {
     onCreateClicked?: () => void;
@@ -53,23 +37,53 @@ const UserList = ({ onCreateClicked }: Props) => {
                     {!onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
-                            sx={{ backgroundColor: `${theme.palette.component.darkMax}`, color: `${theme.palette.textColor.light}` }}
+                            sx={{
+                                backgroundColor: `${theme.palette.component.darkMax}`,
+                                color: `${theme.palette.textColor.light}`,
+                                fontWeight: 'regular',
+                                fontSize: '14px',
+                                borderRadius: '13px',
+                                marginLeft: '20px',
+                                marginRight: '20px',
+                                marginTop: '80px',
+                                marginBottom: '20px',
+                                paddingTop: '8px',
+                                paddingBottom: '8px',
+                                paddingLeft: '30px',
+                                paddingRight: '30px',
+                                textTransform: 'none',
+                            }}
                             startIcon={<AddRoundedIcon />}
                             component={Link}
                             to="new"
                             state={{ queryParams: location.search }}
                         >
-                            `${t('TEXT.NEW_EMPLOYEE')}`
+                            {t('TEXT.NEW_EMPLOYEE')}
                         </Button>
                     )}
                     {onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
-                            sx={{ backgroundColor: `${theme.palette.component.darkMax}`, color: `${theme.palette.textColor.light}` }}
+                            sx={{
+                                backgroundColor: `${theme.palette.component.darkMax}`,
+                                color: `${theme.palette.textColor.light}`,
+                                fontWeight: 'regular',
+                                fontSize: '14px',
+                                borderRadius: '13px',
+                                marginLeft: '20px',
+                                marginRight: '20px',
+                                marginTop: '80px',
+                                marginBottom: '20px',
+                                paddingTop: '8px',
+                                paddingBottom: '8px',
+                                paddingLeft: '30px',
+                                paddingRight: '30px',
+                                textTransform: 'none',
+                            }}
                             startIcon={<AddRoundedIcon />}
                             onClick={onCreateClicked}
                         >
-                            `${t('TEXT.NEW_EMPLOYEE')}`
+                            {t('TEXT.NEW_EMPLOYEE')}
                         </Button>
                     )}
                 </Box>

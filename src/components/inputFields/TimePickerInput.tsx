@@ -65,7 +65,14 @@ export default function TimePickerInput<TFieldValues extends FieldValues>({
                         {...rest}
                         value={value ? parseISO(value) : null}
                         onClose={onBlur}
-                        sx={{ backgroundColor: `${palette.component.medium}`, borderRadius: '13px', color: `${palette.textColor.light}`, textDecoration: 'none', height: 40, width: 300 }}
+                        sx={{
+                            backgroundColor: `${palette.component.medium}`,
+                            borderRadius: '13px',
+                            color: `${palette.textColor.light}`,
+                            textDecoration: 'none',
+                            height: 40,
+                            width: 300
+                        }}
                         onChange={(date: Date, validation) => {
                             if (!validation.validationError) {
                                 let parsedDate: string | null = date?.toISOString();

@@ -1,10 +1,6 @@
 import type {TextFieldProps} from '@mui/material';
 import {TextField, useTheme} from '@mui/material';
 import { Control, Controller, ControllerProps, FieldError, FieldValues, Path } from 'react-hook-form';
-import {useSelector} from "react-redux";
-import {useEffect} from "react";
-import {styled} from "@mui/material/styles";
-import {DataGrid} from "@mui/x-data-grid";
 
 export type TextFieldInputProps<T extends FieldValues> = Omit<TextFieldProps, 'name'> & {
     validation?: ControllerProps['rules'];
