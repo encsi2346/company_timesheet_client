@@ -71,6 +71,7 @@ const ProjectTable = ({
             rowCount={data?.length ?? 0}
             checkboxSelection={allowSelection}
             selectionModel={selectionModel ?? []}
+            data-testid='project-table'
             onCellClick={(params, event) =>
                 allowNavigation ? handleDataGridCellClick(params, event, navigate, location.search) : null
             }

@@ -64,12 +64,14 @@ const LogsFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                         control={control}
                         name='employee'
                         type='text'
+                        data-testid='full-name-search'
                     />
                     <TextFieldInput
                         placeholder={t('TEXT.PROJECT')}
                         control={control}
                         name='project'
                         type='text'
+                        data-testid='project-name-search'
                     />
                 </Box>
             </Box>

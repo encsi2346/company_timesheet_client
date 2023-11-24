@@ -56,6 +56,7 @@ const UserProjectTable = ({
             rowHeight={data?.length ? 48 : 120}
             rowCount={data?.length ?? 0}
             checkboxSelection={allowSelection}
+            data-testid='user-project-table'
             onCellClick={(params, event) =>
                 allowNavigation ? handleDataGridCellClick(params, event, navigate, location.search) : null
             }

@@ -119,7 +119,7 @@ const MyPlanner = () => {
                 <Button sx={saveTitleStyle} onClick={openAddPlanDialog}>
                     {t('TEXT.ADD_LOG')}
                 </Button>
-                <Button sx={saveTitleStyle} onClick={closeMonth}>
+                <Button sx={saveTitleStyle} onClick={closeMonth} data-testid='close-button'>
                     {t('TEXT.CLOSE_MONTH')}
                 </Button>
                 <Scheduler
@@ -131,6 +131,7 @@ const MyPlanner = () => {
                     editable={editable}
                     draggable={false}
                     selectedDate={new Date(2023, 11, 20)}
+                    data-testid='scheduler'
                     fields={[
                         {
                             name: "projectId",

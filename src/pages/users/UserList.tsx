@@ -1,4 +1,4 @@
-import {Box, Button, useTheme} from "@mui/material";
+import {Box, Button, useMediaQuery, useTheme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import UserFilter from "./UserFilter.tsx";
@@ -16,6 +16,10 @@ interface Props {
 }
 
 const UserList = ({ onCreateClicked }: Props) => {
+    const isBigScreen = useMediaQuery('(min-width: 1200px)');
+    const isMediumScreen = useMediaQuery('(min-width: 501px)' && '(max-width: 1200px)');
+    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+
     const { t } = useTypeSafeTranslation();
     const theme = useTheme();
     const location = useLocation();

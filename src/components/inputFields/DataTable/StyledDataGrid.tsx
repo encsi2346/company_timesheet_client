@@ -4,6 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import type { NavigateFunction } from 'react-router-dom';
 
 import CustomPagination from './CustomPagination.tsx';
+import {useSelector} from "react-redux";
 
 const StyledDataGrid = styled(DataGrid)(() => ({
     border: 0,
@@ -12,15 +13,15 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         display: 'none',
     },
     '& .MuiDataGrid-columnHeaders': {
-        backgroundColor: 'rgba(0, 0, 0, 0.00)',
+        backgroundColor: 'rgba(0, 0, 0, 0.00)' ,
         border: 'none',
     },
     '& .MuiDataGrid-columnHeaderTitle': {
         textOverflow: 'clip',
         whiteSpace: 'break-spaces',
         lineHeight: 1.2,
-        color: '#29005C',
-        fontWeight: 'bold',
+        color: useSelector((state) => state.mode) === 'light' ? '#29005C' : 'rgb(255,255,255)',
+        fontWeight: 'regular',
         fontSize: 18,
         textTransform: 'uppercase',
     },
@@ -52,7 +53,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         paddingBottom: '15px',
     },
     "& .MuiDataGrid-row": {
-        backgroundColor: 'rgba(255, 255, 255, 0.36)',
+        backgroundColor: useSelector((state) => state.mode) === 'light' ? 'rgba(255, 255, 255, 0.36)' : 'rgba(255,255,255,0.89)',
         borderRadius: '13px',
         paddingTop: 30,
         paddingBottom: 30,
@@ -63,12 +64,12 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         fontSize: 15
     },
     '& .MuiDataGrid-row:nth-of-type(even):not(.Mui-selected):not(.MuiDataGrid-row:hover)': {
-        backgroundColor: 'rgba(41, 0, 92, 0.32)',
+        backgroundColor: useSelector((state) => state.mode) === 'light' ? 'rgba(41, 0, 92, 0.32)' : '#1a082a',
         borderRadius: '13px',
         color: '#ffffff'
     },
     "& .MuiDataGrid-row:hover": {
-        backgroundColor: 'rgba(41, 0, 92, 0.12)',
+        backgroundColor: useSelector((state) => state.mode) === 'light' ? 'rgba(41, 0, 92, 0.12)' : 'rgba(146,146,146,0.91)',
         borderRadius: '13px',
     },
     '& .MuiDataGrid-cell:focus, ': {

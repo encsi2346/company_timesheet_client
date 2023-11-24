@@ -85,6 +85,7 @@ const EmployeesPlannerTable = ({
                         </Tooltip>
                     }
                     label={t('TEXT.OPENING')}
+                    data-testid='open-button'
                 />,
                 <GridActionsCellItem
                     key={`${params.id}_locked`}
@@ -94,6 +95,7 @@ const EmployeesPlannerTable = ({
                         </Tooltip>
                     }
                     label={t('TEXT.LOCKING')}
+                    data-testid='lock-button'
                 />,
             ],
         });
@@ -109,6 +111,7 @@ const EmployeesPlannerTable = ({
             rowCount={data?.length ?? 0}
             checkboxSelection={allowSelection}
             selectionModel={selectionModel ?? []}
+            data-testid='planner-table'
             onCellClick={(params, event) =>
                 allowNavigation ? handleDataGridCellClick(params, event, navigate, location.search) : null
             }

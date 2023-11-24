@@ -15,14 +15,14 @@ import {AuthProvider} from "./pages/login/AuthContext.tsx";
 import Interceptor from "./pages/login/utils/Interceptor.tsx";
 
 const App = () => {
-    const locale=useLocaleLoader();
+    const locale = useLocaleLoader();
 
     const mode = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
     const isAuth = Boolean(useSelector((state) => state.token));
 
     return (
-    <div class={mode === 'light' ? 'background-light' : 'background-dark'}>
+    <div className={mode === 'light' ? 'background-light' : 'background-dark'}>
         <Suspense fallback={null}>
             <ThemeProvider theme={theme}>
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>

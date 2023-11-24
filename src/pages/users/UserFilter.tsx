@@ -86,11 +86,13 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                         control={control}
                         name='fullName'
                         type='text'
+                        data-testid='full-name-input'
                     />
                     <SelectInput
                         label={t('TEXT.SENIORITY')}
                         control={control}
                         name='seniority'
+                        data-testid='seniority-input'
                         options={Object.values(seniorityOptions).map((seniority) => ({
                             id: seniority,
                             title: seniority
@@ -114,6 +116,7 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                         label={t('TEXT.POSITION')}
                         control={control}
                         name='position'
+                        data-testid='position-input'
                         options={Object.values(positionOptions).map((position) => ({
                             id: position,
                             title: position
@@ -137,6 +140,7 @@ const UserFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) => {
                         label={t('TEXT.CURRENT_PROJECT')}
                         control={control}
                         name='currentProject'
+                        data-testid='current-project-input'
                         options={Object.values(projectOptions).map((projectType) => ({
                             id: projectType,
                             title: projectType

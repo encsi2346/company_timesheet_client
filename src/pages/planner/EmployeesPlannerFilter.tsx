@@ -64,6 +64,7 @@ const EmployeesPlannerFilter = ({ enableQueryParams = true, onFiltersChanged }: 
                         control={control}
                         name='type'
                         type='text'
+                        data-testid='type-input'
                     />
 
                     <CancelButton text={t('TEXT.SEND_NOTIFICATION')} />

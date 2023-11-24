@@ -90,6 +90,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         id: projectType,
                                         title: projectType
                                     }))}
+                                    data-testid='type-input'
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -113,6 +114,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='partner'
                                     type='text'
+                                    data-testid='partner-input'
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -123,6 +125,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='estimatedStartDate'
                                     parseDate={parseDatePickerDate}
                                     disabled={inputDisabled}
+                                    data-testid='estimated-start-date'
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -132,6 +135,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='estimatedHours'
                                     type='text'
+                                    data-testid='estimated-hours-input'
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -142,6 +146,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='startDate'
                                     parseDate={parseDatePickerDate}
                                     disabled={inputDisabled}
+                                    data-testid='start-date'
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -151,6 +156,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='estimatedValue'
                                     type='text'
+                                    data-testid='estimated-value-input'
                                 />
                             </Box>
                         </Grid>
@@ -165,6 +171,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         id: projectStatus,
                                         title: projectStatus
                                     }))}
+                                    data-testid='status-input-input'
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -188,6 +195,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='projectManager'
                                     type='text'
+                                    data-testid='project-manager-input'
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -198,6 +206,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='estimatedEndDate'
                                     parseDate={parseDatePickerDate}
                                     disabled={inputDisabled}
+                                    data-testid='estimated-end-date'
                                  />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -207,6 +216,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='realHours'
                                     type='text'
+                                    data-testid='real-hours-input'
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -217,6 +227,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='endDate'
                                     parseDate={parseDatePickerDate}
                                     disabled={inputDisabled}
+                                    data-testid='end-date'
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -226,6 +237,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='realValue'
                                     type='text'
+                                    data-testid='real-value-input'
                                 />
                             </Box>
                         </Grid>
@@ -244,6 +256,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 component={Link}
                                 to="new"
                                 state={{ queryParams: location.search }}
+                                data-testid='add-employee-button'
                             >
                                 {t('TEXT.ADD_EMPLOYEE')}
                             </Button>
@@ -253,6 +266,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 disabled={!!selectionModel.length}
                                 sx={ addButtonStyle }
                                 startIcon={<AddRoundedIcon />}
+                                data-testid='add-employee-button'
                             >
                                 {t('TEXT.ADD_EMPLOYEE')}
                             </Button>

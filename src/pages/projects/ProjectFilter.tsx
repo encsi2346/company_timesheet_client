@@ -67,6 +67,7 @@ const ProjectFilter = ({ enableQueryParams = true, onFiltersChanged }: Props) =>
                         control={control}
                         name='projectName'
                         type='text'
+                        data-testid='project-name-input'
                     />
                 </Box>
             </Box>

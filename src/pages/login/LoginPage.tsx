@@ -34,11 +34,13 @@ const LoginPage = () => {
                         control={control}
                         name='email'
                         type='email'
+                        data-testid='email-input'
                     />
                     <PasswordInput
                         placeholder={t('TEXT.PASSWORD')}
                         control={control}
                         name='password'
+                        data-testid='password-input'
                     />
                 </Box>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
