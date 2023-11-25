@@ -13,7 +13,7 @@ interface Props {
     isAuth: boolean;
 }
 
-const Router = ({ isAuth = false }: Props) => {
+const Router = (/*{ isAuth = false }: Props*/) => {
     const auth = useAuthentication();
 
     const loading = (<span>Loading... please wait!</span>);
@@ -30,10 +30,9 @@ const Router = ({ isAuth = false }: Props) => {
 
     return (
         <Routes>
-            <Route>
-                <Route path="/" element={<Navigate to="/dashboard" />} />
-                <Route path="/login" element={<LoginPage />} />
-            </Route>
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/logout" element={<LogoutPage />} />
 
             <Route>
                 <Route element={authenticatedElement(<Layout />)}>
@@ -43,10 +42,6 @@ const Router = ({ isAuth = false }: Props) => {
                     <Route path="planner/*" element={/*isAuth ?*/ <PlannerRouting /> /*: <Navigate to="/login" />*/ } />
                     <Route path="logs/*" element={/*isAuth ?*/ <LogsList /> /*: <Navigate to="/login" />*/ } />
                 </Route>
-            </Route>
-
-            <Route>
-                <Route path="/logout" element={<LogoutPage />} />
             </Route>
         </Routes>
     );

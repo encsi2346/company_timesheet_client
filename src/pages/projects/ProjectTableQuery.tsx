@@ -1,8 +1,12 @@
 import type { GridSelectionModel } from '@mui/x-data-grid';
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import ProjectTable from "./ProjectTable.tsx";
 import usePagination from "../../components/inputFields/hooks/usePagination.tsx";
 import useSort from "../../components/inputFields/hooks/useSort.tsx";
+import {ProjectsClient} from "../../api-client.ts";
+import {BackendUrl} from "../../App.tsx";
+import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {randomNumberBetween} from "@mui/x-data-grid/utils/utils";
 
 interface Props {
     filters: string[];
