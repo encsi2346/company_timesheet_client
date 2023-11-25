@@ -19,6 +19,9 @@ import {parseDatePickerDate} from "../../components/inputFields/utils/parse-date
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {useState} from "react";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
+import { EmployeesClient} from "../../api-client.ts";
+import {BackendUrl} from "../../App.tsx";
+import {userEditSchema, UserEditSchema} from "./schemas/user-edit-schema.ts";
 
 interface Props {
     isEditing?: boolean;
@@ -33,14 +36,32 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         control,
         setValue,
         formState: { isValid },
-    } = useForm<LoginFormSchema>({
+    } = useForm<UserEditSchema>({
         defaultValues: {
             email: '',
-            password: '',
+            priviligeLevel: 2, //TODO: create selection field to this
+            givenName: '',
+            familyName: '',
+            birthPlace: '',
+            birthDate: '',
+            email: '',
+            phoneNumber: '',
+            address: '',
+            hireDate: '',
+            terminationDate: '',
+            jobTitle: '',
+            hourlyWage: '',
+            contractType: '', //TODO: create selection field to this
+            expectedMonthlyHours: 40,
         },
-        resolver: zodResolver(loginFormSchema),
+        resolver: zodResolver(userEditSchema),
         mode: 'all',
     });
+
+    const createUser = () => {
+        const employeesClient = new EmployeesClient(BackendUrl);
+
+    };
 
     const positionOptions={
         softwareDeveloper: 'Szoftverfejlesztő',

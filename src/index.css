@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
 body, html {
   background-color: #eeeeee !important;
-  font-family: 'Koulen', sans-serif !important;
+  font-family: 'Quicksand', sans-serif !important; /*font-family: 'Koulen', sans-serif !important;*/
 }
 
 .background-light {

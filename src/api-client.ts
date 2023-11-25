@@ -8,6 +8,61 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+export class AuditLogsClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return OK
+     */
+    getAuditLogList(): Promise<AuditLogEntryDto[]> {
+        let url_ = this.baseUrl + "/api/AuditLogs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAuditLogList(_response);
+        });
+    }
+
+    protected processGetAuditLogList(response: Response): Promise<AuditLogEntryDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(AuditLogEntryDto.fromJS(item));
+                }
+                else {
+                    result200 = <any>null;
+                }
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AuditLogEntryDto[]>(null as any);
+    }
+}
+
 export class EmployeesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -46,15 +101,15 @@ export class EmployeesClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
+
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<number>(null as any);
@@ -84,21 +139,21 @@ export class EmployeesClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(EmployeeListDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(EmployeeListDto.fromJS(item));
+                }
+                else {
+                    result200 = <any>null;
+                }
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<EmployeeListDto[]>(null as any);
@@ -131,14 +186,14 @@ export class EmployeesClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetEmployeeDetailsDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = GetEmployeeDetailsDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<GetEmployeeDetailsDto>(null as any);
@@ -174,18 +229,255 @@ export class EmployeesClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = ProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+}
+
+export class ParticipationClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return OK
+     */
+    postCreateParticipation(body: CreateParticipationCommand): Promise<number> {
+        let url_ = this.baseUrl + "/api/Participation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPostCreateParticipation(_response);
+        });
+    }
+
+    protected processPostCreateParticipation(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    employee(id: number): Promise<ParticipationDto[]> {
+        let url_ = this.baseUrl + "/api/Participation/employee/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processEmployee(_response);
+        });
+    }
+
+    protected processEmployee(response: Response): Promise<ParticipationDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(ParticipationDto.fromJS(item));
+                }
+                else {
+                    result200 = <any>null;
+                }
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ParticipationDto[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    project(id: number): Promise<ParticipationDto[]> {
+        let url_ = this.baseUrl + "/api/Participation/project/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processProject(_response);
+        });
+    }
+
+    protected processProject(response: Response): Promise<ParticipationDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(ParticipationDto.fromJS(item));
+                }
+                else {
+                    result200 = <any>null;
+                }
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ParticipationDto[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    participationPUT(id: number, body: UpdateParticipationCommand): Promise<void> {
+        let url_ = this.baseUrl + "/api/Participation/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processParticipationPUT(_response);
+        });
+    }
+
+    protected processParticipationPUT(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = ProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    participationDELETE(id: number): Promise<void> {
+        let url_ = this.baseUrl + "/api/Participation/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processParticipationDELETE(_response);
+        });
+    }
+
+    protected processParticipationDELETE(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = ProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -230,15 +522,15 @@ export class ProjectsClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
+
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<number>(null as any);
@@ -247,7 +539,7 @@ export class ProjectsClient {
     /**
      * @return OK
      */
-    getProjectsList(): Promise<ProjectListDto[]> {
+    getProjectsList(): Promise<ProjectListDtoWithId[]> {
         let url_ = this.baseUrl + "/api/Projects";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -263,29 +555,73 @@ export class ProjectsClient {
         });
     }
 
-    protected processGetProjectsList(response: Response): Promise<ProjectListDto[]> {
+    protected processGetProjectsList(response: Response): Promise<ProjectListDtoWithId[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(ProjectListDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(ProjectListDtoWithId.fromJS(item));
+                }
+                else {
+                    result200 = <any>null;
+                }
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ProjectListDto[]>(null as any);
+        return Promise.resolve<ProjectListDtoWithId[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getMyProjects(): Promise<ProjectTitlesDto[]> {
+        let url_ = this.baseUrl + "/api/Projects/mine";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetMyProjects(_response);
+        });
+    }
+
+    protected processGetMyProjects(response: Response): Promise<ProjectTitlesDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(ProjectTitlesDto.fromJS(item));
+                }
+                else {
+                    result200 = <any>null;
+                }
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ProjectTitlesDto[]>(null as any);
     }
 
     /**
@@ -315,14 +651,14 @@ export class ProjectsClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = ProjectDetailsDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = ProjectDetailsDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<ProjectDetailsDto>(null as any);
@@ -358,18 +694,18 @@ export class ProjectsClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = ProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -413,26 +749,26 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = HttpValidationProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = HttpValidationProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
     }
 
     /**
-     * @param useCookies (optional) 
-     * @param useSessionCookies (optional) 
+     * @param useCookies (optional)
+     * @param useSessionCookies (optional)
      * @return OK
      */
     login(useCookies: boolean | undefined, useSessionCookies: boolean | undefined, body: LoginRequest): Promise<AccessTokenResponse> {
@@ -468,14 +804,14 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AccessTokenResponse.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = AccessTokenResponse.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<AccessTokenResponse>(null as any);
@@ -509,21 +845,21 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AccessTokenResponse.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = AccessTokenResponse.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<AccessTokenResponse>(null as any);
     }
 
     /**
-     * @param changedEmail (optional) 
+     * @param changedEmail (optional)
      * @return OK
      */
     mapIdentityApi_api_Users_confirmEmail(userId: string, code: string, changedEmail: string | undefined): Promise<void> {
@@ -558,11 +894,11 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -595,11 +931,11 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -632,18 +968,18 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = HttpValidationProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = HttpValidationProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -676,18 +1012,18 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = HttpValidationProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = HttpValidationProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -717,25 +1053,25 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = InfoResponse.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = InfoResponse.fromJS(resultData200);
+                return result200;
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = HttpValidationProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = HttpValidationProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
-            return throwException("Not Found", status, _responseText, _headers);
+                return throwException("Not Found", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<InfoResponse>(null as any);
@@ -769,25 +1105,25 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = InfoResponse.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = InfoResponse.fromJS(resultData200);
+                return result200;
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = HttpValidationProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
+                let result400: any = null;
+                let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = HttpValidationProblemDetails.fromJS(resultData400);
+                return throwException("Bad Request", status, _responseText, _headers, result400);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
-            return throwException("Not Found", status, _responseText, _headers);
+                return throwException("Not Found", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<InfoResponse>(null as any);
@@ -842,8 +1178,56 @@ export interface IAccessTokenResponse {
     refreshToken?: string | undefined;
 }
 
+export class AuditLogEntryDto implements IAuditLogEntryDto {
+    userName?: string | undefined;
+    projectName?: string | undefined;
+    description?: string | undefined;
+    timestamp?: Date;
+
+    constructor(data?: IAuditLogEntryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userName = _data["userName"];
+            this.projectName = _data["projectName"];
+            this.description = _data["description"];
+            this.timestamp = _data["timestamp"] ? new Date(_data["timestamp"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): AuditLogEntryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuditLogEntryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userName"] = this.userName;
+        data["projectName"] = this.projectName;
+        data["description"] = this.description;
+        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IAuditLogEntryDto {
+    userName?: string | undefined;
+    projectName?: string | undefined;
+    description?: string | undefined;
+    timestamp?: Date;
+}
+
 export class CreateEmployeeCommand implements ICreateEmployeeCommand {
-    priviligeLevel?: EmployeePriviligeLevel;
+    privilegeLevel?: EmployeePriviligeLevel;
     givenName?: string | undefined;
     familyName?: string | undefined;
     birthPlace?: string | undefined;
@@ -869,7 +1253,7 @@ export class CreateEmployeeCommand implements ICreateEmployeeCommand {
 
     init(_data?: any) {
         if (_data) {
-            this.priviligeLevel = _data["priviligeLevel"];
+            this.privilegeLevel = _data["privilegeLevel"];
             this.givenName = _data["givenName"];
             this.familyName = _data["familyName"];
             this.birthPlace = _data["birthPlace"];
@@ -895,7 +1279,7 @@ export class CreateEmployeeCommand implements ICreateEmployeeCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["priviligeLevel"] = this.priviligeLevel;
+        data["privilegeLevel"] = this.privilegeLevel;
         data["givenName"] = this.givenName;
         data["familyName"] = this.familyName;
         data["birthPlace"] = this.birthPlace;
@@ -914,7 +1298,7 @@ export class CreateEmployeeCommand implements ICreateEmployeeCommand {
 }
 
 export interface ICreateEmployeeCommand {
-    priviligeLevel?: EmployeePriviligeLevel;
+    privilegeLevel?: EmployeePriviligeLevel;
     givenName?: string | undefined;
     familyName?: string | undefined;
     birthPlace?: string | undefined;
@@ -930,12 +1314,61 @@ export interface ICreateEmployeeCommand {
     expectedMonthlyHours?: number | undefined;
 }
 
+export class CreateParticipationCommand implements ICreateParticipationCommand {
+    projectId?: number;
+    employeeId?: number;
+    role?: string | undefined;
+    hourlyRate?: number;
+
+    constructor(data?: ICreateParticipationCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.projectId = _data["projectId"];
+            this.employeeId = _data["employeeId"];
+            this.role = _data["role"];
+            this.hourlyRate = _data["hourlyRate"];
+        }
+    }
+
+    static fromJS(data: any): CreateParticipationCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateParticipationCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["projectId"] = this.projectId;
+        data["employeeId"] = this.employeeId;
+        data["role"] = this.role;
+        data["hourlyRate"] = this.hourlyRate;
+        return data;
+    }
+}
+
+export interface ICreateParticipationCommand {
+    projectId?: number;
+    employeeId?: number;
+    role?: string | undefined;
+    hourlyRate?: number;
+}
+
 export class CreateProjectCommand implements ICreateProjectCommand {
     title?: string | undefined;
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
-    projectManagerId?: number | undefined;
+    projectManagerGivenName?: string | undefined;
+    projectManagerFamilyName?: string | undefined;
     estimatedStartDate?: Date | undefined;
     estimatedEndDate?: Date | undefined;
     estimatedHours?: number;
@@ -944,6 +1377,7 @@ export class CreateProjectCommand implements ICreateProjectCommand {
     estimatedGrossEarnings?: number;
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
+    projectManagerId?: number | undefined;
 
     constructor(data?: ICreateProjectCommand) {
         if (data) {
@@ -960,7 +1394,8 @@ export class CreateProjectCommand implements ICreateProjectCommand {
             this.partner = _data["partner"];
             this.projectStatus = _data["projectStatus"];
             this.projectType = _data["projectType"];
-            this.projectManagerId = _data["projectManagerId"];
+            this.projectManagerGivenName = _data["projectManagerGivenName"];
+            this.projectManagerFamilyName = _data["projectManagerFamilyName"];
             this.estimatedStartDate = _data["estimatedStartDate"] ? new Date(_data["estimatedStartDate"].toString()) : <any>undefined;
             this.estimatedEndDate = _data["estimatedEndDate"] ? new Date(_data["estimatedEndDate"].toString()) : <any>undefined;
             this.estimatedHours = _data["estimatedHours"];
@@ -969,6 +1404,7 @@ export class CreateProjectCommand implements ICreateProjectCommand {
             this.estimatedGrossEarnings = _data["estimatedGrossEarnings"];
             this.estimatedGrossExpenditure = _data["estimatedGrossExpenditure"];
             this.requireDescriptionForTimeEntry = _data["requireDescriptionForTimeEntry"];
+            this.projectManagerId = _data["projectManagerId"];
         }
     }
 
@@ -985,7 +1421,8 @@ export class CreateProjectCommand implements ICreateProjectCommand {
         data["partner"] = this.partner;
         data["projectStatus"] = this.projectStatus;
         data["projectType"] = this.projectType;
-        data["projectManagerId"] = this.projectManagerId;
+        data["projectManagerGivenName"] = this.projectManagerGivenName;
+        data["projectManagerFamilyName"] = this.projectManagerFamilyName;
         data["estimatedStartDate"] = this.estimatedStartDate ? formatDate(this.estimatedStartDate) : <any>undefined;
         data["estimatedEndDate"] = this.estimatedEndDate ? formatDate(this.estimatedEndDate) : <any>undefined;
         data["estimatedHours"] = this.estimatedHours;
@@ -994,6 +1431,7 @@ export class CreateProjectCommand implements ICreateProjectCommand {
         data["estimatedGrossEarnings"] = this.estimatedGrossEarnings;
         data["estimatedGrossExpenditure"] = this.estimatedGrossExpenditure;
         data["requireDescriptionForTimeEntry"] = this.requireDescriptionForTimeEntry;
+        data["projectManagerId"] = this.projectManagerId;
         return data;
     }
 }
@@ -1003,7 +1441,8 @@ export interface ICreateProjectCommand {
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
-    projectManagerId?: number | undefined;
+    projectManagerGivenName?: string | undefined;
+    projectManagerFamilyName?: string | undefined;
     estimatedStartDate?: Date | undefined;
     estimatedEndDate?: Date | undefined;
     estimatedHours?: number;
@@ -1012,6 +1451,7 @@ export interface ICreateProjectCommand {
     estimatedGrossEarnings?: number;
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
+    projectManagerId?: number | undefined;
 }
 
 export enum EmployeeContractType {
@@ -1115,7 +1555,7 @@ export interface IForgotPasswordRequest {
 }
 
 export class GetEmployeeDetailsDto implements IGetEmployeeDetailsDto {
-    priviligeLevel?: EmployeePriviligeLevel;
+    privilegeLevel?: EmployeePriviligeLevel;
     givenName?: string | undefined;
     familyName?: string | undefined;
     birthPlace?: string | undefined;
@@ -1142,7 +1582,7 @@ export class GetEmployeeDetailsDto implements IGetEmployeeDetailsDto {
 
     init(_data?: any) {
         if (_data) {
-            this.priviligeLevel = _data["priviligeLevel"];
+            this.privilegeLevel = _data["privilegeLevel"];
             this.givenName = _data["givenName"];
             this.familyName = _data["familyName"];
             this.birthPlace = _data["birthPlace"];
@@ -1169,7 +1609,7 @@ export class GetEmployeeDetailsDto implements IGetEmployeeDetailsDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["priviligeLevel"] = this.priviligeLevel;
+        data["privilegeLevel"] = this.privilegeLevel;
         data["givenName"] = this.givenName;
         data["familyName"] = this.familyName;
         data["birthPlace"] = this.birthPlace;
@@ -1189,7 +1629,7 @@ export class GetEmployeeDetailsDto implements IGetEmployeeDetailsDto {
 }
 
 export interface IGetEmployeeDetailsDto {
-    priviligeLevel?: EmployeePriviligeLevel;
+    privilegeLevel?: EmployeePriviligeLevel;
     givenName?: string | undefined;
     familyName?: string | undefined;
     birthPlace?: string | undefined;
@@ -1418,6 +1858,70 @@ export interface ILoginRequest {
     twoFactorRecoveryCode?: string | undefined;
 }
 
+export class ParticipationDto implements IParticipationDto {
+    id?: number;
+    projectTitle?: string | undefined;
+    projectId?: number;
+    employeeGivenName?: string | undefined;
+    employeeFamilyName?: string | undefined;
+    employeeId?: number;
+    role?: string | undefined;
+    hourlyRate?: number;
+
+    constructor(data?: IParticipationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.projectTitle = _data["projectTitle"];
+            this.projectId = _data["projectId"];
+            this.employeeGivenName = _data["employeeGivenName"];
+            this.employeeFamilyName = _data["employeeFamilyName"];
+            this.employeeId = _data["employeeId"];
+            this.role = _data["role"];
+            this.hourlyRate = _data["hourlyRate"];
+        }
+    }
+
+    static fromJS(data: any): ParticipationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ParticipationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["projectTitle"] = this.projectTitle;
+        data["projectId"] = this.projectId;
+        data["employeeGivenName"] = this.employeeGivenName;
+        data["employeeFamilyName"] = this.employeeFamilyName;
+        data["employeeId"] = this.employeeId;
+        data["role"] = this.role;
+        data["hourlyRate"] = this.hourlyRate;
+        return data;
+    }
+}
+
+export interface IParticipationDto {
+    id?: number;
+    projectTitle?: string | undefined;
+    projectId?: number;
+    employeeGivenName?: string | undefined;
+    employeeFamilyName?: string | undefined;
+    employeeId?: number;
+    role?: string | undefined;
+    hourlyRate?: number;
+}
+
 export class ProblemDetails implements IProblemDetails {
     type?: string | undefined;
     title?: string | undefined;
@@ -1487,7 +1991,8 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
-    projectManagerId?: number | undefined;
+    projectManagerGivenName?: string | undefined;
+    projectManagerFamilyName?: string | undefined;
     estimatedStartDate?: Date | undefined;
     estimatedEndDate?: Date | undefined;
     estimatedHours?: number;
@@ -1496,6 +2001,7 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
     estimatedGrossEarnings?: number;
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
+    projectManagerId?: number | undefined;
 
     constructor(data?: IProjectDetailsDto) {
         if (data) {
@@ -1512,7 +2018,8 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
             this.partner = _data["partner"];
             this.projectStatus = _data["projectStatus"];
             this.projectType = _data["projectType"];
-            this.projectManagerId = _data["projectManagerId"];
+            this.projectManagerGivenName = _data["projectManagerGivenName"];
+            this.projectManagerFamilyName = _data["projectManagerFamilyName"];
             this.estimatedStartDate = _data["estimatedStartDate"] ? new Date(_data["estimatedStartDate"].toString()) : <any>undefined;
             this.estimatedEndDate = _data["estimatedEndDate"] ? new Date(_data["estimatedEndDate"].toString()) : <any>undefined;
             this.estimatedHours = _data["estimatedHours"];
@@ -1521,6 +2028,7 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
             this.estimatedGrossEarnings = _data["estimatedGrossEarnings"];
             this.estimatedGrossExpenditure = _data["estimatedGrossExpenditure"];
             this.requireDescriptionForTimeEntry = _data["requireDescriptionForTimeEntry"];
+            this.projectManagerId = _data["projectManagerId"];
         }
     }
 
@@ -1537,7 +2045,8 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
         data["partner"] = this.partner;
         data["projectStatus"] = this.projectStatus;
         data["projectType"] = this.projectType;
-        data["projectManagerId"] = this.projectManagerId;
+        data["projectManagerGivenName"] = this.projectManagerGivenName;
+        data["projectManagerFamilyName"] = this.projectManagerFamilyName;
         data["estimatedStartDate"] = this.estimatedStartDate ? formatDate(this.estimatedStartDate) : <any>undefined;
         data["estimatedEndDate"] = this.estimatedEndDate ? formatDate(this.estimatedEndDate) : <any>undefined;
         data["estimatedHours"] = this.estimatedHours;
@@ -1546,6 +2055,7 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
         data["estimatedGrossEarnings"] = this.estimatedGrossEarnings;
         data["estimatedGrossExpenditure"] = this.estimatedGrossExpenditure;
         data["requireDescriptionForTimeEntry"] = this.requireDescriptionForTimeEntry;
+        data["projectManagerId"] = this.projectManagerId;
         return data;
     }
 }
@@ -1555,7 +2065,8 @@ export interface IProjectDetailsDto {
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
-    projectManagerId?: number | undefined;
+    projectManagerGivenName?: string | undefined;
+    projectManagerFamilyName?: string | undefined;
     estimatedStartDate?: Date | undefined;
     estimatedEndDate?: Date | undefined;
     estimatedHours?: number;
@@ -1564,17 +2075,19 @@ export interface IProjectDetailsDto {
     estimatedGrossEarnings?: number;
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
+    projectManagerId?: number | undefined;
 }
 
-export class ProjectListDto implements IProjectListDto {
+export class ProjectListDtoWithId implements IProjectListDtoWithId {
     title?: string | undefined;
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
     projectManagerGivenName?: string | undefined;
     projectManagerFamilyName?: string | undefined;
+    id?: number;
 
-    constructor(data?: IProjectListDto) {
+    constructor(data?: IProjectListDtoWithId) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1591,12 +2104,13 @@ export class ProjectListDto implements IProjectListDto {
             this.projectType = _data["projectType"];
             this.projectManagerGivenName = _data["projectManagerGivenName"];
             this.projectManagerFamilyName = _data["projectManagerFamilyName"];
+            this.id = _data["id"];
         }
     }
 
-    static fromJS(data: any): ProjectListDto {
+    static fromJS(data: any): ProjectListDtoWithId {
         data = typeof data === 'object' ? data : {};
-        let result = new ProjectListDto();
+        let result = new ProjectListDtoWithId();
         result.init(data);
         return result;
     }
@@ -1609,17 +2123,19 @@ export class ProjectListDto implements IProjectListDto {
         data["projectType"] = this.projectType;
         data["projectManagerGivenName"] = this.projectManagerGivenName;
         data["projectManagerFamilyName"] = this.projectManagerFamilyName;
+        data["id"] = this.id;
         return data;
     }
 }
 
-export interface IProjectListDto {
+export interface IProjectListDtoWithId {
     title?: string | undefined;
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
     projectManagerGivenName?: string | undefined;
     projectManagerFamilyName?: string | undefined;
+    id?: number;
 }
 
 export enum ProjectStatus {
@@ -1627,6 +2143,46 @@ export enum ProjectStatus {
     _1 = 1,
     _2 = 2,
     _3 = 3,
+}
+
+export class ProjectTitlesDto implements IProjectTitlesDto {
+    id?: number;
+    title?: string | undefined;
+
+    constructor(data?: IProjectTitlesDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+        }
+    }
+
+    static fromJS(data: any): ProjectTitlesDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjectTitlesDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        return data;
+    }
+}
+
+export interface IProjectTitlesDto {
+    id?: number;
+    title?: string | undefined;
 }
 
 export enum ProjectType {
@@ -1792,7 +2348,7 @@ export interface IResetPasswordRequest {
 }
 
 export class UpdateEmployeeCommand implements IUpdateEmployeeCommand {
-    priviligeLevel?: EmployeePriviligeLevel;
+    privilegeLevel?: EmployeePriviligeLevel;
     givenName?: string | undefined;
     familyName?: string | undefined;
     birthPlace?: string | undefined;
@@ -1819,7 +2375,7 @@ export class UpdateEmployeeCommand implements IUpdateEmployeeCommand {
 
     init(_data?: any) {
         if (_data) {
-            this.priviligeLevel = _data["priviligeLevel"];
+            this.privilegeLevel = _data["privilegeLevel"];
             this.givenName = _data["givenName"];
             this.familyName = _data["familyName"];
             this.birthPlace = _data["birthPlace"];
@@ -1846,7 +2402,7 @@ export class UpdateEmployeeCommand implements IUpdateEmployeeCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["priviligeLevel"] = this.priviligeLevel;
+        data["privilegeLevel"] = this.privilegeLevel;
         data["givenName"] = this.givenName;
         data["familyName"] = this.familyName;
         data["birthPlace"] = this.birthPlace;
@@ -1866,7 +2422,7 @@ export class UpdateEmployeeCommand implements IUpdateEmployeeCommand {
 }
 
 export interface IUpdateEmployeeCommand {
-    priviligeLevel?: EmployeePriviligeLevel;
+    privilegeLevel?: EmployeePriviligeLevel;
     givenName?: string | undefined;
     familyName?: string | undefined;
     birthPlace?: string | undefined;
@@ -1883,12 +2439,57 @@ export interface IUpdateEmployeeCommand {
     id?: number;
 }
 
+export class UpdateParticipationCommand implements IUpdateParticipationCommand {
+    id?: number;
+    role?: string | undefined;
+    hourlyRate?: number;
+
+    constructor(data?: IUpdateParticipationCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.role = _data["role"];
+            this.hourlyRate = _data["hourlyRate"];
+        }
+    }
+
+    static fromJS(data: any): UpdateParticipationCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateParticipationCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["role"] = this.role;
+        data["hourlyRate"] = this.hourlyRate;
+        return data;
+    }
+}
+
+export interface IUpdateParticipationCommand {
+    id?: number;
+    role?: string | undefined;
+    hourlyRate?: number;
+}
+
 export class UpdateProjectCommand implements IUpdateProjectCommand {
     title?: string | undefined;
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
-    projectManagerId?: number | undefined;
+    projectManagerGivenName?: string | undefined;
+    projectManagerFamilyName?: string | undefined;
     estimatedStartDate?: Date | undefined;
     estimatedEndDate?: Date | undefined;
     estimatedHours?: number;
@@ -1897,6 +2498,7 @@ export class UpdateProjectCommand implements IUpdateProjectCommand {
     estimatedGrossEarnings?: number;
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
+    projectManagerId?: number | undefined;
     id?: number;
 
     constructor(data?: IUpdateProjectCommand) {
@@ -1914,7 +2516,8 @@ export class UpdateProjectCommand implements IUpdateProjectCommand {
             this.partner = _data["partner"];
             this.projectStatus = _data["projectStatus"];
             this.projectType = _data["projectType"];
-            this.projectManagerId = _data["projectManagerId"];
+            this.projectManagerGivenName = _data["projectManagerGivenName"];
+            this.projectManagerFamilyName = _data["projectManagerFamilyName"];
             this.estimatedStartDate = _data["estimatedStartDate"] ? new Date(_data["estimatedStartDate"].toString()) : <any>undefined;
             this.estimatedEndDate = _data["estimatedEndDate"] ? new Date(_data["estimatedEndDate"].toString()) : <any>undefined;
             this.estimatedHours = _data["estimatedHours"];
@@ -1923,6 +2526,7 @@ export class UpdateProjectCommand implements IUpdateProjectCommand {
             this.estimatedGrossEarnings = _data["estimatedGrossEarnings"];
             this.estimatedGrossExpenditure = _data["estimatedGrossExpenditure"];
             this.requireDescriptionForTimeEntry = _data["requireDescriptionForTimeEntry"];
+            this.projectManagerId = _data["projectManagerId"];
             this.id = _data["id"];
         }
     }
@@ -1940,7 +2544,8 @@ export class UpdateProjectCommand implements IUpdateProjectCommand {
         data["partner"] = this.partner;
         data["projectStatus"] = this.projectStatus;
         data["projectType"] = this.projectType;
-        data["projectManagerId"] = this.projectManagerId;
+        data["projectManagerGivenName"] = this.projectManagerGivenName;
+        data["projectManagerFamilyName"] = this.projectManagerFamilyName;
         data["estimatedStartDate"] = this.estimatedStartDate ? formatDate(this.estimatedStartDate) : <any>undefined;
         data["estimatedEndDate"] = this.estimatedEndDate ? formatDate(this.estimatedEndDate) : <any>undefined;
         data["estimatedHours"] = this.estimatedHours;
@@ -1949,6 +2554,7 @@ export class UpdateProjectCommand implements IUpdateProjectCommand {
         data["estimatedGrossEarnings"] = this.estimatedGrossEarnings;
         data["estimatedGrossExpenditure"] = this.estimatedGrossExpenditure;
         data["requireDescriptionForTimeEntry"] = this.requireDescriptionForTimeEntry;
+        data["projectManagerId"] = this.projectManagerId;
         data["id"] = this.id;
         return data;
     }
@@ -1959,7 +2565,8 @@ export interface IUpdateProjectCommand {
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
     projectType?: ProjectType;
-    projectManagerId?: number | undefined;
+    projectManagerGivenName?: string | undefined;
+    projectManagerFamilyName?: string | undefined;
     estimatedStartDate?: Date | undefined;
     estimatedEndDate?: Date | undefined;
     estimatedHours?: number;
@@ -1968,11 +2575,12 @@ export interface IUpdateProjectCommand {
     estimatedGrossEarnings?: number;
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
+    projectManagerId?: number | undefined;
     id?: number;
 }
 
 function formatDate(d: Date) {
-    return d.getFullYear() + '-' + 
+    return d.getFullYear() + '-' +
         (d.getMonth() < 9 ? ('0' + (d.getMonth()+1)) : (d.getMonth()+1)) + '-' +
         (d.getDate() < 10 ? ('0' + d.getDate()) : d.getDate());
 }
