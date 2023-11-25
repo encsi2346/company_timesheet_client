@@ -6,7 +6,6 @@ import useSort from "../../components/inputFields/hooks/useSort.tsx";
 import {ProjectsClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
-import {randomNumberBetween} from "@mui/x-data-grid/utils/utils";
 
 interface Props {
     filters: string[];
@@ -49,7 +48,8 @@ const ProjectTableQuery = ({
             projectClient.getProjectsList().then((response) => {
                 const projectData = response.map((project) => {
                     return {
-                        id: Math.floor(Math.random() * 1000000),
+                        //id: Math.floor(Math.random() * 1000000),
+                        id: project.id,
                         projectName: project.title,
                         type: project.projectType,
                         projectManager: project.projectManagerFamilyName + ' ' + project.projectManagerGivenName,

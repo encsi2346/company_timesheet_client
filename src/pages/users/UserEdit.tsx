@@ -18,9 +18,17 @@ import {parseDatePickerDate} from "../../components/inputFields/utils/parse-date
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {useEffect, useState} from "react";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
-import {CreateEmployeeCommand, EmployeesClient} from "../../api-client.ts";
+import {
+    CreateEmployeeCommand,
+    EmployeesClient,
+    ProjectsClient,
+    UpdateEmployeeCommand,
+    UpdateProjectCommand
+} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-form-schema.ts";
+import {useNavigate, useParams} from "react-router-dom";
+import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
 
 interface Props {
     isEditing?: boolean;
@@ -29,6 +37,10 @@ interface Props {
 
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { t } = useTypeSafeTranslation();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const auth = useAuthentication();
+
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [positions, setPositions] = useState({
         softwareDeveloper: 'Szoftverfejlesztő',
@@ -59,6 +71,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const {
         control,
         setValue,
+        reset,
         handleSubmit,
         formState: { isValid },
     } = useForm<UserEditFormSchema>({
@@ -74,8 +87,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             hireDate: '',
             terminationDate: '',
             jobTitle: '',
-            hourlyWage: '', //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects,
-            //TODO: missing other field from backend: directManager, netHourlyWage, netValueForProjects
+            hourlyWage: '', //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects, !!!!!!!!
+            //TODO: missing other field from backend: directManager, netHourlyWage, netValueForProjects !!!!!!!
             contractType: 1,
             expectedMonthlyHours: 40,
         },
@@ -87,20 +100,42 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         const employeesClient = new EmployeesClient(BackendUrl);
         return employeesClient.createEmployee( new CreateEmployeeCommand(data))
             .then(response => {
+                navigate(`/users`); // todo open in view mode
+            })
+            .catch(error => {
+                console.log(error);
             });
     };
 
+    const updateUser = (id, data) => {
+        const employeesClient = new EmployeesClient(BackendUrl, auth.http);
+        return employeesClient.employeesPUT(id, new UpdateEmployeeCommand(data))
+            .then(response => {
+                navigate(`/users`); // todo open in view mode
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        if (id) {
+            const employeesClient = new EmployeesClient(BackendUrl, auth.http);
+            employeesClient.employeesGET(parseInt(id))
+                .then(response => {
+                    reset(response);
+                })
+        }
+    }, [id, reset]);
+
+
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
-        console.log(submitData);
 
-        console.log('submit');
         if (isEditing) {
-            //TODO: update
+            updateUser(id, submitData);
             setInputDisabled(true);
-        } else { 
-            //TODO: create
-            console.log('save');
+        } else {
             createUser(submitData);
             setInputDisabled(true);
         }
@@ -109,28 +144,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
     };
-
-    useEffect(() => {
-        //TODO: set senioritys from API call
-    }, []);
-
-    useEffect(() => {
-        //TODO: set positions from API call
-
-    }, []);
-
-    useEffect(() => {
-        //TODO: set userRoles from API call
-    }, []);
-
-    useEffect(() => {
-        //TODO: set contracts from API call
-    }, []);
-
-    useEffect(() => {
-        //TODO: set directManagers from API call
-    }, []);
-
 
     return (
         <Box sx={{ display: 'block', width: 1300}}>
@@ -316,7 +329,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     <TextFieldInput
                                         placeholder={t('TEXT.GROSS_HOURLY_WAGE')}
                                         control={control}
-                                        name='grossHourlyWage'
+                                        name='hourlyWage' //TODO grossHourlyWage
                                         type='text'
                                         data-testid='gross-hourly-wage-input'
                                         disabled={inputDisabled}

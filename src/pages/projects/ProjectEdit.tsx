@@ -101,7 +101,6 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             })
             .catch(error => {
                 console.log(error);
-                setInputDisabled(false);
             });
     };
 
@@ -113,13 +112,10 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             })
             .catch(error => {
                 console.log(error);
-                setInputDisabled(false);
             });
     };
 
     useEffect(() => {
-        console.log(id); //TODO: nem találja az idt
-        console.log(parseInt(id));
         if (id) {
             const projectsClient = new ProjectsClient(BackendUrl, auth.http);
             projectsClient.getProject(parseInt(id))
@@ -294,13 +290,30 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={t('TEXT.PROJECT_MANAGER')} />
-                                <TextFieldInput
-                                    placeholder={t('TEXT.PROJECT_MANAGER')}
+                                <SelectInput
+                                    label={t('TEXT.PROJECT_MANAGER')}
                                     control={control}
-                                    name='projectManager'
-                                    type='text'
-                                    data-testid='project-manager-input'
+                                    name='projectManagerId'
                                     disabled={inputDisabled}
+                                    options={Object.values(managers).map((manager) => ({
+                                        id: manager.id, //TODO
+                                        title: manager.name //TODO
+                                    }))}
+                                    data-testid='type-input'
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton onClick={() => setValue('projectManagerId', undefined)} edge="end" >
+                                                    <ClearRoundedIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                        sx: {
+                                            '.MuiSelect-icon': {
+                                                display: 'none',
+                                            },
+                                        },
+                                    }}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
