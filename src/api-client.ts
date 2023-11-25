@@ -6,6 +6,7 @@
 
 /* tslint:disable */
 /* eslint-disable */
+
 // ReSharper disable InconsistentNaming
 
 export class AuditLogsClient {
@@ -39,7 +40,11 @@ export class AuditLogsClient {
 
     protected processGetAuditLogList(response: Response): Promise<AuditLogEntryDto[]> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -48,8 +53,7 @@ export class AuditLogsClient {
                     result200 = [] as any;
                     for (let item of resultData200)
                         result200!.push(AuditLogEntryDto.fromJS(item));
-                }
-                else {
+                } else {
                     result200 = <any>null;
                 }
                 return result200;
@@ -98,7 +102,11 @@ export class EmployeesClient {
 
     protected processCreateEmployee(response: Response): Promise<number> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -136,7 +144,11 @@ export class EmployeesClient {
 
     protected processGetEmployeeList(response: Response): Promise<EmployeeListDto[]> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -145,8 +157,7 @@ export class EmployeesClient {
                     result200 = [] as any;
                     for (let item of resultData200)
                         result200!.push(EmployeeListDto.fromJS(item));
-                }
-                else {
+                } else {
                     result200 = <any>null;
                 }
                 return result200;
@@ -183,7 +194,11 @@ export class EmployeesClient {
 
     protected processEmployeesGET(response: Response): Promise<GetEmployeeDetailsDto> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -226,7 +241,11 @@ export class EmployeesClient {
 
     protected processEmployeesPUT(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -282,7 +301,11 @@ export class ParticipationClient {
 
     protected processPostCreateParticipation(response: Response): Promise<number> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -302,7 +325,7 @@ export class ParticipationClient {
     /**
      * @return OK
      */
-    employee(id: number): Promise<ParticipationDto[]> {
+    employeeAll(id: number): Promise<ParticipationDto[]> {
         let url_ = this.baseUrl + "/api/Participation/employee/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -317,13 +340,17 @@ export class ParticipationClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processEmployee(_response);
+            return this.processEmployeeAll(_response);
         });
     }
 
-    protected processEmployee(response: Response): Promise<ParticipationDto[]> {
+    protected processEmployeeAll(response: Response): Promise<ParticipationDto[]> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -332,8 +359,7 @@ export class ParticipationClient {
                     result200 = [] as any;
                     for (let item of resultData200)
                         result200!.push(ParticipationDto.fromJS(item));
-                }
-                else {
+                } else {
                     result200 = <any>null;
                 }
                 return result200;
@@ -357,7 +383,7 @@ export class ParticipationClient {
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
-            method: "PUT",
+            method: "GET",
             headers: {
                 "Accept": "application/json"
             }
@@ -370,7 +396,11 @@ export class ParticipationClient {
 
     protected processProject(response: Response): Promise<ParticipationDto[]> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -379,8 +409,7 @@ export class ParticipationClient {
                     result200 = [] as any;
                     for (let item of resultData200)
                         result200!.push(ParticipationDto.fromJS(item));
-                }
-                else {
+                } else {
                     result200 = <any>null;
                 }
                 return result200;
@@ -420,7 +449,11 @@ export class ParticipationClient {
 
     protected processParticipationPUT(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -452,8 +485,7 @@ export class ParticipationClient {
 
         let options_: RequestInit = {
             method: "DELETE",
-            headers: {
-            }
+            headers: {}
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -463,7 +495,11 @@ export class ParticipationClient {
 
     protected processParticipationDELETE(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -519,7 +555,11 @@ export class ProjectsClient {
 
     protected processCreateProject(response: Response): Promise<number> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -557,7 +597,11 @@ export class ProjectsClient {
 
     protected processGetProjectsList(response: Response): Promise<ProjectListDtoWithId[]> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -566,8 +610,7 @@ export class ProjectsClient {
                     result200 = [] as any;
                     for (let item of resultData200)
                         result200!.push(ProjectListDtoWithId.fromJS(item));
-                }
-                else {
+                } else {
                     result200 = <any>null;
                 }
                 return result200;
@@ -601,7 +644,11 @@ export class ProjectsClient {
 
     protected processGetMyProjects(response: Response): Promise<ProjectTitlesDto[]> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -610,8 +657,7 @@ export class ProjectsClient {
                     result200 = [] as any;
                     for (let item of resultData200)
                         result200!.push(ProjectTitlesDto.fromJS(item));
-                }
-                else {
+                } else {
                     result200 = <any>null;
                 }
                 return result200;
@@ -648,7 +694,11 @@ export class ProjectsClient {
 
     protected processGetProject(response: Response): Promise<ProjectDetailsDto> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -691,7 +741,11 @@ export class ProjectsClient {
 
     protected processUpdateProject(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -709,6 +763,151 @@ export class ProjectsClient {
             });
         }
         return Promise.resolve<void>(null as any);
+    }
+}
+
+export class TimeEntriesClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return OK
+     */
+    getListTimeEntries(): Promise<TimeEntryDto[]> {
+        let url_ = this.baseUrl + "/api/TimeEntries";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetListTimeEntries(_response);
+        });
+    }
+
+    protected processGetListTimeEntries(response: Response): Promise<TimeEntryDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(TimeEntryDto.fromJS(item));
+                } else {
+                    result200 = <any>null;
+                }
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TimeEntryDto[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    timeEntries(body: CreateTimeEntryCommand): Promise<number> {
+        let url_ = this.baseUrl + "/api/TimeEntries";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTimeEntries(_response);
+        });
+    }
+
+    protected processTimeEntries(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    summary(): Promise<HoursWorkedSummaryDto> {
+        let url_ = this.baseUrl + "/api/TimeEntries/summary";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSummary(_response);
+        });
+    }
+
+    protected processSummary(response: Response): Promise<HoursWorkedSummaryDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = HoursWorkedSummaryDto.fromJS(resultData200);
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<HoursWorkedSummaryDto>(null as any);
     }
 }
 
@@ -746,7 +945,11 @@ export class UsersClient {
 
     protected processRegister(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -801,7 +1004,11 @@ export class UsersClient {
 
     protected processLogin(response: Response): Promise<AccessTokenResponse> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -842,7 +1049,11 @@ export class UsersClient {
 
     protected processRefresh(response: Response): Promise<AccessTokenResponse> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -880,8 +1091,7 @@ export class UsersClient {
 
         let options_: RequestInit = {
             method: "GET",
-            headers: {
-            }
+            headers: {}
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -891,7 +1101,11 @@ export class UsersClient {
 
     protected processMapIdentityApi_api_Users_confirmEmail(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -928,7 +1142,11 @@ export class UsersClient {
 
     protected processResendConfirmationEmail(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -965,7 +1183,11 @@ export class UsersClient {
 
     protected processForgotPassword(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -1009,7 +1231,11 @@ export class UsersClient {
 
     protected processResetPassword(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 return;
@@ -1050,7 +1276,11 @@ export class UsersClient {
 
     protected processInfoGET(response: Response): Promise<InfoResponse> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -1102,7 +1332,11 @@ export class UsersClient {
 
     protected processInfoPOST(response: Response): Promise<InfoResponse> {
         const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
         if (status === 200) {
             return response.text().then((_responseText) => {
                 let result200: any = null;
@@ -1127,6 +1361,147 @@ export class UsersClient {
             });
         }
         return Promise.resolve<InfoResponse>(null as any);
+    }
+}
+
+export class WorkMonthsClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return OK
+     */
+    getListWorkMonths(): Promise<WorkMonthDto[]> {
+        let url_ = this.baseUrl + "/api/WorkMonths";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetListWorkMonths(_response);
+        });
+    }
+
+    protected processGetListWorkMonths(response: Response): Promise<WorkMonthDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(WorkMonthDto.fromJS(item));
+                } else {
+                    result200 = <any>null;
+                }
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<WorkMonthDto[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    workMonths(id: number): Promise<WorkMonthDetailsDto> {
+        let url_ = this.baseUrl + "/api/WorkMonths/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processWorkMonths(_response);
+        });
+    }
+
+    protected processWorkMonths(response: Response): Promise<WorkMonthDetailsDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = WorkMonthDetailsDto.fromJS(resultData200);
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<WorkMonthDetailsDto>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    employee(id: number): Promise<void> {
+        let url_ = this.baseUrl + "/api/WorkMonths/employee/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "PUT",
+            headers: {}
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processEmployee(_response);
+        });
+    }
+
+    protected processEmployee(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
     }
 }
 
@@ -1454,6 +1829,54 @@ export interface ICreateProjectCommand {
     projectManagerId?: number | undefined;
 }
 
+export class CreateTimeEntryCommand implements ICreateTimeEntryCommand {
+    projectId?: number;
+    description?: string | undefined;
+    date?: Date;
+    hours?: number;
+
+    constructor(data?: ICreateTimeEntryCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.projectId = _data["projectId"];
+            this.description = _data["description"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.hours = _data["hours"];
+        }
+    }
+
+    static fromJS(data: any): CreateTimeEntryCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateTimeEntryCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["projectId"] = this.projectId;
+        data["description"] = this.description;
+        data["date"] = this.date ? formatDate(this.date) : <any>undefined;
+        data["hours"] = this.hours;
+        return data;
+    }
+}
+
+export interface ICreateTimeEntryCommand {
+    projectId?: number;
+    description?: string | undefined;
+    date?: Date;
+    hours?: number;
+}
+
 export enum EmployeeContractType {
     _0 = 0,
     _1 = 1,
@@ -1516,6 +1939,62 @@ export enum EmployeePriviligeLevel {
     _0 = 0,
     _1 = 1,
     _2 = 2,
+}
+
+export class EmployeeWorkMonthDto implements IEmployeeWorkMonthDto {
+    employeeName?: string | undefined;
+    hoursWorked?: number;
+    hoursExpected?: number | undefined;
+    holidayTime?: number;
+    isClosed?: boolean;
+    closingTime?: Date | undefined;
+
+    constructor(data?: IEmployeeWorkMonthDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.employeeName = _data["employeeName"];
+            this.hoursWorked = _data["hoursWorked"];
+            this.hoursExpected = _data["hoursExpected"];
+            this.holidayTime = _data["holidayTime"];
+            this.isClosed = _data["isClosed"];
+            this.closingTime = _data["closingTime"] ? new Date(_data["closingTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): EmployeeWorkMonthDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EmployeeWorkMonthDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["employeeName"] = this.employeeName;
+        data["hoursWorked"] = this.hoursWorked;
+        data["hoursExpected"] = this.hoursExpected;
+        data["holidayTime"] = this.holidayTime;
+        data["isClosed"] = this.isClosed;
+        data["closingTime"] = this.closingTime ? this.closingTime.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IEmployeeWorkMonthDto {
+    employeeName?: string | undefined;
+    hoursWorked?: number;
+    hoursExpected?: number | undefined;
+    holidayTime?: number;
+    isClosed?: boolean;
+    closingTime?: Date | undefined;
 }
 
 export class ForgotPasswordRequest implements IForgotPasswordRequest {
@@ -1644,6 +2123,50 @@ export interface IGetEmployeeDetailsDto {
     contractType?: EmployeeContractType;
     expectedMonthlyHours?: number | undefined;
     id?: number;
+}
+
+export class HoursWorkedSummaryDto implements IHoursWorkedSummaryDto {
+    hoursWorkedInYear?: number;
+    hoursWorkedInMonth?: number;
+    hoursWorkedInWeek?: number;
+
+    constructor(data?: IHoursWorkedSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.hoursWorkedInYear = _data["hoursWorkedInYear"];
+            this.hoursWorkedInMonth = _data["hoursWorkedInMonth"];
+            this.hoursWorkedInWeek = _data["hoursWorkedInWeek"];
+        }
+    }
+
+    static fromJS(data: any): HoursWorkedSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new HoursWorkedSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["hoursWorkedInYear"] = this.hoursWorkedInYear;
+        data["hoursWorkedInMonth"] = this.hoursWorkedInMonth;
+        data["hoursWorkedInWeek"] = this.hoursWorkedInWeek;
+        return data;
+    }
+}
+
+export interface IHoursWorkedSummaryDto {
+    hoursWorkedInYear?: number;
+    hoursWorkedInMonth?: number;
+    hoursWorkedInWeek?: number;
 }
 
 export class HttpValidationProblemDetails implements IHttpValidationProblemDetails {
@@ -2347,6 +2870,66 @@ export interface IResetPasswordRequest {
     newPassword?: string | undefined;
 }
 
+export class TimeEntryDto implements ITimeEntryDto {
+    projectTitle?: string | undefined;
+    projectId?: number;
+    description?: string | undefined;
+    date?: Date;
+    hours?: number;
+    employeeId?: number;
+    employeeName?: string | undefined;
+
+    constructor(data?: ITimeEntryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.projectTitle = _data["projectTitle"];
+            this.projectId = _data["projectId"];
+            this.description = _data["description"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.hours = _data["hours"];
+            this.employeeId = _data["employeeId"];
+            this.employeeName = _data["employeeName"];
+        }
+    }
+
+    static fromJS(data: any): TimeEntryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TimeEntryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["projectTitle"] = this.projectTitle;
+        data["projectId"] = this.projectId;
+        data["description"] = this.description;
+        data["date"] = this.date ? formatDate(this.date) : <any>undefined;
+        data["hours"] = this.hours;
+        data["employeeId"] = this.employeeId;
+        data["employeeName"] = this.employeeName;
+        return data;
+    }
+}
+
+export interface ITimeEntryDto {
+    projectTitle?: string | undefined;
+    projectId?: number;
+    description?: string | undefined;
+    date?: Date;
+    hours?: number;
+    employeeId?: number;
+    employeeName?: string | undefined;
+}
+
 export class UpdateEmployeeCommand implements IUpdateEmployeeCommand {
     privilegeLevel?: EmployeePriviligeLevel;
     givenName?: string | undefined;
@@ -2579,9 +3162,105 @@ export interface IUpdateProjectCommand {
     id?: number;
 }
 
+export class WorkMonthDetailsDto implements IWorkMonthDetailsDto {
+    start?: Date;
+    end?: Date;
+    employeeWorkMonths?: EmployeeWorkMonthDto[] | undefined;
+
+    constructor(data?: IWorkMonthDetailsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.start = _data["start"] ? new Date(_data["start"].toString()) : <any>undefined;
+            this.end = _data["end"] ? new Date(_data["end"].toString()) : <any>undefined;
+            if (Array.isArray(_data["employeeWorkMonths"])) {
+                this.employeeWorkMonths = [] as any;
+                for (let item of _data["employeeWorkMonths"])
+                    this.employeeWorkMonths!.push(EmployeeWorkMonthDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): WorkMonthDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkMonthDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["start"] = this.start ? formatDate(this.start) : <any>undefined;
+        data["end"] = this.end ? formatDate(this.end) : <any>undefined;
+        if (Array.isArray(this.employeeWorkMonths)) {
+            data["employeeWorkMonths"] = [];
+            for (let item of this.employeeWorkMonths)
+                data["employeeWorkMonths"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IWorkMonthDetailsDto {
+    start?: Date;
+    end?: Date;
+    employeeWorkMonths?: EmployeeWorkMonthDto[] | undefined;
+}
+
+export class WorkMonthDto implements IWorkMonthDto {
+    id?: number;
+    start?: Date;
+    end?: Date;
+
+    constructor(data?: IWorkMonthDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.start = _data["start"] ? new Date(_data["start"].toString()) : <any>undefined;
+            this.end = _data["end"] ? new Date(_data["end"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): WorkMonthDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkMonthDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["start"] = this.start ? formatDate(this.start) : <any>undefined;
+        data["end"] = this.end ? formatDate(this.end) : <any>undefined;
+        return data;
+    }
+}
+
+export interface IWorkMonthDto {
+    id?: number;
+    start?: Date;
+    end?: Date;
+}
+
 function formatDate(d: Date) {
     return d.getFullYear() + '-' +
-        (d.getMonth() < 9 ? ('0' + (d.getMonth()+1)) : (d.getMonth()+1)) + '-' +
+        (d.getMonth() < 9 ? ('0' + (d.getMonth() + 1)) : (d.getMonth() + 1)) + '-' +
         (d.getDate() < 10 ? ('0' + d.getDate()) : d.getDate());
 }
 
