@@ -3,48 +3,55 @@ import useSort from "../../components/inputFields/hooks/useSort.tsx";
 import ProjectUsersTable from "./ProjectUsersTable.tsx";
 import {useEffect, useState} from "react";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
-import {ProjectsClient} from "../../api-client.ts";
+import {ParticipationClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
+import {GridSelectionModel} from "@mui/x-data-grid";
 
 interface Props {
+    onDataChange?: () => void;
     allowSelection?: boolean;
     allowNavigation?: boolean;
     showActions?: boolean;
     enableQueryParams?: boolean;
+    projectId?: number;
 }
 
 const ProjectUsersTableQuery = ({
-   allowSelection = false,
-   allowNavigation = true,
-   showActions = true,
-   enableQueryParams = true,
+    onDataChange,
+    allowSelection = false,
+    allowNavigation = true,
+    showActions = true,
+    enableQueryParams = true,
+    projectId,
 }: Props) => {
     const { pagination, handlePageChange, handlePageSizeChange } = usePagination(undefined, undefined, enableQueryParams);
     const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'fullName', sortDir: 'asc' }, enableQueryParams);
 
     const [projectData, setProjectData] = useState([])
 
-    /*useEffect(() => {
+    useEffect(() => {
         if (onDataChange) {
             onDataChange();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [projectData]);*/
+    }, [projectData]);
 
     const auth = useAuthentication();
 
     useEffect(() => {
         if (auth.isAuthenticated === true) {
-            var projectClient = new ProjectsClient(BackendUrl, auth.http);
-            projectClient.getProjectsList().then((response) => {
+            var participationClient = new ParticipationClient(BackendUrl, auth.http);
+            participationClient.project(projectId).then((response) => {
                 const projectData = response.map((project) => {
                     return {
-                        //id: Math.floor(Math.random() * 1000000),
                         id: project.id,
-                        projectName: project.title,
-                        type: project.projectType,
-                        projectManager: project.projectManagerFamilyName + ' ' + project.projectManagerGivenName,
-                        status: project.projectStatus,
+                        projectId: project.projectId,
+                        projectTitle: project.projectTitle,
+                        employeeFamilyName: project.employeeFamilyName,
+                        employeeGivenName: project.employeeGivenName,
+                        employeeId: project.employeeId,
+                        role: project.role,
+                        hourlyRate: project.hourlyRate,
                     };
                 });
                 setProjectData(projectData);

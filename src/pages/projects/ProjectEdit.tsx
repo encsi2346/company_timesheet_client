@@ -144,6 +144,10 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         setInputDisabled(!inputDisabled);
     };
 
+    const handleDataChange = () => {
+        handleSelectionChange(selectionModel);
+    };
+
     const openAddEmployeeDialog = () => {
         addEmployeeDialog
             .show({
@@ -390,38 +394,47 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                     </Grid>
                 </Grid>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 5}}>
-                    <MediumText text={t('TEXT.PROJECT_PARTICIPANTS')} />
+                {isEditing && (
+                    <Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 5}}>
+                            <MediumText text={t('TEXT.PROJECT_PARTICIPANTS')} />
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        {!isEditing && (
-                            <Button
-                                disabled={!!selectionModel.length}
-                                sx={ addButtonStyle }
-                                startIcon={<AddRoundedIcon />}
-                                onClick={openAddEmployeeDialog}
-                                data-testid='add-employee-button'
-                            >
-                                {t('TEXT.ADD_EMPLOYEE')}
-                            </Button>
-                        )}
-                        {isEditing && (
-                            <Button
-                                disabled={!!selectionModel.length}
-                                sx={ addButtonStyle }
-                                onClick={openAddEmployeeDialog}
-                                startIcon={<AddRoundedIcon />}
-                                data-testid='add-employee-button'
-                            >
-                                {t('TEXT.ADD_EMPLOYEE')}
-                            </Button>
-                        )}
+                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                {!isEditing && (
+                                    <Button
+                                        disabled={!!selectionModel.length}
+                                        sx={ addButtonStyle }
+                                        startIcon={<AddRoundedIcon />}
+                                        onClick={openAddEmployeeDialog}
+                                        data-testid='add-employee-button'
+                                    >
+                                        {t('TEXT.ADD_EMPLOYEE')}
+                                    </Button>
+                                )}
+                                {isEditing && (
+                                    <Button
+                                        disabled={!!selectionModel.length}
+                                        sx={ addButtonStyle }
+                                        onClick={openAddEmployeeDialog}
+                                        startIcon={<AddRoundedIcon />}
+                                        data-testid='add-employee-button'
+                                    >
+                                        {t('TEXT.ADD_EMPLOYEE')}
+                                    </Button>
+                                )}
+                            </Box>
+                        </Box>
+
+                        <Box sx={{ display: 'flex', marginTop: 7, marginBottom: 10}}>
+                            <ProjectUsersTableQuery
+                                selectionModel={selectionModel}
+                                onSelectionChange={handleSelectionChange}
+                                onDataChange={handleDataChange}
+                                projectId={id ?? 0}
+                            />
+                        </Box>
                     </Box>
-                </Box>
-
-                <Box sx={{ display: 'flex', marginTop: 7, marginBottom: 10}}>
-                    <ProjectUsersTableQuery />
-                </Box>
+                )}
 
                 <Box sx={{ display: 'inline', paddingLeft: 120}}>
                     <CancelButton text={t('TEXT.CANCEL')} />
