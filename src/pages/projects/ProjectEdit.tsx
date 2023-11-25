@@ -7,7 +7,6 @@ import SaveButton from "../../components/button/SaveButton.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import {useForm} from "react-hook-form";
-import {loginFormSchema, LoginFormSchema} from "../login/schemas/login-form-schema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import MediumText from "../../components/text/MediumText.tsx";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -20,6 +19,9 @@ import SelectInput from "../../components/inputFields/SelectInput.tsx";
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
+import {ProjectEditFormSchema, projectEditFormSchema} from "./schemas/project-edit-form-schema.ts";
+import {CreateProjectCommand, ProjectsClient} from "../../api-client.ts";
+import {BackendUrl} from "../../App.tsx";
 
 const addButtonStyle: SxProps<Theme> = {
     fontWeight: 'regular',
@@ -52,15 +54,53 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const {
         control,
         setValue,
+        handleSubmit,
         formState: { isValid },
-    } = useForm<LoginFormSchema>({
+    } = useForm<ProjectEditFormSchema>({
         defaultValues: {
-            email: '',
-            password: '',
+            title: '',
+            partner: '',
+            projectStatus: '',
+            projectType: '',
+            projectManagerGivenName: '',
+            projectManagerFamilyName: '',
+            estimatedStartDate: '',
+            estimatedEndDate: '',
+            estimatedHours: '',
+            startDate: '',
+            endDate: '',
+            estimatedGrossEarnings: '',
+            estimatedGrossExpenditure: '',
+            requireDescriptionForTimeEntry: '',
+            projectManagerId: '',
         },
-        resolver: zodResolver(loginFormSchema),
+        resolver: zodResolver(projectEditFormSchema),
         mode: 'all',
     });
+
+    const createProject = (data) => {
+        const projectsClient = new ProjectsClient(BackendUrl);
+        return projectsClient.createProject( new CreateProjectCommand(data))
+            .then(response => {
+            });
+    };
+
+    const onSubmit = handleSubmit((data) => {
+        let submitData = data as any;
+
+        if (isEditing) {
+            //TODO: update
+            setInputDisabled(true);
+        } else {
+            //TODO: create
+            createProject(submitData);
+            setInputDisabled(true);
+        }
+    });
+
+    const handleEditClicked = () => {
+        setInputDisabled(!inputDisabled);
+    };
 
     const typeOptions={
         inner: 'külsős',
@@ -76,6 +116,11 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box sx={{ display: 'block', width: 1300}}>
             <PageHeader text={t('TEXT.PROJECT_NAME')}/>
+            {!inputDisabled && (
+                <Box sx={{ display: 'inline', paddingLeft: 120}}>
+                    <SaveButton text={t('TEXT.EDIT')} onClick={handleEditClicked} />
+                </Box>
+            )}
             <ContentCard>
                 <Grid sx={{ flexGrow: 1 }}>
                     <Grid container spacing={5}>
@@ -86,6 +131,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     label={t('TEXT.TYPE')}
                                     control={control}
                                     name='type'
+                                    disabled={inputDisabled}
                                     options={Object.values(typeOptions).map((projectType) => ({
                                         id: projectType,
                                         title: projectType
@@ -115,6 +161,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='partner'
                                     type='text'
                                     data-testid='partner-input'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -124,8 +171,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='estimatedStartDate'
                                     parseDate={parseDatePickerDate}
-                                    disabled={inputDisabled}
                                     data-testid='estimated-start-date'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -136,6 +183,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='estimatedHours'
                                     type='text'
                                     data-testid='estimated-hours-input'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -145,8 +193,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='startDate'
                                     parseDate={parseDatePickerDate}
-                                    disabled={inputDisabled}
                                     data-testid='start-date'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -157,6 +205,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='estimatedValue'
                                     type='text'
                                     data-testid='estimated-value-input'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                         </Grid>
@@ -167,6 +216,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     label={t('TEXT.STATUS')}
                                     control={control}
                                     name='status'
+                                    disabled={inputDisabled}
                                     options={Object.values(statusOptions).map((projectStatus) => ({
                                         id: projectStatus,
                                         title: projectStatus
@@ -196,6 +246,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='projectManager'
                                     type='text'
                                     data-testid='project-manager-input'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -205,8 +256,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='estimatedEndDate'
                                     parseDate={parseDatePickerDate}
-                                    disabled={inputDisabled}
                                     data-testid='estimated-end-date'
+                                    disabled={inputDisabled}
                                  />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -217,6 +268,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='realHours'
                                     type='text'
                                     data-testid='real-hours-input'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -226,8 +278,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='endDate'
                                     parseDate={parseDatePickerDate}
-                                    disabled={inputDisabled}
                                     data-testid='end-date'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -238,6 +290,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='realValue'
                                     type='text'
                                     data-testid='real-value-input'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                         </Grid>
@@ -280,7 +333,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 <Box sx={{ display: 'inline', paddingLeft: 120}}>
                     <CancelButton text={t('TEXT.CANCEL')} />
-                    <SaveButton text={t('TEXT.SAVE')} />
+                    <SaveButton text={t('TEXT.SAVE')} disabled={!isValid} onClick={onSubmit}/>
                 </Box>
             </ContentCard>
         </Box>

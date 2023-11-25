@@ -21,7 +21,7 @@ import {useState} from "react";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {CreateEmployeeCommand, EmployeesClient, LoginRequest} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
-import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-schema.ts";
+import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-form-schema.ts";
 
 interface Props {
     isEditing?: boolean;
@@ -40,7 +40,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     } = useForm<UserEditFormSchema>({
         defaultValues: {
             email: '',
-            priviligeLevel: 2, //TODO: create selection field to this
+            priviligeLevel: 2, //TODO: create selection field to this, missing from frontend
             givenName: '',
             familyName: '',
             birthPlace: '',
@@ -48,11 +48,12 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             phoneNumber: '',
             address: '',
             hireDate: '',
-            terminationDate: '',
+            terminationDate: '', //TODO: missing from frontend
             jobTitle: '',
-            hourlyWage: '',
-            contractType: '', //TODO: create selection field to this
-            expectedMonthlyHours: 40,
+            hourlyWage: '', //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects,
+            //TODO: missing other field from backend: directManager, netHourlyWage, netValueForProjects
+            contractType: '', //TODO: create selection field to this, missing from frontend
+            expectedMonthlyHours: 40, //TODO: missing from frontend
         },
         resolver: zodResolver(userEditFormSchema(isEditing)),
         mode: 'all',
@@ -119,7 +120,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     <TextFieldInput
                                         placeholder={t('TEXT.FIRST_NAME')}
                                         control={control}
-                                        name='firstName'
+                                        name='givenName'
                                         type='text'
                                         data-testid='first-name-input'
                                         disabled={inputDisabled}
@@ -199,7 +200,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                    <TextFieldInput
                                        placeholder={t('TEXT.PHONE')}
                                        control={control}
-                                       name='phone'
+                                       name='phoneNumber'
                                        type='text'
                                        data-testid='phone-input'
                                        disabled={inputDisabled}
@@ -217,7 +218,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     <DatePickerInput
                                         label={t('TEXT.DATE_OF_REGISTRATION')}
                                         control={control}
-                                        name='dateOfRegistration'
+                                        name='hireDate'
                                         parseDate={parseDatePickerDate}
                                         data-testid='date-of-registration'
                                         disabled={inputDisabled}
@@ -308,7 +309,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     <SelectInput
                                         label={t('TEXT.POSITION')}
                                         control={control}
-                                        name='position'
+                                        name='jobTitle'
                                         data-testid='position-input'
                                         disabled={inputDisabled}
                                         options={Object.values(positionOptions).map((position) => ({
