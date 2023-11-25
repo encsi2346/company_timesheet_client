@@ -39,11 +39,11 @@
     "ESTIMATED_START_DATE": "Várható kezdés dátuma",
     "ESTIMATED_HOURS": "Várható órák száma",
     "START_DATE": "Kezdés dátuma",
-    "ESTIMATED_VALUE": "Várható érték",
+    "ESTIMATED_VALUE": "Várható bruttó bevétel",
     "ESTIMATED_END_DATE": "Várható bejefezés dátuma",
     "END_DATE": "Befejezés dátuma",
     "REAL_HOURS": "Tényleges órák száma",
-    "REAL_VALUE": "Tényleges érték",
+    "REAL_VALUE": "Tényleges bruttó bevétel",
     "PROJECT_PARTICIPANTS": "Projekt résztvevői",
     "ADD_EMPLOYEE": "Alkalmazott hozzáadása",
     "MY_PLANNER": "Tervezőm",
@@ -74,6 +74,8 @@
     "EXPECTED_MONTHLY_HOURS": "Elvárt havi munkaóra",
     "DATE_OF_TERMINATE": "Szerződésbontás ideje",
     "CONTRACT_TYPE": "Szerződés típusa",
-    "USER_ROLE": "Jogosultság"
+    "USER_ROLE": "Jogosultság",
+    "REAL_EXPENDITURE": "Tényleges bruttó kiadás",
+    "ESTIMATED_EXPENDITURE": "Várható bruttó kiadás"
   }
 }

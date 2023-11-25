@@ -58,12 +58,12 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         formState: { isValid },
     } = useForm<ProjectEditFormSchema>({
         defaultValues: {
-            title: '',
+            title: '', //TODO: missing from frontend
             partner: '',
             projectStatus: '',
             projectType: '',
-            projectManagerGivenName: '',
-            projectManagerFamilyName: '',
+            projectManagerGivenName: '', //TODO: nem lehetne backendben együtt kezelni?
+            projectManagerFamilyName: '', //TODO: nem lehetne backendben együtt kezelni?
             estimatedStartDate: '',
             estimatedEndDate: '',
             estimatedHours: '',
@@ -71,8 +71,9 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             endDate: '',
             estimatedGrossEarnings: '',
             estimatedGrossExpenditure: '',
-            requireDescriptionForTimeEntry: '',
-            projectManagerId: '',
+            requireDescriptionForTimeEntry: '', //TODO: ?
+            projectManagerId: '',   //TODO: nem lehetne backendben együtt kezelni? miért kell az id meg a név is?
+            //TODO: missing inputs from backend: realHours, realGrossEarnings, realGrossExpenditure
         },
         resolver: zodResolver(projectEditFormSchema),
         mode: 'all',
@@ -202,9 +203,20 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <TextFieldInput
                                     placeholder={t('TEXT.ESTIMATED_VALUE')}
                                     control={control}
-                                    name='estimatedValue'
+                                    name='estimatedGrossEarnings'
                                     type='text'
                                     data-testid='estimated-value-input'
+                                    disabled={inputDisabled}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <NormalText text={t('TEXT.ESTIMATED_EXPENDITURE')} />
+                                <TextFieldInput
+                                    placeholder={t('TEXT.ESTIMATED_EXPENDITURE')}
+                                    control={control}
+                                    name='estimatedGrossExpenditure'
+                                    type='text'
+                                    data-testid='estimated-gross-expenditure-input'
                                     disabled={inputDisabled}
                                 />
                             </Box>
@@ -287,9 +299,20 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <TextFieldInput
                                     placeholder={t('TEXT.REAL_VALUE')}
                                     control={control}
-                                    name='realValue'
+                                    name='realGrossEarnings'
                                     type='text'
                                     data-testid='real-value-input'
+                                    disabled={inputDisabled}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <NormalText text={t('TEXT.REAL_EXPENDITURE')} />
+                                <TextFieldInput
+                                    placeholder={t('TEXT.REAL_EXPENDITURE')}
+                                    control={control}
+                                    name='realGrossExpenditure'
+                                    type='text'
+                                    data-testid='real-gross-expenditure-input'
                                     disabled={inputDisabled}
                                 />
                             </Box>
