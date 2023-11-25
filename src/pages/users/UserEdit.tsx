@@ -72,6 +72,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         control,
         setValue,
         reset,
+        getValue,
         handleSubmit,
         formState: { isValid },
     } = useForm<UserEditFormSchema>({
@@ -81,13 +82,10 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             givenName: '',
             familyName: '',
             birthPlace: '',
-            birthDate: '',
             phoneNumber: '',
             address: '',
-            hireDate: '',
-            terminationDate: '',
             jobTitle: '',
-            hourlyWage: '', //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects, !!!!!!!!
+            hourlyWage: 0, //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects, !!!!!!!!
             //TODO: missing other field from backend: directManager, netHourlyWage, netValueForProjects !!!!!!!
             contractType: 1,
             expectedMonthlyHours: 40,
@@ -96,7 +94,10 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         mode: 'all',
     });
 
+    //TODO: cors-policyval 401et dob, friss bejelentkezés után is
+
     const createUser = (data) => {
+        console.log(data);
         const employeesClient = new EmployeesClient(BackendUrl);
         return employeesClient.createEmployee( new CreateEmployeeCommand(data))
             .then(response => {
@@ -128,6 +129,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         }
     }, [id, reset]);
 
+    //TODO: employee törléshez api?
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
@@ -187,7 +189,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         label={t('TEXT.BIRTH_DATE')}
                                         control={control}
                                         name='birthDate'
-                                        parseDate={parseDatePickerDate}
                                         data-testid='birth-date'
                                         disabled={inputDisabled}
                                     />
@@ -291,7 +292,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         label={t('TEXT.DATE_OF_REGISTRATION')}
                                         control={control}
                                         name='hireDate'
-                                        parseDate={parseDatePickerDate}
                                         data-testid='date-of-registration'
                                         disabled={inputDisabled}
                                     />
@@ -330,7 +330,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         placeholder={t('TEXT.GROSS_HOURLY_WAGE')}
                                         control={control}
                                         name='hourlyWage' //TODO grossHourlyWage
-                                        type='text'
+                                        type='number'
                                         data-testid='gross-hourly-wage-input'
                                         disabled={inputDisabled}
                                     />
@@ -410,7 +410,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         label={t('TEXT.DATE_OF_TERMINATE')}
                                         control={control}
                                         name='terminationDate'
-                                        parseDate={parseDatePickerDate}
                                         data-testid='date-of-termination'
                                         disabled={inputDisabled}
                                     />

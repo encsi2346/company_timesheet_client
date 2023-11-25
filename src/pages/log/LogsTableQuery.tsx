@@ -1,8 +1,11 @@
 import type { GridSelectionModel } from '@mui/x-data-grid';
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import usePagination from "../../components/inputFields/hooks/usePagination.tsx";
 import useSort from "../../components/inputFields/hooks/useSort.tsx";
 import LogsTable from "./LogsTable.tsx";
+import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {AuditLogsClient, ProjectsClient} from "../../api-client.ts";
+import {BackendUrl} from "../../App.tsx";
 
 interface Props {
     filters: string[];
@@ -28,7 +31,37 @@ const LogsTableQuery = ({
     const { pagination, handlePageChange, handlePageSizeChange } = usePagination(undefined, undefined, enableQueryParams);
     const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'date', sortDir: 'asc' }, enableQueryParams);
 
-    const logsData = [
+    const [logsData, setLogsData] = useState([])
+
+    useEffect(() => {
+        if (onDataChange) {
+            onDataChange();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [logsData]);
+
+    const auth = useAuthentication();
+
+    useEffect(() => {
+        if (auth.isAuthenticated === true) {
+            var auditLogsClient = new AuditLogsClient(BackendUrl, auth.http);
+            auditLogsClient.getAuditLogList().then((response) => {
+                const logsData = response.map((log) => {
+                    return {
+                        id: Math.floor(Math.random() * 1000000),
+                        //id: log.id, //TODO: create id on backend
+                        projectName: log.projectName,
+                        userName: log.userName,
+                        description: log.description,
+                        timestamp: log.timestamp,
+                    };
+                });
+                setLogsData(logsData);
+            });
+        }
+    }, [auth.isAuthenticated]);
+
+    /*const logsData = [
         {
             id: 1,
             employeeName: 'Példa Éva',
@@ -64,14 +97,7 @@ const LogsTableQuery = ({
             date: '2023.10.11. 13:13',
             description: 'Log time'
         }
-    ];
-
-    useEffect(() => {
-        if (onDataChange) {
-            onDataChange();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [logsData]);
+    ];*/
 
     return (
         <LogsTable

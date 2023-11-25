@@ -63,7 +63,7 @@ export default function DatePickerInput<TFieldValues extends FieldValues>({
                 >
                     <DatePicker
                         {...rest}
-                        value={value ? parseISO(value) : null}
+                        value={value ? value : null} //TODO
                         onClose={onBlur}
                         sx={{
                             disableUnderline: 'true',
@@ -77,18 +77,7 @@ export default function DatePickerInput<TFieldValues extends FieldValues>({
                             width: 300
                         }}
                         onChange={(date: Date, validation) => {
-                            if (!validation.validationError) {
-                                let parsedDate: string | null = date?.toISOString();
-
-                                if (typeof parseDate === 'function') {
-                                    parsedDate = parseDate(date);
-                                }
-
-                                onChange(parsedDate);
-                                if (typeof rest.onChange === 'function') {
-                                    rest.onChange(parsedDate);
-                                }
-                            }
+                            onChange(date);
                         }}
                         slots={{
                             textField: DatePickerTextField,

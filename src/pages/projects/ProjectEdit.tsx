@@ -115,7 +115,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             });
     };
 
-    useEffect(() => {
+    useEffect(() => { //TODO: fetch errort dob
         if (id) {
             const projectsClient = new ProjectsClient(BackendUrl, auth.http);
             projectsClient.getProject(parseInt(id))
