@@ -61,7 +61,7 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
                     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
                     position: 'fixed',
                     minHeight: 100,
-                    height: 800,
+                    height: 900,
                     backgroundColor: `${palette.component.darkMax}`,
                     marginTop: 10
             },

@@ -30,6 +30,31 @@ interface Props {
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { t } = useTypeSafeTranslation();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const [positions, setPositions] = useState({
+        softwareDeveloper: 'Szoftverfejlesztő',
+        projectManager: 'Project Manager',
+        softwareTester: 'Szoftvertesztelő'
+    });
+    const [senioritys, setSenioritys] = useState({
+        junior: 'Junior',
+        medior: 'Medior',
+        senior: 'Senior'
+    });
+    const [userRoles, ssetUserRoles] = useState({
+        0: 'Administrator',
+        1: 'Manager',
+        2: 'Employee'
+    });
+    const [contracts, setContracts] = useState({
+        0: '0',
+        1: '1',
+        2: '2'
+    });
+    const [directManagers, setDirectManagers] = useState({
+        managerA: 'Példa Kata',
+        managerB: 'Példa Éva',
+        managerC: 'Példa Zoltán'
+    });
 
     const {
         control,
@@ -82,40 +107,10 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         setInputDisabled(!inputDisabled);
     };
 
-    const positionOptions={
-        softwareDeveloper: 'Szoftverfejlesztő',
-        projectManager: 'Project Manager',
-        softwareTester: 'Szoftvertesztelő'
-    };
-
-    const seniorityOptions={
-        junior: 'Junior',
-        medior: 'Medior',
-        senior: 'Senior'
-    };
-
-    const userRoleOptions={
-        0: 'Administrator',
-        1: 'Manager',
-        2: 'Employee'
-    };
-
-    const contractOptions={
-        0: '0',
-        1: '1',
-        2: '2'
-    };
-
-    const directManagerOptions={
-        managerA: 'Példa Kata',
-        managerB: 'Példa Éva',
-        managerC: 'Példa Zoltán'
-    };
-
     return (
         <Box sx={{ display: 'block', width: 1300}}>
             <PageHeader text={t('TEXT.FULL_NAME')}/>
-            {!inputDisabled && (
+            {inputDisabled && (
                 <Box sx={{ display: 'inline', paddingLeft: 120}}>
                     <SaveButton text={t('TEXT.EDIT')} onClick={handleEditClicked} />
                 </Box>
@@ -232,7 +227,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='priviligeLevel'
                                         data-testid='user-role-input'
                                         disabled={inputDisabled}
-                                        options={Object.values(userRoleOptions).map((role) => ({
+                                        options={Object.values(userRoles).map((role) => ({
                                             id: role,
                                             title: role
                                         }))}
@@ -271,7 +266,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='seniority'
                                         data-testid='seniority-input'
                                         disabled={inputDisabled}
-                                        options={Object.values(seniorityOptions).map((seniority) => ({
+                                        options={Object.values(senioritys).map((seniority) => ({
                                             id: seniority,
                                             title: seniority
                                         }))}
@@ -321,7 +316,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='contractType'
                                         data-testid='contract-type-input'
                                         disabled={inputDisabled}
-                                        options={Object.values(contractOptions).map((type) => ({
+                                        options={Object.values(contracts).map((type) => ({
                                             id: type,
                                             title: type
                                         }))}
@@ -351,7 +346,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='directManager'
                                         data-testid='direct-manager-input'
                                         disabled={inputDisabled}
-                                        options={Object.values(directManagerOptions).map((directManager) => ({
+                                        options={Object.values(directManagers).map((directManager) => ({
                                             id: directManager,
                                             title: directManager
                                         }))}
@@ -390,7 +385,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='jobTitle'
                                         data-testid='position-input'
                                         disabled={inputDisabled}
-                                        options={Object.values(positionOptions).map((position) => ({
+                                        options={Object.values(positions).map((position) => ({
                                             id: position,
                                             title: position
                                         }))}

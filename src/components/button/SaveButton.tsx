@@ -4,9 +4,11 @@ import type {SxProps, Theme} from "@mui/material";
 interface Props {
     text: string;
     type?: string;
+    onClick?: () => void;
+    disabled?: boolean;
 }
 
-const SaveButton = ({ text, type }: Props) => {
+const SaveButton = ({ text, type, onClick, disabled }: Props) => {
     const { palette } = useTheme();
 
     return (
@@ -28,6 +30,11 @@ const SaveButton = ({ text, type }: Props) => {
                 paddingLeft: '30px',
                 paddingRight: '30px',
                 textTransform: 'none',
+            }}
+            onClick={() => {
+                if(!disabled && onClick) {
+                    onClick();
+                }
             }}
         >
             {text}
