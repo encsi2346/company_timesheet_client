@@ -237,7 +237,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
-                                                <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                                <IconButton onClick={() => setValue('status', undefined)} edge="end" >
                                                     <ClearRoundedIcon />
                                                 </IconButton>
                                             </InputAdornment>
