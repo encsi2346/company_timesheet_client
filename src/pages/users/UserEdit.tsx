@@ -19,9 +19,9 @@ import {parseDatePickerDate} from "../../components/inputFields/utils/parse-date
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {useState} from "react";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
-import { EmployeesClient} from "../../api-client.ts";
+import {CreateEmployeeCommand, EmployeesClient, LoginRequest} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
-import {userEditSchema, UserEditSchema} from "./schemas/user-edit-schema.ts";
+import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-schema.ts";
 
 interface Props {
     isEditing?: boolean;
@@ -35,8 +35,9 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const {
         control,
         setValue,
+        handleSubmit,
         formState: { isValid },
-    } = useForm<UserEditSchema>({
+    } = useForm<UserEditFormSchema>({
         defaultValues: {
             email: '',
             priviligeLevel: 2, //TODO: create selection field to this
@@ -44,7 +45,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             familyName: '',
             birthPlace: '',
             birthDate: '',
-            email: '',
             phoneNumber: '',
             address: '',
             hireDate: '',
@@ -54,13 +54,32 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             contractType: '', //TODO: create selection field to this
             expectedMonthlyHours: 40,
         },
-        resolver: zodResolver(userEditSchema),
+        resolver: zodResolver(userEditFormSchema(isEditing)),
         mode: 'all',
     });
 
-    const createUser = () => {
+    const createUser = (data) => {
         const employeesClient = new EmployeesClient(BackendUrl);
+        return employeesClient.createEmployee( new CreateEmployeeCommand(data))
+            .then(response => {
+            });
+    };
 
+    const onSubmit = handleSubmit((data) => {
+        let submitData = data as any;
+
+        if (isEditing) {
+            //TODO: update
+            setInputDisabled(true);
+        } else {
+            //TODO: create
+            createUser(submitData);
+            setInputDisabled(true);
+        }
+    });
+
+    const handleEditClicked = () => {
+        setInputDisabled(!inputDisabled);
     };
 
     const positionOptions={
@@ -84,6 +103,11 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box sx={{ display: 'block', width: 1300}}>
             <PageHeader text={t('TEXT.FULL_NAME')}/>
+            {!inputDisabled && (
+                <Box sx={{ display: 'inline', paddingLeft: 120}}>
+                    <SaveButton text={t('TEXT.EDIT')} onClick={handleEditClicked} />
+                </Box>
+            )}
             <ContentCard>
                 <Grid sx={{ flexGrow: 1 }}>
                     <SectionCard>
@@ -98,6 +122,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='firstName'
                                         type='text'
                                         data-testid='first-name-input'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -108,6 +133,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='familyName'
                                         type='text'
                                         data-testid='family-name-input'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -117,8 +143,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         control={control}
                                         name='birthDate'
                                         parseDate={parseDatePickerDate}
-                                        disabled={inputDisabled}
                                         data-testid='birth-date'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -129,6 +155,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='birthPlace'
                                         type='text'
                                         data-testid='birth-place-input'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                             </Grid>
@@ -151,6 +178,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                        name='email'
                                        type='email'
                                        data-testid='email-input'
+                                       disabled={inputDisabled}
                                    />
                                </Box>
                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -161,6 +189,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                        name='address'
                                        type='text'
                                        data-testid='address-input'
+                                       disabled={inputDisabled}
                                    />
                                </Box>
                            </Grid>
@@ -173,6 +202,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                        name='phone'
                                        type='text'
                                        data-testid='phone-input'
+                                       disabled={inputDisabled}
                                    />
                                </Box>
                            </Grid>
@@ -189,8 +219,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         control={control}
                                         name='dateOfRegistration'
                                         parseDate={parseDatePickerDate}
-                                        disabled={inputDisabled}
                                         data-testid='date-of-registration'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -200,6 +230,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         control={control}
                                         name='seniority'
                                         data-testid='seniority-input'
+                                        disabled={inputDisabled}
                                         options={Object.values(seniorityOptions).map((seniority) => ({
                                             id: seniority,
                                             title: seniority
@@ -228,6 +259,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='grossHourlyWage'
                                         type='text'
                                         data-testid='gross-hourly-wage-input'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -238,6 +270,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='grossValueForProjects'
                                         type='text'
                                         data-testid='gross-value-for-project-input'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                             </Grid>
@@ -249,6 +282,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         control={control}
                                         name='directManager'
                                         data-testid='direct-manager-input'
+                                        disabled={inputDisabled}
                                         options={Object.values(directManagerOptions).map((directManager) => ({
                                             id: directManager,
                                             title: directManager
@@ -276,6 +310,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         control={control}
                                         name='position'
                                         data-testid='position-input'
+                                        disabled={inputDisabled}
                                         options={Object.values(positionOptions).map((position) => ({
                                             id: position,
                                             title: position
@@ -304,6 +339,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='netHourlyWage'
                                         type='text'
                                         data-testid='net-hourly-wage-input'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -314,6 +350,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='netValueForProjects'
                                         type='text'
                                         data-testid='net-value-for-project-input'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                             </Grid>
@@ -327,10 +364,12 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                     <UserProjectTableQuery />
                 </Box>
 
-                <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                    <CancelButton text={t('TEXT.CANCEL')} />
-                    <SaveButton text={t('TEXT.SAVE')} />
-                </Box>
+                {!inputDisabled && (
+                    <Box sx={{ display: 'inline', paddingLeft: 120}}>
+                        <CancelButton text={t('TEXT.CANCEL')} />
+                        <SaveButton text={t('TEXT.SAVE')} disabled={!isValid} onClick={onSubmit} />
+                    </Box>
+                )}
             </ContentCard>
         </Box>
     );

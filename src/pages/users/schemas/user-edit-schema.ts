@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const userEditSchema = () =>
+export const userEditFormSchema = (isEditing: boolean) =>
     z.object({
         email: z.string().min(1).nullish(), //TODO: create emailregex
         priviligeLevel: z.number().nullish(),
@@ -15,7 +15,7 @@ export const userEditSchema = () =>
         jobTitle: z.string(),
         hourlyWage: z.number(),
         contractType: z.string(),
-        expectedMonthlyHours: z.string(),
+        expectedMonthlyHours: z.number(),
 });
 
-export type UserEditSchema = z.infer<typeof userEditSchema>;
+export type UserEditFormSchema = z.infer<ReturnType<typeof userEditFormSchema>>;
