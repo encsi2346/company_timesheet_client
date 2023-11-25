@@ -23,6 +23,8 @@ import {ProjectEditFormSchema, projectEditFormSchema} from "./schemas/project-ed
 import {CreateProjectCommand, ProjectsClient, UpdateProjectCommand} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useModal} from "@ebay/nice-modal-react";
+import AddEmployeeDialog from "./AddEmployeeDialog.tsx";
 
 const addButtonStyle: SxProps<Theme> = {
     fontWeight: 'regular',
@@ -52,6 +54,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const { id } = useParams();
+    const addEmployeeDialog = useModal(AddEmployeeDialog);
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
@@ -139,6 +142,18 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
+    };
+
+    const openAddEmployeeDialog = () => {
+        addEmployeeDialog
+            .show({
+                title: t('TEXT.ADD_EMPLOYEE'),
+                acceptText: t('TEXT.SAVE'),
+            })
+            .then((value) => {
+                setValue('employees', value as string[]);
+            })
+            .catch(() => null);
     };
 
     return (
@@ -384,9 +399,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 disabled={!!selectionModel.length}
                                 sx={ addButtonStyle }
                                 startIcon={<AddRoundedIcon />}
-                                component={Link}
-                                to="new"
-                                state={{ queryParams: location.search }}
+                                onClick={openAddEmployeeDialog}
                                 data-testid='add-employee-button'
                             >
                                 {t('TEXT.ADD_EMPLOYEE')}
@@ -396,6 +409,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Button
                                 disabled={!!selectionModel.length}
                                 sx={ addButtonStyle }
+                                onClick={openAddEmployeeDialog}
                                 startIcon={<AddRoundedIcon />}
                                 data-testid='add-employee-button'
                             >

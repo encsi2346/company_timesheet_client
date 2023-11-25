@@ -109,6 +109,8 @@ const MyPlanner = () => {
 
     }, [editable]);
 
+    //TODO: on backend closing project, reopen project????????
+
     return (
         <Box>
             <Box sx={{ display: 'flex'}}>
