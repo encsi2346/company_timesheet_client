@@ -21,7 +21,12 @@ import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import NormalText from "../../components/text/NormalText.tsx";
 import {AddEmployeeFormSchema, addEmployeeFormSchema} from "./schemas/add-employee-form-schema.ts";
 import {useState} from "react";
-import {CreateEmployeeCommand, EmployeesClient} from "../../api-client.ts";
+import {
+    CreateEmployeeCommand,
+    CreateParticipationCommand,
+    EmployeesClient,
+    ParticipationClient
+} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
 
@@ -108,8 +113,8 @@ const AddEmployeeDialog = NiceModal.create(
         });
 
         const addEmployeesForProject = (data) => {
-            const employeesClient = new EmployeesClient(BackendUrl, auth.http);
-            return employeesClient.createEmployee( new CreateEmployeeCommand(data))
+            const participationClient = new ParticipationClient(BackendUrl, auth.http);
+            return participationClient.postCreateParticipation( new CreateParticipationCommand(data))
                 .then(response => {
                     console.log('ready');
                 })
