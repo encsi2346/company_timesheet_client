@@ -92,11 +92,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
+        console.log(submitData);
+
         console.log('submit');
         if (isEditing) {
             //TODO: update
             setInputDisabled(true);
-        } else {
+        } else { 
             //TODO: create
             console.log('save');
             createUser(submitData);
