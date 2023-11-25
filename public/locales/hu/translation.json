@@ -70,6 +70,10 @@
     "MY_DASHBOARD": "Teljesítményem",
     "PLANNER": "Tervező",
     "LOGS": "Logok",
-    "LOG_OUT": "Kijelentkezés"
+    "LOG_OUT": "Kijelentkezés",
+    "EXPECTED_MONTHLY_HOURS": "Elvárt havi munkaóra",
+    "DATE_OF_TERMINATE": "Szerződésbontás ideje",
+    "CONTRACT_TYPE": "Szerződés típusa",
+    "USER_ROLE": "Jogosultság"
   }
 }

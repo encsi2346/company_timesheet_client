@@ -5,7 +5,6 @@ import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import {useForm} from "react-hook-form";
-import {loginFormSchema, LoginFormSchema} from "../login/schemas/login-form-schema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import MediumText from "../../components/text/MediumText.tsx";
@@ -19,7 +18,7 @@ import {parseDatePickerDate} from "../../components/inputFields/utils/parse-date
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {useState} from "react";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
-import {CreateEmployeeCommand, EmployeesClient, LoginRequest} from "../../api-client.ts";
+import {CreateEmployeeCommand, EmployeesClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-form-schema.ts";
 
@@ -40,7 +39,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     } = useForm<UserEditFormSchema>({
         defaultValues: {
             email: '',
-            priviligeLevel: 2, //TODO: create selection field to this, missing from frontend
+            priviligeLevel: 2,
             givenName: '',
             familyName: '',
             birthPlace: '',
@@ -48,11 +47,11 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             phoneNumber: '',
             address: '',
             hireDate: '',
-            terminationDate: '', //TODO: missing from frontend
+            terminationDate: '',
             jobTitle: '',
             hourlyWage: '', //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects,
             //TODO: missing other field from backend: directManager, netHourlyWage, netValueForProjects
-            contractType: '', //TODO: create selection field to this, missing from frontend
+            contractType: '',
             expectedMonthlyHours: 40, //TODO: missing from frontend
         },
         resolver: zodResolver(userEditFormSchema(isEditing)),
@@ -93,6 +92,18 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         junior: 'Junior',
         medior: 'Medior',
         senior: 'Senior'
+    };
+
+    const userRoleOptions={
+        0: 'Administrator',
+        1: 'Manager',
+        2: 'Employee'
+    };
+
+    const contractOptions={
+        0: '0',
+        1: '1',
+        2: '2'
     };
 
     const directManagerOptions={
@@ -214,6 +225,34 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                         <Grid container spacing={8}>
                             <Grid item xs={4} md={6}>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                    <NormalText text={t('TEXT.USER_ROLE')} />
+                                    <SelectInput
+                                        label={t('TEXT.USER_ROLE')}
+                                        control={control}
+                                        name='priviligeLevel'
+                                        data-testid='user-role-input'
+                                        disabled={inputDisabled}
+                                        options={Object.values(userRoleOptions).map((role) => ({
+                                            id: role,
+                                            title: role
+                                        }))}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton onClick={() => setValue('priviligeLevel', undefined)} edge="end" >
+                                                        <ClearRoundedIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                            sx: {
+                                                '.MuiSelect-icon': {
+                                                    display: 'none',
+                                                },
+                                            },
+                                        }}
+                                    />
+                                </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={t('TEXT.DATE_OF_REGISTRATION')} />
                                     <DatePickerInput
                                         label={t('TEXT.DATE_OF_REGISTRATION')}
@@ -239,7 +278,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>
-                                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                                    <IconButton onClick={() => setValue('seniority', undefined)} edge="end" >
                                                         <ClearRoundedIcon />
                                                     </IconButton>
                                                 </InputAdornment>
@@ -274,6 +313,34 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         disabled={inputDisabled}
                                     />
                                 </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                    <NormalText text={t('TEXT.CONTRACT_TYPE')} />
+                                    <SelectInput
+                                        label={t('TEXT.CONTRACT_TYPE')}
+                                        control={control}
+                                        name='contractType'
+                                        data-testid='contract-type-input'
+                                        disabled={inputDisabled}
+                                        options={Object.values(contractOptions).map((type) => ({
+                                            id: type,
+                                            title: type
+                                        }))}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton onClick={() => setValue('contractType', undefined)} edge="end" >
+                                                        <ClearRoundedIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                            sx: {
+                                                '.MuiSelect-icon': {
+                                                    display: 'none',
+                                                },
+                                            },
+                                        }}
+                                    />
+                                </Box>
                             </Grid>
                             <Grid item xs={4} md={6}>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -291,7 +358,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>
-                                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                                    <IconButton onClick={() => setValue('directManager', undefined)} edge="end" >
                                                         <ClearRoundedIcon />
                                                     </IconButton>
                                                 </InputAdornment>
@@ -302,6 +369,17 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                                 },
                                             },
                                         }}
+                                    />
+                                </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                    <NormalText text={t('TEXT.DATE_OF_TERMINATE')} />
+                                    <DatePickerInput
+                                        label={t('TEXT.DATE_OF_TERMINATE')}
+                                        control={control}
+                                        name='terminationDate'
+                                        parseDate={parseDatePickerDate}
+                                        data-testid='date-of-termination'
+                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -319,7 +397,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>
-                                                    <IconButton onClick={() => setValue('type', undefined)} edge="end" >
+                                                    <IconButton onClick={() => setValue('jobTitle', undefined)} edge="end" >
                                                         <ClearRoundedIcon />
                                                     </IconButton>
                                                 </InputAdornment>
@@ -351,6 +429,17 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='netValueForProjects'
                                         type='text'
                                         data-testid='net-value-for-project-input'
+                                        disabled={inputDisabled}
+                                    />
+                                </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                    <NormalText text={t('TEXT.EXPECTED_MONTHLY_HOURS')} />
+                                    <TextFieldInput
+                                        placeholder={t('TEXT.EXPECTED_MONTHLY_HOURS')}
+                                        control={control}
+                                        name='expectedMonthlyHours'
+                                        type='text'
+                                        data-testid='expected-monthly-hours-input'
                                         disabled={inputDisabled}
                                     />
                                 </Box>
