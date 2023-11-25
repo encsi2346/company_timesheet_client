@@ -61,44 +61,6 @@ const LogsTableQuery = ({
         }
     }, [auth.isAuthenticated]);
 
-    /*const logsData = [
-        {
-            id: 1,
-            employeeName: 'Példa Éva',
-            projectName: 'Project1',
-            date: '2023.10.10. 18:56',
-            description: 'Log time'
-        },
-        {
-            id: 2,
-            employeeName: 'Példa Éva',
-            projectName: 'Project1',
-            date: '2023.10.14. 13:12',
-            description: 'Log time'
-        },
-        {
-            id: 3,
-            employeeName: 'Példa Éva',
-            projectName: 'Project1',
-            date: '2023.10.03. 08:56',
-            description: 'Add employees for project'
-        },
-        {
-            id: 4,
-            employeeName: 'Példa Éva',
-            projectName: 'Project1',
-            date: '2023.10.02. 15:34',
-            description: 'create new project'
-        },
-        {
-            id: 5,
-            employeeName: 'Példa Éva',
-            projectName: 'Project1',
-            date: '2023.10.11. 13:13',
-            description: 'Log time'
-        }
-    ];*/
-
     return (
         <LogsTable
             allowSelection={allowSelection}
