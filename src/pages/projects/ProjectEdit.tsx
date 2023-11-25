@@ -10,7 +10,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import MediumText from "../../components/text/MediumText.tsx";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 import ProjectUsersTableQuery from "./ProjectUsersTableQuery.tsx";
@@ -22,6 +22,8 @@ import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useType
 import {ProjectEditFormSchema, projectEditFormSchema} from "./schemas/project-edit-form-schema.ts";
 import {CreateProjectCommand, ProjectsClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
+import {useAuth} from "../login/AuthContext.tsx";
+import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
 
 const addButtonStyle: SxProps<Theme> = {
     fontWeight: 'regular',
@@ -50,6 +52,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const location = useLocation();
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const auth = useAuthentication();
+    const navigate = useNavigate();
 
     const {
         control,
@@ -58,44 +62,52 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         formState: { isValid },
     } = useForm<ProjectEditFormSchema>({
         defaultValues: {
-            title: '', //TODO: missing from frontend
-            partner: '',
-            projectStatus: '',
-            projectType: '',
-            projectManagerGivenName: '', //TODO: nem lehetne backendben együtt kezelni?
-            projectManagerFamilyName: '', //TODO: nem lehetne backendben együtt kezelni?
-            estimatedStartDate: '',
-            estimatedEndDate: '',
-            estimatedHours: '',
-            startDate: '',
-            endDate: '',
-            estimatedGrossEarnings: '',
-            estimatedGrossExpenditure: '',
-            requireDescriptionForTimeEntry: '', //TODO: ?
-            projectManagerId: '',   //TODO: nem lehetne backendben együtt kezelni? miért kell az id meg a név is?
-            //TODO: missing inputs from backend: realHours, realGrossEarnings, realGrossExpenditure
+            title: null, //TODO: missing from frontend -> úgy látom ha nincs ilyen mező, akkor hiába van itt a default érték attól még nem teszi bele.
+            partner: null,
+            projectStatus: 0, // todo a dropdownból kéne választani ezt még nem tudom hogy kell
+            projectType: 0, // todo a dropdownból kéne választani
+            // a manager neve nem kell, csak az id, azért szerepel a requestben, mert lusta voltam külön DTO-t csinálni ennek, meg a GetById-nak.
+            estimatedStartDate: null,
+            estimatedEndDate: null,
+            estimatedHours: 0,
+            startDate: null,
+            endDate: null,
+            estimatedGrossEarnings: null,
+            estimatedGrossExpenditure: null,
+            requireDescriptionForTimeEntry: false, //TODO: ?
+            projectManagerId: null, // ezt is dropdown-ból kéne választani a dropdown-ban a nevek vannak, de a requestben az id kell az alkalmazottak listázó api-ból kéne szedni az értékeket. (legalábbis én így képzeltem)
+            
+            // -T-O-D-O-: missing inputs from backend: realHours, realGrossEarnings, realGrossExpenditure
+            // azért hiányoznak, mert ezeket nem a felhasználótól kéne bekérni, hanem nekünk kiszámolni a timetracking alapján
         },
         resolver: zodResolver(projectEditFormSchema(isEditing)),
         mode: 'all',
     });
 
     const createProject = (data) => {
-        const projectsClient = new ProjectsClient(BackendUrl);
+        const projectsClient = new ProjectsClient(BackendUrl, auth.http);
         return projectsClient.createProject( new CreateProjectCommand(data))
             .then(response => {
+                navigate(`/projects`); // todo open in view mode
+            })
+            .catch(error => {
+                console.log(error);
+                setInputDisabled(false);
             });
     };
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
+        
+        console.log(submitData);
 
         if (isEditing) {
             //TODO: update
             setInputDisabled(true);
         } else {
             //TODO: create
+            setInputDisabled(true); // előbb tiltsuk le, hogy ne lehessen többször elküldeni
             createProject(submitData);
-            setInputDisabled(true);
         }
     });
 
@@ -152,6 +164,17 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                             },
                                         },
                                     }}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <NormalText text={t('TEXT.PROJECT_NAME')} />
+                                <TextFieldInput
+                                    placeholder={t('TEXT.PROJECT_NAME')}
+                                    control={control}
+                                    name='title'
+                                    type='text'
+                                    data-testid='title-input'
+                                    disabled={inputDisabled}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
