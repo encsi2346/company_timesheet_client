@@ -28,7 +28,36 @@ const ProjectTableQuery = ({
     const { pagination, handlePageChange, handlePageSizeChange } = usePagination(undefined, undefined, enableQueryParams);
     const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'projectName', sortDir: 'asc' }, enableQueryParams);
 
-    const projectData = [
+    const [projectData, setProjectData] = useState([])
+
+    useEffect(() => {
+        if (onDataChange) {
+            onDataChange();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [projectData]);
+
+    const auth = useAuthentication();
+
+    useEffect(() => {
+        if (auth.isAuthenticated === true) {
+            var projectClient = new ProjectsClient(BackendUrl, auth.http);
+            projectClient.getProjectsList().then((response) => {
+                const projectData = response.map((project) => {
+                    return {
+                        id: Math.floor(Math.random() * 1000000),
+                        projectName: project.title,
+                        type: project.projectType,
+                        projectManager: project.projectManagerFamilyName + ' ' + project.projectManagerGivenName,
+                        status: project.projectStatus,
+                    };
+                });
+                setProjectData(projectData);
+            });
+        }
+    }, [auth.isAuthenticated]);
+
+    /*const projectData = [
         {
             id: 1,
             projectName: 'Project1',
@@ -71,7 +100,7 @@ const ProjectTableQuery = ({
             onDataChange();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [projectData]);
+    }, [projectData]);*/
 
     return (
         <ProjectTable

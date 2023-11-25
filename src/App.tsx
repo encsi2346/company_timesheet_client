@@ -14,6 +14,8 @@ import "./i18n.ts";
 import {AuthProvider} from "./pages/login/AuthContext.tsx";
 import Interceptor from "./pages/login/utils/Interceptor.tsx";
 
+export const BackendUrl = (window.Environment && window.Environment.BackendUrl) || 'https://localhost:5001';
+
 const App = () => {
     const locale = useLocaleLoader();
 

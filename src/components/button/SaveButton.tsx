@@ -3,13 +3,15 @@ import type {SxProps, Theme} from "@mui/material";
 
 interface Props {
     text: string;
+    type?: string;
 }
 
-const SaveButton = ({ text }: Props) => {
+const SaveButton = ({ text, type }: Props) => {
     const { palette } = useTheme();
 
     return (
         <Button
+            type={type}
             data-testid='save-button'
             sx={{
                 backgroundColor: `${palette.component.darkMax}`,
