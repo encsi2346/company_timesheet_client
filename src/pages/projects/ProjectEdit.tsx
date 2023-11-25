@@ -75,7 +75,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             projectManagerId: '',   //TODO: nem lehetne backendben együtt kezelni? miért kell az id meg a név is?
             //TODO: missing inputs from backend: realHours, realGrossEarnings, realGrossExpenditure
         },
-        resolver: zodResolver(projectEditFormSchema),
+        resolver: zodResolver(projectEditFormSchema(isEditing)),
         mode: 'all',
     });
 
@@ -117,7 +117,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box sx={{ display: 'block', width: 1300}}>
             <PageHeader text={t('TEXT.PROJECT_NAME')}/>
-            {!inputDisabled && (
+            {inputDisabled && (
                 <Box sx={{ display: 'inline', paddingLeft: 120}}>
                     <SaveButton text={t('TEXT.EDIT')} onClick={handleEditClicked} />
                 </Box>

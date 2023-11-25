@@ -76,6 +76,7 @@
     "CONTRACT_TYPE": "Szerződés típusa",
     "USER_ROLE": "Jogosultság",
     "REAL_EXPENDITURE": "Tényleges bruttó kiadás",
-    "ESTIMATED_EXPENDITURE": "Várható bruttó kiadás"
+    "ESTIMATED_EXPENDITURE": "Várható bruttó kiadás",
+    "EDIT": "Szerkesztés"
   }
 }

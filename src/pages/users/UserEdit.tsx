@@ -16,7 +16,7 @@ import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputFields/SelectInput.tsx";
 import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {CreateEmployeeCommand, EmployeesClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
@@ -40,15 +40,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         medior: 'Medior',
         senior: 'Senior'
     });
-    const [userRoles, ssetUserRoles] = useState({
-        0: 'Administrator',
-        1: 'Manager',
-        2: 'Employee'
+    const [userRoles, setUserRoles] = useState({
+        0: 0,
+        1: 1,
+        2: 2
     });
     const [contracts, setContracts] = useState({
-        0: '0',
-        1: '1',
-        2: '2'
+        0: 0,
+        1: 1,
+        2: 2
     });
     const [directManagers, setDirectManagers] = useState({
         managerA: 'Példa Kata',
@@ -76,8 +76,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             jobTitle: '',
             hourlyWage: '', //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects,
             //TODO: missing other field from backend: directManager, netHourlyWage, netValueForProjects
-            contractType: '',
-            expectedMonthlyHours: 40, //TODO: missing from frontend
+            contractType: 1,
+            expectedMonthlyHours: 40,
         },
         resolver: zodResolver(userEditFormSchema(isEditing)),
         mode: 'all',
@@ -92,12 +92,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
-
+        console.log('submit');
         if (isEditing) {
             //TODO: update
             setInputDisabled(true);
         } else {
             //TODO: create
+            console.log('save');
             createUser(submitData);
             setInputDisabled(true);
         }
@@ -106,6 +107,28 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
     };
+
+    useEffect(() => {
+        //TODO: set senioritys from API call
+    }, []);
+
+    useEffect(() => {
+        //TODO: set positions from API call
+
+    }, []);
+
+    useEffect(() => {
+        //TODO: set userRoles from API call
+    }, []);
+
+    useEffect(() => {
+        //TODO: set contracts from API call
+    }, []);
+
+    useEffect(() => {
+        //TODO: set directManagers from API call
+    }, []);
+
 
     return (
         <Box sx={{ display: 'block', width: 1300}}>
@@ -452,7 +475,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                 {!inputDisabled && (
                     <Box sx={{ display: 'inline', paddingLeft: 120}}>
                         <CancelButton text={t('TEXT.CANCEL')} />
-                        <SaveButton text={t('TEXT.SAVE')} disabled={!isValid} onClick={onSubmit} />
+                        <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} /*disabled={!isValid}*//>
                     </Box>
                 )}
             </ContentCard>

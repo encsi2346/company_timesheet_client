@@ -98,13 +98,7 @@ const ProjectTableQuery = ({
             status: 'Under coding'
         }
     ];
-
-    useEffect(() => {
-        if (onDataChange) {
-            onDataChange();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [projectData]);*/
+*/
 
     return (
         <ProjectTable
