@@ -10,8 +10,8 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import MediumText from "../../components/text/MediumText.tsx";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 import ProjectUsersTableQuery from "./ProjectUsersTableQuery.tsx";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
@@ -20,9 +20,8 @@ import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {ProjectEditFormSchema, projectEditFormSchema} from "./schemas/project-edit-form-schema.ts";
-import {CreateProjectCommand, ProjectsClient} from "../../api-client.ts";
+import {CreateProjectCommand, ProjectsClient, UpdateProjectCommand} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
-import {useAuth} from "../login/AuthContext.tsx";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
 
 const addButtonStyle: SxProps<Theme> = {
@@ -48,25 +47,37 @@ interface Props {
 }
 
 const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
-    const { t } = useTypeSafeTranslation();
-    const location = useLocation();
-    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
-    const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const auth = useAuthentication();
     const navigate = useNavigate();
+    const { t } = useTypeSafeTranslation();
+    const location = useLocation();
+    const { id } = useParams();
+    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
+
+    const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const [types, setTypes] = useState({
+        inner: 'külsős',
+        outer: 'belsős'
+    });
+    const [statusOptions, setStatusOptions] = useState({
+        inPlanning: 'Tervezés alatt',
+        underCoding: 'Fejlesztés alatt',
+        completed: 'Kész'
+    });
+    const [managers, setManagers] = useState([]);//TODO: kell api hívás ami csak a managereket adja vissza
 
     const {
         control,
+        reset,
         setValue,
         handleSubmit,
         formState: { isValid },
     } = useForm<ProjectEditFormSchema>({
         defaultValues: {
-            title: null, //TODO: missing from frontend -> úgy látom ha nincs ilyen mező, akkor hiába van itt a default érték attól még nem teszi bele.
+            title: null,
             partner: null,
-            projectStatus: 0, // todo a dropdownból kéne választani ezt még nem tudom hogy kell
-            projectType: 0, // todo a dropdownból kéne választani
-            // a manager neve nem kell, csak az id, azért szerepel a requestben, mert lusta voltam külön DTO-t csinálni ennek, meg a GetById-nak.
+            projectStatus: 0,
+            projectType: 0,
             estimatedStartDate: null,
             estimatedEndDate: null,
             estimatedHours: 0,
@@ -74,11 +85,9 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             endDate: null,
             estimatedGrossEarnings: null,
             estimatedGrossExpenditure: null,
-            requireDescriptionForTimeEntry: false, //TODO: ?
-            projectManagerId: null, // ezt is dropdown-ból kéne választani a dropdown-ban a nevek vannak, de a requestben az id kell az alkalmazottak listázó api-ból kéne szedni az értékeket. (legalábbis én így képzeltem)
-            
-            // -T-O-D-O-: missing inputs from backend: realHours, realGrossEarnings, realGrossExpenditure
-            // azért hiányoznak, mert ezeket nem a felhasználótól kéne bekérni, hanem nekünk kiszámolni a timetracking alapján
+            requireDescriptionForTimeEntry: false, //TODO: kivenni a backendből
+            projectManagerId: null,
+            // TODO: missing inputs from backend: realHours, realGrossEarnings, realGrossExpenditure!!!!!!!!
         },
         resolver: zodResolver(projectEditFormSchema(isEditing)),
         mode: 'all',
@@ -96,34 +105,44 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             });
     };
 
+    const updateProject = (id, data) => {
+        const projectsClient = new ProjectsClient(BackendUrl, auth.http);
+        return projectsClient.updateProject( id, new UpdateProjectCommand(data))
+            .then(response => {
+                navigate(`/projects`); // todo open in view mode
+            })
+            .catch(error => {
+                console.log(error);
+                setInputDisabled(false);
+            });
+    };
+
+    useEffect(() => {
+        console.log(id); //TODO: nem találja az idt
+        console.log(parseInt(id));
+        if (id) {
+            const projectsClient = new ProjectsClient(BackendUrl, auth.http);
+            projectsClient.getProject(parseInt(id))
+                .then(response => {
+                    reset(response);
+                })
+        }
+    }, [id, reset]);
+
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
-        
-        console.log(submitData);
 
         if (isEditing) {
-            //TODO: update
+            updateProject(id, submitData);
             setInputDisabled(true);
         } else {
-            //TODO: create
-            setInputDisabled(true); // előbb tiltsuk le, hogy ne lehessen többször elküldeni
             createProject(submitData);
+            setInputDisabled(true);
         }
     });
 
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
-    };
-
-    const typeOptions={
-        inner: 'külsős',
-        outer: 'belsős'
-    };
-
-    const statusOptions={
-        inPlanning: 'Tervezés alatt',
-        underCoding: 'Fejlesztés alatt',
-        completed: 'Kész'
     };
 
     return (
@@ -145,7 +164,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='type'
                                     disabled={inputDisabled}
-                                    options={Object.values(typeOptions).map((projectType) => ({
+                                    options={Object.values(types).map((projectType) => ({
                                         id: projectType,
                                         title: projectType
                                     }))}
