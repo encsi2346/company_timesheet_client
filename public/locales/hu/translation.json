@@ -78,6 +78,8 @@
     "REAL_EXPENDITURE": "Tényleges bruttó kiadás",
     "ESTIMATED_EXPENDITURE": "Várható bruttó kiadás",
     "EDIT": "Szerkesztés",
-    "CLOSE_MONTH": "Hónap lezárása"
+    "CLOSE_MONTH": "Hónap lezárása",
+    "REMOVE_EMPLOYEE": "Alkalmazott eltávolítása",
+    "REMOVING": "Eltávolítás"
   }
 }

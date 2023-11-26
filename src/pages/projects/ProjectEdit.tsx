@@ -20,7 +20,7 @@ import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {ProjectEditFormSchema, projectEditFormSchema} from "./schemas/project-edit-form-schema.ts";
-import {CreateProjectCommand, ProjectsClient, UpdateProjectCommand} from "../../api-client.ts";
+import {CreateProjectCommand, ParticipationClient, ProjectsClient, UpdateProjectCommand} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
 import {useModal} from "@ebay/nice-modal-react";
@@ -76,6 +76,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         reset,
         setValue,
         handleSubmit,
+        watch,
         formState: { isValid },
     } = useForm<ProjectEditFormSchema>({
         defaultValues: {
@@ -97,6 +98,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         resolver: zodResolver(projectEditFormSchema(isEditing)),
         mode: 'all',
     });
+
+    const projectName = watch('title');
 
     const createProject = (data) => {
         const projectsClient = new ProjectsClient(BackendUrl, auth.http);
@@ -164,7 +167,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     return (
         <Box sx={{ display: 'block', width: 1300}}>
-            <PageHeader text={t('TEXT.PROJECT_NAME')}/>
+            <PageHeader text={(projectName !== '' && projectName !== null) ?  projectName : t('TEXT.PROJECT_NAME')}/>
             {inputDisabled && (
                 <Box sx={{ display: 'inline', paddingLeft: 120}}>
                     <SaveButton text={t('TEXT.EDIT')} onClick={handleEditClicked} />
@@ -172,8 +175,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             )}
             <ContentCard>
                 <Grid sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={5}>
-                        <Grid item xs={4} md={5}>
+                    <Grid container spacing={6}>
+                        <Grid item xs={4} md={6}>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={t('TEXT.TYPE')} />
                                 <SelectInput
@@ -214,17 +217,6 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <NormalText text={t('TEXT.PARTNER')} />
-                                <TextFieldInput
-                                    placeholder={t('TEXT.PARTNER')}
-                                    control={control}
-                                    name='partner'
-                                    type='text'
-                                    data-testid='partner-input'
-                                    disabled={inputDisabled}
-                                />
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={t('TEXT.ESTIMATED_START_DATE')} />
                                 <DatePickerInput
                                     label={t('TEXT.ESTIMATED_START_DATE')}
@@ -236,17 +228,6 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <NormalText text={t('TEXT.ESTIMATED_HOURS')} />
-                                <TextFieldInput
-                                    placeholder={t('TEXT.ESTIMATED_HOURS')}
-                                    control={control}
-                                    name='estimatedHours'
-                                    type='text'
-                                    data-testid='estimated-hours-input'
-                                    disabled={inputDisabled}
-                                />
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={t('TEXT.START_DATE')} />
                                 <DatePickerInput
                                     label={t('TEXT.START_DATE')}
@@ -254,6 +235,17 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='startDate'
                                     parseDate={parseDatePickerDate}
                                     data-testid='start-date'
+                                    disabled={inputDisabled}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <NormalText text={t('TEXT.ESTIMATED_HOURS')} />
+                                <TextFieldInput
+                                    placeholder={t('TEXT.ESTIMATED_HOURS')}
+                                    control={control}
+                                    name='estimatedHours'
+                                    type='text'
+                                    data-testid='estimated-hours-input'
                                     disabled={inputDisabled}
                                 />
                             </Box>
@@ -277,36 +269,6 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     type='text'
                                     data-testid='estimated-gross-expenditure-input'
                                     disabled={inputDisabled}
-                                />
-                            </Box>
-                        </Grid>
-                        <Grid item xs={4} md={5}>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <NormalText text={t('TEXT.STATUS')} />
-                                <SelectInput
-                                    label={t('TEXT.STATUS')}
-                                    control={control}
-                                    name='status'
-                                    disabled={inputDisabled}
-                                    options={Object.values(statusOptions).map((projectStatus) => ({
-                                        id: projectStatus,
-                                        title: projectStatus
-                                    }))}
-                                    data-testid='status-input-input'
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position='end'>
-                                                <IconButton onClick={() => setValue('status', undefined)} edge="end" >
-                                                    <ClearRoundedIcon />
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                        sx: {
-                                            '.MuiSelect-icon': {
-                                                display: 'none',
-                                            },
-                                        },
-                                    }}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -337,6 +299,47 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     }}
                                 />
                             </Box>
+                        </Grid>
+                        <Grid item xs={4} md={6}>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <NormalText text={t('TEXT.STATUS')} />
+                                <SelectInput
+                                    label={t('TEXT.STATUS')}
+                                    control={control}
+                                    name='status'
+                                    disabled={inputDisabled}
+                                    options={Object.values(statusOptions).map((projectStatus) => ({
+                                        id: projectStatus,
+                                        title: projectStatus
+                                    }))}
+                                    data-testid='status-input-input'
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton onClick={() => setValue('status', undefined)} edge="end" >
+                                                    <ClearRoundedIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                        sx: {
+                                            '.MuiSelect-icon': {
+                                                display: 'none',
+                                            },
+                                        },
+                                    }}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <NormalText text={t('TEXT.PARTNER')} />
+                                <TextFieldInput
+                                    placeholder={t('TEXT.PARTNER')}
+                                    control={control}
+                                    name='partner'
+                                    type='text'
+                                    data-testid='partner-input'
+                                    disabled={inputDisabled}
+                                />
+                            </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={t('TEXT.ESTIMATED_END_DATE')} />
                                 <DatePickerInput
@@ -349,17 +352,6 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                  />
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <NormalText text={t('TEXT.REAL_HOURS')} />
-                                <TextFieldInput
-                                    placeholder={t('TEXT.REAL_HOURS')}
-                                    control={control}
-                                    name='realHours'
-                                    type='text'
-                                    data-testid='real-hours-input'
-                                    disabled={inputDisabled}
-                                />
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <NormalText text={t('TEXT.END_DATE')} />
                                 <DatePickerInput
                                     label={t('TEXT.END_DATE')}
@@ -367,6 +359,17 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     name='endDate'
                                     parseDate={parseDatePickerDate}
                                     data-testid='end-date'
+                                    disabled={inputDisabled}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <NormalText text={t('TEXT.REAL_HOURS')} />
+                                <TextFieldInput
+                                    placeholder={t('TEXT.REAL_HOURS')}
+                                    control={control}
+                                    name='realHours'
+                                    type='text'
+                                    data-testid='real-hours-input'
                                     disabled={inputDisabled}
                                 />
                             </Box>

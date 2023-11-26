@@ -7,6 +7,11 @@ import StyledDataGrid, {
     sharedDataGridProps
 } from "../../components/inputFields/DataTable/StyledDataGrid.tsx";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
+import {ParticipationClient} from "../../api-client.ts";
+import {BackendUrl} from "../../App.tsx";
+import {GridActionsCellItem, GridRowParams} from "@mui/x-data-grid";
+import {Tooltip} from "@mui/material";
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 interface Props {
     data?: string[];
@@ -26,6 +31,7 @@ const ProjectUsersTable = ({
   defaultSort,
   allowSelection = false,
   allowNavigation = true,
+  showActions = true,
   onPageChange,
   onPageSizeChange,
   onSortChange,
@@ -36,26 +42,63 @@ const ProjectUsersTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'fullName',
-            headerName: t('TEXT.FULL_NAME'),
+            field: 'projectTitle',
+            headerName: t('TEXT.PROJECT_NAME'),
             width: 350,
         },
         {
-            field: 'seniority',
-            headerName: t('TEXT.SENIORITY'),
+            field: 'employeeFamilyName',
+            headerName: t('TEXT.FAMILY_NAME'),
             width: 350,
         },
         {
-            field: 'position',
+            field: 'employeeGivenName',
+            headerName: t('TEXT.FIRST_NAME'),
+            width: 350,
+        },
+        {
+            field: 'role',
             headerName: t('TEXT.POSITION'),
             width: 350,
         },
         {
-            field: 'value',
+            field: 'hourlyRate',
             headerName: t('TEXT.VALUE_FOR_PROJECT'),
             width: 350,
         }
     ];
+
+    const removeEmployeeFromProject = (id) => {
+        const participationClient = new ParticipationClient(BackendUrl, auth.http);
+        return participationClient.participationDELETE(id)
+            .then(response => {
+                console.log('removed employee from project');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    if (showActions) {
+        columns.push({
+            field: 'actions',
+            headerName: t('TEXT.REMOVING'),
+            type: 'actions',
+            getActions: (params: GridRowParams) => [
+                <GridActionsCellItem
+                    key={`${params.id}_open`}
+                    icon={
+                        <Tooltip title={t('TEXT.REMOVE_EMPLOYEE')}>
+                            <CloseRoundedIcon width="16px" height="16px" sx={{ color: "#ff0000"}}/>
+                        </Tooltip>
+                    }
+                    label={t('TEXT.REMOVE_EMPLOYEE')}
+                    onClick={removeEmployeeFromProject}
+                    data-testid='remove-button'
+                />,
+            ],
+        });
+    }
 
     return (
         <StyledDataGrid

@@ -78,6 +78,8 @@
     "REAL_EXPENDITURE": "Real expenditure",
     "ESTIMATED_EXPENDITURE": "Estimated expenditure",
     "EDIT": "Edit",
-    "CLOSE_MONTH": "Close month"
+    "CLOSE_MONTH": "Close month",
+    "REMOVE_EMPLOYEE": "Remove employee",
+    "REMOVING": "Removing"
   }
 }
