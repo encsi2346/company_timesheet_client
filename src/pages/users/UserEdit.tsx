@@ -25,7 +25,7 @@ import {
 import {BackendUrl} from "../../App.tsx";
 import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-form-schema.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import {useAuthentication} from "../../auth/AuthProvider.tsx";
+import {useAuthentication, AuthProvider } from "../../auth/AuthProvider.tsx";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 
 interface Props {
@@ -101,7 +101,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const createUser = (data) => {
         console.log(data);
-        const employeesClient = new EmployeesClient(BackendUrl);
+        const employeesClient = new EmployeesClient(BackendUrl, auth.http);
         return employeesClient.createEmployee( new CreateEmployeeCommand(data))
             .then(response => {
                 navigate(`/users`); // todo open in view mode
@@ -273,8 +273,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='priviligeLevel'
                                         data-testid='user-role-input'
                                         disabled={inputDisabled}
-                                        options={Object.values(userRoles).map((role) => ({
-                                            id: role,
+                                        options={Object.entries(userRoles).map(([id, role]) => ({
+                                            id: parseInt(id,10),
                                             title: role
                                         }))}
                                         InputProps={{
@@ -361,8 +361,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='contractType'
                                         data-testid='contract-type-input'
                                         disabled={inputDisabled}
-                                        options={Object.values(contracts).map((type) => ({
-                                            id: type,
+                                        options={Object.entries(contracts).map(([id, type]) => ({
+                                            id: parseInt(id,10),
                                             title: type
                                         }))}
                                         InputProps={{

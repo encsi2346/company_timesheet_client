@@ -76,6 +76,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
                     {!onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
+                            data-testid='new-project-button'
                             sx={ addButtonStyle }
                             startIcon={<AddRoundedIcon />}
                             component={Link}
@@ -88,6 +89,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
                     {onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
+                            data-testid='new-project-button'
                             sx={ addButtonStyle }
                             startIcon={<AddRoundedIcon />}
                             onClick={onCreateClicked}

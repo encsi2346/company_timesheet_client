@@ -10,7 +10,8 @@ export default defineConfig({
     supportFile: 'cypress/support/e2e.ts',
     setupNodeEvents(on, config) {
       config.specPattern = [
-          'cypress/e2e/user/user-insert.cy.ts'
+          'cypress/e2e/user/user-create.cy.ts',
+          'cypress/e2e/project/project-create.cy.ts'
       ]
       return config
     },

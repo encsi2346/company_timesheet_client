@@ -282,7 +282,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         id: manager.id, //TODO
                                         title: manager.name //TODO
                                     }))}
-                                    data-testid='type-input'
+                                    data-testid='project-type-input'
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -312,7 +312,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         id: projectStatus,
                                         title: projectStatus
                                     }))}
-                                    data-testid='status-input-input'
+                                    data-testid='status-input'
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>

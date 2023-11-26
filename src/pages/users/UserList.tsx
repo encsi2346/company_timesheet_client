@@ -61,6 +61,7 @@ const UserList = ({ onCreateClicked }: Props) => {
                     {!onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
+                            data-testid='new-employee-button'
                             sx={{
                                 backgroundColor: `${theme.palette.component.darkMax}`,
                                 color: `${theme.palette.textColor.light}`,
@@ -88,6 +89,7 @@ const UserList = ({ onCreateClicked }: Props) => {
                     {onCreateClicked && (
                         <Button
                             disabled={!!selectionModel.length}
+                            data-testid='new-employee-button'
                             sx={{
                                 backgroundColor: `${theme.palette.component.darkMax}`,
                                 color: `${theme.palette.textColor.light}`,
