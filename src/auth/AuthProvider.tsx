@@ -1,5 +1,5 @@
 ﻿import {createContext, ReactElement, ReactNode, useContext, useEffect, useState} from "react";
-import {LoginRequest, UsersClient} from "../api-client.ts";
+import {LoginRequest, UsersClient,RefreshRequest} from "../api-client.ts";
 import {BackendUrl} from "../App.tsx";
 
 const AuthContext = createContext<AuthContextProps>(undefined!);
@@ -69,10 +69,29 @@ const AuthProvider = ({ children }: AuthProviderProps): ReactElement<AuthContext
             refreshToken: null
         });
     }
+    
+    const secureFetch = async (url, options) => {
+        if (!authInfo.isAuthenticated) {
+            throw new Error("Not authenticated");
+        } else {
+            if (authInfo.accessTokenExpirationDate < new Date().getTime()) {
+                console.log("Access token expired. Refreshing...");
+                const usersClient = new UsersClient(BackendUrl);
+                const refreshResult = await usersClient.refresh(new RefreshRequest({ refreshToken: authInfo.refreshToken }));
+                authInfo.accessToken = refreshResult.accessToken;
+                authInfo.accessTokenExpirationDate = new Date().getTime() + refreshResult.expiresIn * 1000;
+                refreshResult.refreshToken && (authInfo.refreshToken = refreshResult.refreshToken);
+                localStorage.setItem("authInfo", JSON.stringify(authInfo));
+                setAuthInfo(authInfo);
+            }
+        }
+        options.headers['Authorization'] = 'Bearer ' + authInfo.accessToken;
+        return await fetch(url, options);
+    }
 
     const fetchFunction = !authInfo.isAuthenticated
         ? fetch
-        : (url, options) => { options.headers['Authorization'] = 'Bearer ' + authInfo.accessToken; return fetch(url, options); }
+        : secureFetch
 
     const contextValue = {
         isAuthenticated: authInfo.isAuthenticated,
