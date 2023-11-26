@@ -22,7 +22,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         lineHeight: 1.2,
         color: useSelector((state) => state.mode) === 'light' ? '#29005C' : 'rgb(255,255,255)',
         fontWeight: 'regular',
-        fontSize: 18,
+        fontSize: 15,
         textTransform: 'uppercase',
     },
     '& .MuiDataGrid-columnHeader': {

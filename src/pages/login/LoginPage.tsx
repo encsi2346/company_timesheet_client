@@ -9,7 +9,7 @@ import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {useState} from "react";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 const LoginPage = () => {
     const { t } = useTypeSafeTranslation();

@@ -3,9 +3,10 @@ import type {SxProps, Theme} from "@mui/material";
 
 interface Props {
     text: string;
+    onClick?: () => void;
 }
 
-const CancelButton = ({ text }: Props) => {
+const CancelButton = ({ text, onClick }: Props) => {
     const { palette } = useTheme();
 
     return (
@@ -26,6 +27,11 @@ const CancelButton = ({ text }: Props) => {
                 paddingLeft: '30px',
                 paddingRight: '30px',
                 textTransform: 'none',
+            }}
+            onClick={() => {
+                if(onClick) {
+                    onClick();
+                }
             }}
         >
             {text}

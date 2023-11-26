@@ -1,15 +1,17 @@
-import {Box, Button, useMediaQuery, useTheme} from "@mui/material";
+import {Box, Button, FormControl, Input, InputAdornment, useMediaQuery, useTheme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
-import UserFilter from "./UserFilter.tsx";
-import {useState} from "react";
-import { isEqual } from 'lodash';
+import {useEffect, useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
-import omitEmptyValues from "../../components/inputFields/utils/omit-empty-values.tsx";
 import UserTableQuery from "./UserTableQuery.tsx";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import {Link, useLocation} from "react-router-dom";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
+import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {EmployeesClient} from "../../api-client.ts";
+import {BackendUrl} from "../../App.tsx";
 
 interface Props {
     onCreateClicked?: () => void;
@@ -23,10 +25,28 @@ const UserList = ({ onCreateClicked }: Props) => {
     const { t } = useTypeSafeTranslation();
     const theme = useTheme();
     const location = useLocation();
-    const [filters, setFilters] = useState({});
+    const [userData, setUserData] = useState([]);
+    const [search, setSearch] = useState('');
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
-    const actualFilters = omitEmptyValues(filters);
+    const auth = useAuthentication();
+
+    useEffect(() => {
+        if (auth.isAuthenticated === true) {
+            var employeesClient = new EmployeesClient(BackendUrl, auth.http);
+            employeesClient.getEmployeeList().then((response) => {
+                const userData = response.map((user) => {
+                    return {
+                        id: user.id,
+                        givenName: user.givenName,
+                        familyName: user.familyName,
+                        jobTitle: user.jobTitle,
+                    };
+                });
+                setUserData(userData);
+            });
+        }
+    }, [auth.isAuthenticated]);
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
@@ -94,18 +114,53 @@ const UserList = ({ onCreateClicked }: Props) => {
             </Box>
 
             <Box sx={{ display: 'flex', marginTop: 2}}>
-                <UserFilter
-                    onFiltersChanged={(newFilters) => {
-                        if (isEqual(newFilters, filters)) {}
-                        setFilters(newFilters);
-                    }}
-                />
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                        <FormControl sx={{ marginTop: 1, marginBottom: 5, marginLeft: 2}}>
+                            <Input
+                                id="projectName"
+                                placeholder="Project name"
+                                autoFocus
+                                onChange={(e) => setSearch(e.target.value)}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <SearchIcon sx={{color: '#000000'}}/>
+                                    </InputAdornment>
+                                }
+                                endAdornment={
+                                    <InputAdornment position="end" onClick={() => setSearch('')}>
+                                        <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
+                                    </InputAdornment>
+                                }
+                                disableUnderline={true}
+                                sx={{
+                                    backgroundColor: `${theme.palette.component.medium}`,
+                                    borderRadius: '13px',
+                                    color: `${theme.palette.textColor.light}`,
+                                    textDecoration: 'none',
+                                    height: 40,
+                                    width: 250,
+                                    fontSize: "15px",
+                                    paddingLeft: 1,
+                                    paddingRight: 1
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
             </Box>
 
             <ContentCard>
                 <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
                     <UserTableQuery
-                        filters={actualFilters}
+                        searchResults={
+                            userData
+                                .filter((item) => {
+                                    return search.toLowerCase() === ''
+                                        ? item
+                                        : item.familyName.toLowerCase().includes(search);
+                                })
+                        }
                         selectionModel={selectionModel}
                         onSelectionChange={handleSelectionChange}
                         onDataChange={handleDataChange}

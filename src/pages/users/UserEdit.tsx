@@ -14,21 +14,19 @@ import PersonIcon from "@mui/icons-material/Person";
 import UserProjectTableQuery from "./UserProjectTableQuery.tsx";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputFields/SelectInput.tsx";
-import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
 import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {useEffect, useState} from "react";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {
     CreateEmployeeCommand,
     EmployeesClient,
-    ProjectsClient,
     UpdateEmployeeCommand,
-    UpdateProjectCommand
 } from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-form-schema.ts";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 
 interface Props {
     isEditing?: boolean;
@@ -40,6 +38,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const auth = useAuthentication();
+    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [positions, setPositions] = useState({
@@ -48,19 +47,23 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         softwareTester: 'Szoftvertesztelő'
     });
     const [senioritys, setSenioritys] = useState({
-        junior: 'Junior',
-        medior: 'Medior',
-        senior: 'Senior'
+        0: 'Junior',
+        1: 'Medior',
+        2: 'Senior'
     });
     const [userRoles, setUserRoles] = useState({
-        0: 0,
-        1: 1,
-        2: 2
+        0: 'Administrator',
+        1: 'Manager',
+        2: 'Employee'
     });
     const [contracts, setContracts] = useState({
-        0: 0,
-        1: 1,
-        2: 2
+        0: 'FullTime',
+        1: 'HalfTime',
+        2: 'PartTime1DayPerWeek',
+        3: 'PartTime2DaysPerWeek',
+        4: 'PartTime3DaysPerWeek',
+        5: 'PartTime4DaysPerWeek',
+        6: 'Flexible',
     });
     const [directManagers, setDirectManagers] = useState({
         managerA: 'Példa Kata',
@@ -145,6 +148,10 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
+    };
+
+    const handleDataChange = () => {
+        handleSelectionChange(selectionModel);
     };
 
     return (
@@ -483,12 +490,17 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                 <MediumText text={t('TEXT.CURRENT_PROJECT')} />
 
                 <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10}}>
-                    <UserProjectTableQuery />
+                    <UserProjectTableQuery
+                        selectionModel={selectionModel}
+                        onSelectionChange={handleSelectionChange}
+                        onDataChange={handleDataChange}
+                        employeeId={id ?? 0}
+                    />
                 </Box>
 
                 {!inputDisabled && (
                     <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                        <CancelButton text={t('TEXT.CANCEL')} />
+                        <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
                         <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} /*disabled={!isValid}*//>
                     </Box>
                 )}

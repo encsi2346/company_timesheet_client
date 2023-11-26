@@ -10,7 +10,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import MediumText from "../../components/text/MediumText.tsx";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 import ProjectUsersTableQuery from "./ProjectUsersTableQuery.tsx";
@@ -59,13 +59,15 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [types, setTypes] = useState({
-        inner: 'külsős',
-        outer: 'belsős'
+        0: 'Internal',
+        1: 'TimeAndMaterial',
+        2: 'FixedPrice',
     });
     const [statusOptions, setStatusOptions] = useState({
-        inPlanning: 'Tervezés alatt',
-        underCoding: 'Fejlesztés alatt',
-        completed: 'Kész'
+        0: 'Planning',
+        1: 'Active',
+        2: 'Maintenance',
+        3: 'Completed',
     });
     const [managers, setManagers] = useState([]);//TODO: kell api hívás ami csak a managereket adja vissza
 
@@ -437,7 +439,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                 )}
 
                 <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                    <CancelButton text={t('TEXT.CANCEL')} />
+                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
                     <SaveButton text={t('TEXT.SAVE')} disabled={!isValid} onClick={onSubmit}/>
                 </Box>
             </ContentCard>

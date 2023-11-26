@@ -1,16 +1,18 @@
-import {Box, Button} from "@mui/material";
+import {Box, Button, FormControl, Input, InputAdornment, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import ProjectFilter from "./ProjectFilter.tsx";
-import { isEqual } from 'lodash';
 import { Link, useLocation } from 'react-router-dom';
 import ProjectTableQuery from "./ProjectTableQuery.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
-import omitEmptyValues from "../../components/inputFields/utils/omit-empty-values.tsx";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
+import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {ProjectsClient} from "../../api-client.ts";
+import {BackendUrl} from "../../App.tsx";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const addButtonStyle: SxProps<Theme> = {
     fontWeight: 'regular',
@@ -35,11 +37,31 @@ interface Props {
 
 const ProjectList = ({ onCreateClicked }: Props) => {
     const { t } = useTypeSafeTranslation();
+    const auth = useAuthentication();
+    const { palette } = useTheme();
     const location = useLocation();
-    const [filters, setFilters] = useState({});
+    const [projects, setProjects] = useState([]);
+    const [search, setSearch] = useState('');
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
-    const actualFilters = omitEmptyValues(filters);
+    useEffect(() => {
+        if (auth.isAuthenticated === true) {
+            var projectClient = new ProjectsClient(BackendUrl, auth.http);
+            projectClient.getProjectsList().then((response) => {
+                const projectData = response.map((project) => {
+                    return {
+                        //id: Math.floor(Math.random() * 1000000),
+                        id: project.id,
+                        title: project.title,
+                        projectType: project.projectType,
+                        projectManager: project.projectManagerFamilyName + ' ' + project.projectManagerGivenName,
+                        projectStatus: project.projectStatus,
+                    };
+                });
+                setProjects(projectData);
+            });
+        }
+    }, [auth.isAuthenticated]);
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
@@ -77,18 +99,53 @@ const ProjectList = ({ onCreateClicked }: Props) => {
             </Box>
 
             <Box sx={{ display: 'flex', marginTop: 2}}>
-                <ProjectFilter
-                    onFiltersChanged={(newFilters) => {
-                        if (isEqual(newFilters, filters)) {}
-                        setFilters(newFilters);
-                    }}
-                />
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                        <FormControl sx={{ marginTop: 1, marginBottom: 5, marginLeft: 2}}>
+                            <Input
+                                id="projectName"
+                                placeholder="Project name"
+                                autoFocus
+                                onChange={(e) => setSearch(e.target.value)}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <SearchIcon sx={{color: '#000000'}}/>
+                                    </InputAdornment>
+                                }
+                                endAdornment={
+                                    <InputAdornment position="end" onClick={() => setSearch('')}>
+                                        <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
+                                    </InputAdornment>
+                                }
+                                disableUnderline={true}
+                                sx={{
+                                    backgroundColor: `${palette.component.medium}`,
+                                    borderRadius: '13px',
+                                    color: `${palette.textColor.light}`,
+                                    textDecoration: 'none',
+                                    height: 40,
+                                    width: 250,
+                                    fontSize: "15px",
+                                    paddingLeft: 1,
+                                    paddingRight: 1
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
             </Box>
 
             <ContentCard>
                 <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 500}}>
                     <ProjectTableQuery
-                        filters={actualFilters}
+                        searchResults={
+                            projects
+                                .filter((item) => {
+                                    return search.toLowerCase() === ''
+                                        ? item
+                                        : item.title.toLowerCase().includes(search);
+                                })
+                        }
                         selectionModel={selectionModel}
                         onSelectionChange={handleSelectionChange}
                         onDataChange={handleDataChange}

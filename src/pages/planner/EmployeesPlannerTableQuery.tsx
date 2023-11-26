@@ -13,6 +13,7 @@ interface Props {
     allowNavigation?: boolean;
     showActions?: boolean;
     enableQueryParams?: boolean;
+    searchResults?: string[];
 }
 
 const EmployeesPlannerTableQuery = ({
@@ -24,11 +25,19 @@ const EmployeesPlannerTableQuery = ({
     allowNavigation = true,
     showActions = true,
     enableQueryParams = true,
+    searchResults,
 }: Props) => {
     const { pagination, handlePageChange, handlePageSizeChange } = usePagination(undefined, undefined, enableQueryParams);
     const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'fullName', sortDir: 'asc' }, enableQueryParams);
 
-    const employeesData = [
+    useEffect(() => {
+        if (onDataChange) {
+            onDataChange();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchResults]);
+
+    /*const employeesData = [
         {
             id: 1,
             fullName: 'Példa Elek',
@@ -69,21 +78,14 @@ const EmployeesPlannerTableQuery = ({
             fullTime: '160/160',
             closingTime: '-'
         }
-    ];
-
-    useEffect(() => {
-        if (onDataChange) {
-            onDataChange();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [employeesData]);
+    ];*/
 
     return (
         <EmployeesPlannerTable
             allowSelection={allowSelection}
             allowNavigation={allowNavigation}
             showActions={showActions}
-            data={employeesData}
+            data={searchResults}
             selectionModel={selectionModel}
             defaultPagination={pagination}
             defaultSort={sort}

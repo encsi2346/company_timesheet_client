@@ -11,10 +11,10 @@ const PlannerSelector = () => {
     return (
         <ContentCard>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 7, marginTop: 10}}>
-                <Link style={{textDecoration: 'none'}} key={'my-planner'} to={'/my-planner'}>
+                <Link style={{textDecoration: 'none'}} key={'my-planner'} to={'/planner/my-planner'}>
                     <MyPlannerCard text={t('TEXT.MY_PLANNER')} data-testid='my-planner-card'/>
                 </Link>
-                <Link style={{textDecoration: 'none'}} key={'employees-planner'} to={'/employees-planner'}>
+                <Link style={{textDecoration: 'none'}} key={'employees-planner'} to={'/planner/employees-planner'}>
                     <EmployeesPlannerCard text={t('TEXT.MY_EMPLOYEES_PLANNER')} data-testid='employees-planner-card' />
                 </Link>
             </Box>

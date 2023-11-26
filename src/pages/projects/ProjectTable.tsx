@@ -40,12 +40,12 @@ const ProjectTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'projectName',
+            field: 'title',
             headerName: t('TEXT.PROJECT_NAME'),
             width: 250,
         },
         {
-            field: 'type',
+            field: 'projectType',
             headerName: t('TEXT.TYPE'),
             width: 250,
         },
@@ -55,7 +55,7 @@ const ProjectTable = ({
             width: 250,
         },
         {
-            field: 'status',
+            field: 'projectStatus',
             headerName: t('TEXT.STATUS'),
             width: 250,
         },
@@ -86,7 +86,7 @@ const ProjectTable = ({
             }}
             initialState={{
                 sorting: {
-                    sortModel: [{ field: defaultSort?.sortBy ?? 'projectName', sort: defaultSort?.sortDir ?? 'asc' }],
+                    sortModel: [{ field: defaultSort?.sortBy ?? 'title', sort: defaultSort?.sortDir ?? 'asc' }],
                 },
                 pagination: { page: defaultPagination?.page, pageSize: defaultPagination?.pageSize },
             }}

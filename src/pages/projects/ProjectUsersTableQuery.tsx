@@ -5,7 +5,6 @@ import {useEffect, useState} from "react";
 import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
 import {ParticipationClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
-import {GridSelectionModel} from "@mui/x-data-grid";
 
 interface Props {
     onDataChange?: () => void;

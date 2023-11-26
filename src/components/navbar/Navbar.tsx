@@ -54,8 +54,8 @@ const Navbar = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     gap: "1.75rem",
-                    marginRight: isSmallScreen ? 10 : (isMediumScreen ? 40 : 65),
-                    marginLeft: isSmallScreen ? 10 : (isMediumScreen ? 40 : 65)
+                    marginRight: isSmallScreen ? 10 : (isMediumScreen ? 40 : 60),
+                    marginLeft: isSmallScreen ? 10 : (isMediumScreen ? 40 : 60)
                 }}>
                     <Typography
                         fontWeight="regular"
