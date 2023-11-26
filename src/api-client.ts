@@ -124,10 +124,15 @@ export class EmployeesClient {
     }
 
     /**
+     * @param onlyManagers (optional)
      * @return OK
      */
-    getEmployeeList(): Promise<EmployeeListDto[]> {
-        let url_ = this.baseUrl + "/api/Employees";
+    getEmployeeList(onlyManagers: boolean | undefined): Promise<EmployeeListDto[]> {
+        let url_ = this.baseUrl + "/api/Employees?";
+        if (onlyManagers === null)
+            throw new Error("The parameter 'onlyManagers' cannot be null.");
+        else if (onlyManagers !== undefined)
+            url_ += "onlyManagers=" + encodeURIComponent("" + onlyManagers) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -673,7 +678,7 @@ export class ProjectsClient {
     /**
      * @return OK
      */
-    getProject(id: number): Promise<ProjectDetailsDto> {
+    getProject(id: number): Promise<ProjectDetailsExtendedDto> {
         let url_ = this.baseUrl + "/api/Projects/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -692,7 +697,7 @@ export class ProjectsClient {
         });
     }
 
-    protected processGetProject(response: Response): Promise<ProjectDetailsDto> {
+    protected processGetProject(response: Response): Promise<ProjectDetailsExtendedDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -703,7 +708,7 @@ export class ProjectsClient {
             return response.text().then((_responseText) => {
                 let result200: any = null;
                 let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = ProjectDetailsDto.fromJS(resultData200);
+                result200 = ProjectDetailsExtendedDto.fromJS(resultData200);
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -711,7 +716,7 @@ export class ProjectsClient {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ProjectDetailsDto>(null as any);
+        return Promise.resolve<ProjectDetailsExtendedDto>(null as any);
     }
 
     /**
@@ -777,10 +782,30 @@ export class TimeEntriesClient {
     }
 
     /**
+     * @param employeeId (optional)
+     * @param projectId (optional)
+     * @param start (optional)
+     * @param end (optional)
      * @return OK
      */
-    getListTimeEntries(): Promise<TimeEntryDto[]> {
-        let url_ = this.baseUrl + "/api/TimeEntries";
+    getListTimeEntries(employeeId: number | undefined, projectId: number | undefined, start: Date | undefined, end: Date | undefined): Promise<TimeEntryDto[]> {
+        let url_ = this.baseUrl + "/api/TimeEntries?";
+        if (employeeId === null)
+            throw new Error("The parameter 'employeeId' cannot be null.");
+        else if (employeeId !== undefined)
+            url_ += "employeeId=" + encodeURIComponent("" + employeeId) + "&";
+        if (projectId === null)
+            throw new Error("The parameter 'projectId' cannot be null.");
+        else if (projectId !== undefined)
+            url_ += "projectId=" + encodeURIComponent("" + projectId) + "&";
+        if (start === null)
+            throw new Error("The parameter 'start' cannot be null.");
+        else if (start !== undefined)
+            url_ += "start=" + encodeURIComponent(start ? "" + start.toISOString() : "") + "&";
+        if (end === null)
+            throw new Error("The parameter 'end' cannot be null.");
+        else if (end !== undefined)
+            url_ += "end=" + encodeURIComponent(end ? "" + end.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -867,6 +892,63 @@ export class TimeEntriesClient {
             });
         }
         return Promise.resolve<number>(null as any);
+    }
+
+    /**
+     * @param start (optional)
+     * @param end (optional)
+     * @return OK
+     */
+    mine(start: Date | undefined, end: Date | undefined): Promise<TimeEntryDto[]> {
+        let url_ = this.baseUrl + "/api/TimeEntries/mine?";
+        if (start === null)
+            throw new Error("The parameter 'start' cannot be null.");
+        else if (start !== undefined)
+            url_ += "start=" + encodeURIComponent(start ? "" + start.toISOString() : "") + "&";
+        if (end === null)
+            throw new Error("The parameter 'end' cannot be null.");
+        else if (end !== undefined)
+            url_ += "end=" + encodeURIComponent(end ? "" + end.toISOString() : "") + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMine(_response);
+        });
+    }
+
+    protected processMine(response: Response): Promise<TimeEntryDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => _headers[k] = v);
+        }
+        ;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (Array.isArray(resultData200)) {
+                    result200 = [] as any;
+                    for (let item of resultData200)
+                        result200!.push(TimeEntryDto.fromJS(item));
+                } else {
+                    result200 = <any>null;
+                }
+                return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TimeEntryDto[]>(null as any);
     }
 
     /**
@@ -1468,16 +1550,21 @@ export class WorkMonthsClient {
     /**
      * @return OK
      */
-    employee(id: number): Promise<void> {
-        let url_ = this.baseUrl + "/api/WorkMonths/employee/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    employee(employeeWorkMonthId: number, body: CloseOrReopenWorkMonthCommand): Promise<void> {
+        let url_ = this.baseUrl + "/api/WorkMonths/employee/{employeeWorkMonthId}";
+        if (employeeWorkMonthId === undefined || employeeWorkMonthId === null)
+            throw new Error("The parameter 'employeeWorkMonthId' must be defined.");
+        url_ = url_.replace("{employeeWorkMonthId}", encodeURIComponent("" + employeeWorkMonthId));
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_: RequestInit = {
+            body: content_,
             method: "PUT",
-            headers: {}
+            headers: {
+                "Content-Type": "application/json",
+            }
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1554,6 +1641,7 @@ export interface IAccessTokenResponse {
 }
 
 export class AuditLogEntryDto implements IAuditLogEntryDto {
+    id?: number;
     userName?: string | undefined;
     projectName?: string | undefined;
     description?: string | undefined;
@@ -1570,6 +1658,7 @@ export class AuditLogEntryDto implements IAuditLogEntryDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.userName = _data["userName"];
             this.projectName = _data["projectName"];
             this.description = _data["description"];
@@ -1586,6 +1675,7 @@ export class AuditLogEntryDto implements IAuditLogEntryDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["userName"] = this.userName;
         data["projectName"] = this.projectName;
         data["description"] = this.description;
@@ -1595,10 +1685,51 @@ export class AuditLogEntryDto implements IAuditLogEntryDto {
 }
 
 export interface IAuditLogEntryDto {
+    id?: number;
     userName?: string | undefined;
     projectName?: string | undefined;
     description?: string | undefined;
     timestamp?: Date;
+}
+
+export class CloseOrReopenWorkMonthCommand implements ICloseOrReopenWorkMonthCommand {
+    id?: number;
+    isClosed?: boolean;
+
+    constructor(data?: ICloseOrReopenWorkMonthCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.isClosed = _data["isClosed"];
+        }
+    }
+
+    static fromJS(data: any): CloseOrReopenWorkMonthCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CloseOrReopenWorkMonthCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["isClosed"] = this.isClosed;
+        return data;
+    }
+}
+
+export interface ICloseOrReopenWorkMonthCommand {
+    id?: number;
+    isClosed?: boolean;
 }
 
 export class CreateEmployeeCommand implements ICreateEmployeeCommand {
@@ -1942,6 +2073,7 @@ export enum EmployeePriviligeLevel {
 }
 
 export class EmployeeWorkMonthDto implements IEmployeeWorkMonthDto {
+    id?: number;
     employeeName?: string | undefined;
     hoursWorked?: number;
     hoursExpected?: number | undefined;
@@ -1960,6 +2092,7 @@ export class EmployeeWorkMonthDto implements IEmployeeWorkMonthDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.employeeName = _data["employeeName"];
             this.hoursWorked = _data["hoursWorked"];
             this.hoursExpected = _data["hoursExpected"];
@@ -1978,6 +2111,7 @@ export class EmployeeWorkMonthDto implements IEmployeeWorkMonthDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["employeeName"] = this.employeeName;
         data["hoursWorked"] = this.hoursWorked;
         data["hoursExpected"] = this.hoursExpected;
@@ -1989,6 +2123,7 @@ export class EmployeeWorkMonthDto implements IEmployeeWorkMonthDto {
 }
 
 export interface IEmployeeWorkMonthDto {
+    id?: number;
     employeeName?: string | undefined;
     hoursWorked?: number;
     hoursExpected?: number | undefined;
@@ -2129,6 +2264,8 @@ export class HoursWorkedSummaryDto implements IHoursWorkedSummaryDto {
     hoursWorkedInYear?: number;
     hoursWorkedInMonth?: number;
     hoursWorkedInWeek?: number;
+    expectedHoursInMonth?: number;
+    expectedHoursInWeek?: number;
 
     constructor(data?: IHoursWorkedSummaryDto) {
         if (data) {
@@ -2144,6 +2281,8 @@ export class HoursWorkedSummaryDto implements IHoursWorkedSummaryDto {
             this.hoursWorkedInYear = _data["hoursWorkedInYear"];
             this.hoursWorkedInMonth = _data["hoursWorkedInMonth"];
             this.hoursWorkedInWeek = _data["hoursWorkedInWeek"];
+            this.expectedHoursInMonth = _data["expectedHoursInMonth"];
+            this.expectedHoursInWeek = _data["expectedHoursInWeek"];
         }
     }
 
@@ -2159,6 +2298,8 @@ export class HoursWorkedSummaryDto implements IHoursWorkedSummaryDto {
         data["hoursWorkedInYear"] = this.hoursWorkedInYear;
         data["hoursWorkedInMonth"] = this.hoursWorkedInMonth;
         data["hoursWorkedInWeek"] = this.hoursWorkedInWeek;
+        data["expectedHoursInMonth"] = this.expectedHoursInMonth;
+        data["expectedHoursInWeek"] = this.expectedHoursInWeek;
         return data;
     }
 }
@@ -2167,6 +2308,8 @@ export interface IHoursWorkedSummaryDto {
     hoursWorkedInYear?: number;
     hoursWorkedInMonth?: number;
     hoursWorkedInWeek?: number;
+    expectedHoursInMonth?: number;
+    expectedHoursInWeek?: number;
 }
 
 export class HttpValidationProblemDetails implements IHttpValidationProblemDetails {
@@ -2509,7 +2652,7 @@ export interface IProblemDetails {
     [key: string]: any;
 }
 
-export class ProjectDetailsDto implements IProjectDetailsDto {
+export class ProjectDetailsExtendedDto implements IProjectDetailsExtendedDto {
     title?: string | undefined;
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
@@ -2525,8 +2668,11 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
     projectManagerId?: number | undefined;
+    realHours?: number;
+    realGrossEarnings?: number;
+    realGrossExpenditure?: number;
 
-    constructor(data?: IProjectDetailsDto) {
+    constructor(data?: IProjectDetailsExtendedDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2552,12 +2698,15 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
             this.estimatedGrossExpenditure = _data["estimatedGrossExpenditure"];
             this.requireDescriptionForTimeEntry = _data["requireDescriptionForTimeEntry"];
             this.projectManagerId = _data["projectManagerId"];
+            this.realHours = _data["realHours"];
+            this.realGrossEarnings = _data["realGrossEarnings"];
+            this.realGrossExpenditure = _data["realGrossExpenditure"];
         }
     }
 
-    static fromJS(data: any): ProjectDetailsDto {
+    static fromJS(data: any): ProjectDetailsExtendedDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ProjectDetailsDto();
+        let result = new ProjectDetailsExtendedDto();
         result.init(data);
         return result;
     }
@@ -2579,11 +2728,14 @@ export class ProjectDetailsDto implements IProjectDetailsDto {
         data["estimatedGrossExpenditure"] = this.estimatedGrossExpenditure;
         data["requireDescriptionForTimeEntry"] = this.requireDescriptionForTimeEntry;
         data["projectManagerId"] = this.projectManagerId;
+        data["realHours"] = this.realHours;
+        data["realGrossEarnings"] = this.realGrossEarnings;
+        data["realGrossExpenditure"] = this.realGrossExpenditure;
         return data;
     }
 }
 
-export interface IProjectDetailsDto {
+export interface IProjectDetailsExtendedDto {
     title?: string | undefined;
     partner?: string | undefined;
     projectStatus?: ProjectStatus;
@@ -2599,6 +2751,9 @@ export interface IProjectDetailsDto {
     estimatedGrossExpenditure?: number;
     requireDescriptionForTimeEntry?: boolean;
     projectManagerId?: number | undefined;
+    realHours?: number;
+    realGrossEarnings?: number;
+    realGrossExpenditure?: number;
 }
 
 export class ProjectListDtoWithId implements IProjectListDtoWithId {
@@ -3163,6 +3318,7 @@ export interface IUpdateProjectCommand {
 }
 
 export class WorkMonthDetailsDto implements IWorkMonthDetailsDto {
+    id?: number;
     start?: Date;
     end?: Date;
     employeeWorkMonths?: EmployeeWorkMonthDto[] | undefined;
@@ -3178,6 +3334,7 @@ export class WorkMonthDetailsDto implements IWorkMonthDetailsDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.start = _data["start"] ? new Date(_data["start"].toString()) : <any>undefined;
             this.end = _data["end"] ? new Date(_data["end"].toString()) : <any>undefined;
             if (Array.isArray(_data["employeeWorkMonths"])) {
@@ -3197,6 +3354,7 @@ export class WorkMonthDetailsDto implements IWorkMonthDetailsDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["start"] = this.start ? formatDate(this.start) : <any>undefined;
         data["end"] = this.end ? formatDate(this.end) : <any>undefined;
         if (Array.isArray(this.employeeWorkMonths)) {
@@ -3209,6 +3367,7 @@ export class WorkMonthDetailsDto implements IWorkMonthDetailsDto {
 }
 
 export interface IWorkMonthDetailsDto {
+    id?: number;
     start?: Date;
     end?: Date;
     employeeWorkMonths?: EmployeeWorkMonthDto[] | undefined;
