@@ -1,10 +1,22 @@
-import {useEffect, useState} from "react";
+﻿import {createContext, ReactElement, ReactNode, useContext, useEffect, useState} from "react";
 import {LoginRequest, UsersClient} from "../api-client.ts";
 import {BackendUrl} from "../App.tsx";
 
+const AuthContext = createContext<AuthContextProps>(undefined!);
 
-export function useAuthentication() {
+interface AuthContextProps {
+    isAuthenticated: boolean,
+    userEmail: string | null,
+    login: (email: string, password: string) => void,
+    logout: () => void,
+    http: { fetch: (url: string, options: any) => Promise<Response> }
+}
 
+interface AuthProviderProps {
+    children: ReactNode;
+}
+
+const AuthProvider = ({ children }: AuthProviderProps): ReactElement<AuthContextProps> => {
     const [authInfo, setAuthInfo] = useState({
         isAuthenticated: null,
         userEmail: null,
@@ -17,6 +29,7 @@ export function useAuthentication() {
         if (authInfo.isAuthenticated === null) {
             const authInfoFromLocalStorage = localStorage.getItem("authInfo");
             if (authInfoFromLocalStorage) {
+                console.log("Parsing authInfo from local storage. Should appear ONLY ONCE PER PAGE LOAD");
                 setAuthInfo(JSON.parse(authInfoFromLocalStorage));
             } else {
                 setAuthInfo({
@@ -61,11 +74,18 @@ export function useAuthentication() {
         ? fetch
         : (url, options) => { options.headers['Authorization'] = 'Bearer ' + authInfo.accessToken; return fetch(url, options); }
 
-    return {
+    const contextValue = {
         isAuthenticated: authInfo.isAuthenticated,
         userEmail: authInfo.userEmail,
         login: login,
         logout: logout,
         http: { fetch: fetchFunction }
     };
+    
+    return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }
+
+const useAuthentication = (): AuthContextProps => useContext(AuthContext);
+
+export { AuthProvider, useAuthentication };
+

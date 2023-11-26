@@ -22,7 +22,7 @@ import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useType
 import {ProjectEditFormSchema, projectEditFormSchema} from "./schemas/project-edit-form-schema.ts";
 import {CreateProjectCommand, ParticipationClient, ProjectsClient, UpdateProjectCommand} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import {useModal} from "@ebay/nice-modal-react";
 import AddEmployeeDialog from "./AddEmployeeDialog.tsx";
 

@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import {WorkMonthsClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
 
 const EmployeesPlannerList = () => {

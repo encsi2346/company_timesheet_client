@@ -8,7 +8,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {useState} from "react";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import {Navigate} from "react-router-dom";
 
 const LoginPage = () => {

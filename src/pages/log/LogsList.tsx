@@ -7,7 +7,7 @@ import LogsTableQuery from "./LogsTableQuery.tsx";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import {AuditLogsClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 

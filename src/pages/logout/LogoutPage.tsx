@@ -1,4 +1,4 @@
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 

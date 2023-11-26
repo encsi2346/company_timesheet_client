@@ -8,7 +8,7 @@ import ProjectTableQuery from "./ProjectTableQuery.tsx";
 import {useEffect, useState} from "react";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import {ProjectsClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import SearchIcon from "@mui/icons-material/Search";

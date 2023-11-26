@@ -25,7 +25,7 @@ import {
 import {BackendUrl} from "../../App.tsx";
 import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-form-schema.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 
 interface Props {

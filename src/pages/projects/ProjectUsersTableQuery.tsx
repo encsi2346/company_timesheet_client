@@ -2,7 +2,7 @@ import usePagination from "../../components/inputFields/hooks/usePagination.tsx"
 import useSort from "../../components/inputFields/hooks/useSort.tsx";
 import ProjectUsersTable from "./ProjectUsersTable.tsx";
 import {useEffect, useState} from "react";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import {ParticipationClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 

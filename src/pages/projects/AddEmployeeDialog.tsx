@@ -28,7 +28,7 @@ import {
     ParticipationClient
 } from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
-import {useAuthentication} from "../../auth/AuthenticationHooks.ts";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
