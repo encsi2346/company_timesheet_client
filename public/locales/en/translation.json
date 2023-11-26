@@ -70,6 +70,14 @@
     "MY_DASHBOARD": "My Dashboard",
     "PLANNER": "Planner",
     "LOGS": "Logs",
-    "LOG_OUT": "Logout"
+    "LOG_OUT": "Logout",
+    "EXPECTED_MONTHLY_HOURS": "Expected monthly hours",
+    "DATE_OF_TERMINATE": "Date of Terminate",
+    "CONTRACT_TYPE": "Contract type",
+    "USER_ROLE": "Role",
+    "REAL_EXPENDITURE": "Real expenditure",
+    "ESTIMATED_EXPENDITURE": "Estimated expenditure",
+    "EDIT": "Edit",
+    "CLOSE_MONTH": "Close month"
   }
 }
