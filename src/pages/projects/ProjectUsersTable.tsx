@@ -24,6 +24,8 @@ interface Props {
     onPageChange: (page: number) => void;
     onPageSizeChange: (pageSize: number) => void;
     onSortChange: (pageSize: GridSortModel) => void;
+    reload: boolean;
+    setReload: (reload: boolean) => void;
 }
 
 const ProjectUsersTable = ({
@@ -35,7 +37,9 @@ const ProjectUsersTable = ({
   showActions = true,
   onPageChange,
   onPageSizeChange,
-  onSortChange,
+  onSortChange, 
+  reload, 
+  setReload
 }: Props) => {
     const { t } = useTypeSafeTranslation();
     const auth = useAuthentication();
@@ -66,10 +70,12 @@ const ProjectUsersTable = ({
     ];
 
     const removeEmployeeFromProject = (id) => {
+        console.log(id)
         const participationClient = new ParticipationClient(BackendUrl, auth.http);
         return participationClient.participationDELETE(id)
             .then(response => {
                 console.log('removed employee from project');
+                setReload(!reload);
             })
             .catch(error => {
                 console.log(error);
@@ -90,7 +96,7 @@ const ProjectUsersTable = ({
                         </Tooltip>
                     }
                     label={t('TEXT.REMOVE_EMPLOYEE')}
-                    onClick={removeEmployeeFromProject}
+                    onClick={() => removeEmployeeFromProject(params.id)}
                     data-testid='remove-button'
                 />,
             ],

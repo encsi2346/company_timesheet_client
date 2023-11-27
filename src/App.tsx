@@ -1,10 +1,10 @@
-import { BrowserRouter } from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import Router from "./Router.tsx";
 import "./index.css";
-import {Suspense, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import {Suspense, useMemo} from 'react';
+import {useSelector} from 'react-redux';
+import {CssBaseline, ThemeProvider} from '@mui/material';
+import {createTheme} from '@mui/material/styles';
 import {themeSettings} from "./theme.ts";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
@@ -23,23 +23,23 @@ const App = () => {
     const isAuth = Boolean(useSelector((state) => state.token));
 
     return (
-    <div className={mode === 'light' ? 'background-light' : 'background-dark'}>
-        <Suspense fallback={null}>
-            <ThemeProvider theme={theme}>
-                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>
-                    <BrowserRouter>
-                        <NiceModal.Provider>
+        <div className={mode === 'light' ? 'background-light' : 'background-dark'}>
+            <Suspense fallback={null}>
+                <ThemeProvider theme={theme}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>
+                        <BrowserRouter>
                             <AuthProvider>
-                                <CssBaseline />
-                                <Router isAuth={isAuth}/>
+                                <NiceModal.Provider>
+                                    <CssBaseline/>
+                                    <Router isAuth={isAuth}/>
+                                </NiceModal.Provider>
                             </AuthProvider>
-                        </NiceModal.Provider>
-                    </BrowserRouter>
-                </LocalizationProvider>
-            </ThemeProvider>
-        </Suspense>
-    </div>
-  );
+                        </BrowserRouter>
+                    </LocalizationProvider>
+                </ThemeProvider>
+            </Suspense>
+        </div>
+    );
 }
 
 export default App;

@@ -62,6 +62,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { id } = useParams();
     const addEmployeeDialog = useModal(AddEmployeeDialog);
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
+    const [reload, setReload] = useState(false);
 
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     
@@ -171,12 +172,17 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
     };
+    
+    const handleEmployeeAdded = () => {
+        setReload(!reload);
+    };
 
     const openAddEmployeeDialog = () => {
         addEmployeeDialog
             .show({
                 title: t('TEXT.ADD_EMPLOYEE'),
                 acceptText: t('TEXT.SAVE'),
+                handleEmployeeAdded: handleEmployeeAdded,
             })
             .then((value) => {
                 setValue('employees', value as string[]);
@@ -387,28 +393,15 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <MediumText text={t('TEXT.PROJECT_PARTICIPANTS')} />
 
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                {!isEditing && (
-                                    <Button
-                                        disabled={!!selectionModel.length}
-                                        sx={ addButtonStyle }
-                                        startIcon={<AddRoundedIcon />}
-                                        onClick={openAddEmployeeDialog}
-                                        data-testid='add-employee-button'
-                                    >
-                                        {t('TEXT.ADD_EMPLOYEE')}
-                                    </Button>
-                                )}
-                                {isEditing && (
-                                    <Button
-                                        disabled={!!selectionModel.length}
-                                        sx={ addButtonStyle }
-                                        onClick={openAddEmployeeDialog}
-                                        startIcon={<AddRoundedIcon />}
-                                        data-testid='add-employee-button'
-                                    >
-                                        {t('TEXT.ADD_EMPLOYEE')}
-                                    </Button>
-                                )}
+                                <Button
+                                    disabled={!!selectionModel.length}
+                                    sx={ addButtonStyle }
+                                    startIcon={<AddRoundedIcon />}
+                                    onClick={openAddEmployeeDialog}
+                                    data-testid='add-employee-button'
+                                >
+                                    {t('TEXT.ADD_EMPLOYEE')}
+                                </Button>
                             </Box>
                         </Box>
 
@@ -418,6 +411,8 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 onSelectionChange={handleSelectionChange}
                                 onDataChange={handleDataChange}
                                 projectId={id ?? 0}
+                                reload={reload}
+                                setReload={setReload}
                             />
                         </Box>
                     </Box>

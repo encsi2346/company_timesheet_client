@@ -75,14 +75,14 @@ const cancelTitleStyle: SxProps<Theme> = {
 }
 
 const AddEmployeeDialog = NiceModal.create(
-    (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel }) => {
+    (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
         const { t } = useTypeSafeTranslation();
         const auth = useAuthentication();
 
-        const [projects, setProjects] = useState({});
+        const [projects, setProjects] = useState([]);
 
-        const [employees, setEmployees] = useState({});
+        const [employees, setEmployees] = useState([]);
 
         const {
             control,
@@ -137,7 +137,7 @@ const AddEmployeeDialog = NiceModal.create(
             const participationClient = new ParticipationClient(BackendUrl, auth.http);
             return participationClient.postCreateParticipation( new CreateParticipationCommand(data))
                 .then(response => {
-                    console.log('ready');
+                    props.handleEmployeeAdded && props.handleEmployeeAdded();
                 })
                 .catch(error => {
                     console.log(error);
@@ -167,7 +167,7 @@ const AddEmployeeDialog = NiceModal.create(
                             label={t('TEXT.PROJECT')}
                             control={control}
                             name='projectId'
-                            options={Object.values(projects).map((project) => ({
+                            options={projects.map((project) => ({
                                 id: project.id,
                                 title: project.title
                             }))}
@@ -193,9 +193,9 @@ const AddEmployeeDialog = NiceModal.create(
                             label={t('TEXT.FULL_NAME')}
                             control={control}
                             name='employeeId'
-                            options={Object.values(employees).map((employee) => ({
+                            options={employees.map((employee) => ({
                                 id: employee.id,
-                                name: employee.givenName + ' ' + employee.familyName,
+                                title: employee.givenName + ' ' + employee.familyName,
                             }))}
                             InputProps={{
                                 endAdornment: (

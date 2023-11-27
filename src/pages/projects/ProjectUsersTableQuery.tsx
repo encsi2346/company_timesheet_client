@@ -13,6 +13,8 @@ interface Props {
     showActions?: boolean;
     enableQueryParams?: boolean;
     projectId?: number;
+    reload?: boolean;
+    setReload?: (reload: boolean) => void;
 }
 
 const ProjectUsersTableQuery = ({
@@ -22,6 +24,8 @@ const ProjectUsersTableQuery = ({
     showActions = true,
     enableQueryParams = true,
     projectId,
+    reload = false,
+    setReload = (reload) => {},
 }: Props) => {
     const { pagination, handlePageChange, handlePageSizeChange } = usePagination(undefined, undefined, enableQueryParams);
     const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'fullName', sortDir: 'asc' }, enableQueryParams);
@@ -56,7 +60,7 @@ const ProjectUsersTableQuery = ({
                 setProjectData(projectData);
             });
         }
-    }, [auth.isAuthenticated]);
+    }, [auth.isAuthenticated, reload]);
 
     return (
         <ProjectUsersTable
@@ -69,6 +73,8 @@ const ProjectUsersTableQuery = ({
             onPageChange={handlePageChange}
             onPageSizeChange={handlePageSizeChange}
             onSortChange={handleSortChange}
+            reload={reload}
+            setReload={setReload}
         />
     );
 };
