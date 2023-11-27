@@ -1,6 +1,10 @@
-Cypress.Commands.add('login', () => {
+Cypress.Commands.add('login', (user) => {
     cy.visit('http://localhost:3000/login');
-    cy.get('[data-testid="email-input"]').type(Cypress.env('user'))
+    if (user) {
+        cy.get('[data-testid="email-input"]').type(user)
+    } else {
+        cy.get('[data-testid="email-input"]').type(Cypress.env('user'))
+    }
     cy.get('[data-testid="password-input"]').type(Cypress.env('password'))
     cy.get('button[type="submit"]').click()
     cy.wait(3000)
@@ -11,9 +15,9 @@ Cypress.Commands.add('logout', () => {
     cy.visit('http://localhost:3000/logout');
 })
 
-Cypress.Commands.add('createUser', (email) => {
+Cypress.Commands.add('createUser', (email, firstname) => {
     cy.visit('http://localhost:3000/users/new');
-    cy.get('[data-testid="first-name-input"]').type('Test')
+    cy.get('[data-testid="first-name-input"]').type(firstname)
     cy.get('[data-testid="family-name-input"]').type('Test')
     cy.get('[data-testid="datepicker-birthDate"]').type('1990.01.01')
     cy.get('[data-testid="birth-place-input"]').type('TestLand')
@@ -43,7 +47,7 @@ Cypress.Commands.add('createUser', (email) => {
 Cypress.Commands.add('createProject', () => {
     cy.visit('http://localhost:3000/projects/new')
     cy.get('[data-testid="type-input"]').click()
-    cy.get('[data-value="Internal"]').click()
+    cy.get('[data-value="0"]').click()
     cy.get('[data-testid="title-input"]').type('TestProject')
     cy.get('[data-testid="datepicker-estimatedStartDate"]').type('2023.01.01.')
     cy.get('[data-testid="datepicker-startDate"]').type('2023.01.01.')
@@ -52,14 +56,31 @@ Cypress.Commands.add('createProject', () => {
     cy.get('[data-testid="estimated-gross-expenditure-input"]').type('123456')
     //cy.get('[data-testid="project-type-input"]').click()
     cy.get('[data-testid="status-input"]').click()
-    cy.get('[data-value="Active"]').click()
+    cy.get('[data-value="0"]').click()
     cy.get('[data-testid="partner-input"]').type('TestPartner')
     cy.get('[data-testid="datepicker-estimatedEndDate"]').type('2023.01.01.')
     cy.get('[data-testid="datepicker-endDate"]').type('2023.01.01.')
-    cy.get('[data-testid="real-hours-input"]').type('1337')
-    cy.get('[data-testid="real-value-input"]').type('1337')
-    cy.get('[data-testid="real-gross-expenditure-input"]').type('1337')
+    //cy.get('[data-testid="real-hours-input"]').type('1337')
+    //cy.get('[data-testid="real-value-input"]').type('1337')
+    cy.get('[data-testid="estimated-gross-expenditure-input"]').type('1337')
     cy.get('[data-testid="save-button"]').click()
     cy.wait(3000)
     cy.visit('http://localhost:3000/projects/')
+})
+
+Cypress.Commands.add('createPlannerEvent', () => {
+    cy.visit('http://localhost:3000/planner/my-planner')
+    cy.get('[data-testid="grid"]').trigger('mousemove', { clientX: 1000, clientY: 1000 });
+    cy.get('[data-testid="grid"]').click()
+    //cant do it because nothing has data-testid and it is not connected with backend properly
+})
+
+Cypress.Commands.add('editUser', () => {
+    cy.visit('http://localhost:3000/users')
+    cy.get('[data-testid="user-table"]').trigger('mousemove', { clientX: 1000, clientY: 1000 });
+    cy.wait(1000)
+    cy.get('[data-testid="user-table"]').click()
+    cy.get('[data-testid="save-button"]').click()
+    cy.get('[data-testid="phone-input"]').type('666666666')
+    cy.get('[data-testid="save-button"]').click()
 })

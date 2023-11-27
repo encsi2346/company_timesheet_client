@@ -3,8 +3,8 @@ beforeEach(() => {
     cy.login()
 })
 
-describe('List users', () => {
-    it('Should list users', () => {
+describe('List projects', () => {
+    it('Should return 200 response code on listing projects', () => {
         cy.visit('http://localhost:3000/projects')
 
         cy.wait('@listProjects').then((interception) => {
