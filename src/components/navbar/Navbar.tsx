@@ -14,6 +14,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Sidebar from "../sidebar/Sidebar.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {setMode, setLanguage} from "../../state.ts";
+import {useTranslation} from "react-i18next";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,20 +22,28 @@ const Navbar = () => {
     const isBigScreen = useMediaQuery('(min-width: 1200px)');
     const isMediumScreen = useMediaQuery('(min-width: 501px)' && '(max-width: 1200px)');
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
-
-    const dispatch = useDispatch();
+    const [t, i18n] = useTranslation();
+    
     const theme = useTheme();
+    const dispatch = useDispatch();
     const language = useSelector((state) => state.language);
-
-    const [lang, setLang] = useState('');
+    
+    const [languageValue, setLanguageValue] = useState('hu');
 
     const handleChangeLanguage = (event: SelectChangeEvent) => {
-        setLang(event.target.value as string);
+        setLanguageValue(event.target.value as string);
     }
 
     useEffect(() => {
-        dispatch(setLanguage(lang));
-    }, [lang]);
+        dispatch(setLanguage(languageValue));
+        i18n.changeLanguage(languageValue)
+            .then(() => {
+                console.log('Language changed');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [languageValue]);
 
     return (
         <>
@@ -91,9 +100,8 @@ const Navbar = () => {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 data-testid='select-language-input'
-                                value={lang}
+                                value={languageValue}
                                 onChange={handleChangeLanguage}
-                                defaultValue={language}
                                 sx={{color: '#ffffff', borderColor: '#ffffff', backgroundColor: '#45277b'}}
                             >
                                 <MenuItem value={'hu'}>Hu</MenuItem>
