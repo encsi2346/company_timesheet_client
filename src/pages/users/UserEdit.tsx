@@ -46,19 +46,19 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         projectManager: 'Project Manager',
         softwareTester: 'Szoftvertesztelő'
     });
-    const [userRoles, setUserRoles] = useState({
-        0: 'Administrator',
-        1: 'Manager',
-        2: 'Employee'
-    });
-    const [contracts, setContracts] = useState({
-        0: 'FullTime',
-        1: 'HalfTime',
-        2: 'PartTime1DayPerWeek',
-        3: 'PartTime2DaysPerWeek',
-        4: 'PartTime3DaysPerWeek',
-        5: 'PartTime4DaysPerWeek',
-        6: 'Flexible',
+    const userRoles = {
+        0: 'TEXT.EMPLOYEE_PRIVILEGE_ENUM.0',
+        1: 'TEXT.EMPLOYEE_PRIVILEGE_ENUM.1',
+        2: 'TEXT.EMPLOYEE_PRIVILEGE_ENUM.2',
+    };
+    const contractTypes= ({
+        0: 'TEXT.EMPLOYEE_CONTRACT_TYPE_ENUM.0',
+        1: 'TEXT.EMPLOYEE_CONTRACT_TYPE_ENUM.1',
+        2: 'TEXT.EMPLOYEE_CONTRACT_TYPE_ENUM.2',
+        3: 'TEXT.EMPLOYEE_CONTRACT_TYPE_ENUM.3',
+        4: 'TEXT.EMPLOYEE_CONTRACT_TYPE_ENUM.4',
+        5: 'TEXT.EMPLOYEE_CONTRACT_TYPE_ENUM.5',
+        6: 'TEXT.EMPLOYEE_CONTRACT_TYPE_ENUM.6'
     });
 
     const {
@@ -90,22 +90,20 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         const employeesClient = new EmployeesClient(BackendUrl, auth.http);
         return employeesClient.createEmployee( new CreateEmployeeCommand(data))
             .then(response => {
-                navigate(`/users`); // todo open in view mode
+                navigate(`/users/${parseInt(response, 10)}`);
             })
             .catch(error => {
                 console.log(error);
+                setInputDisabled(false);
             });
     };
 
     const updateUser = (id, data) => {
         const employeesClient = new EmployeesClient(BackendUrl, auth.http);
-        return employeesClient.employeesPUT(id, new UpdateEmployeeCommand(data))
-            .then(response => {
-                navigate(`/users`); // todo open in view mode
-            })
+        return employeesClient.employeesPUT(id, new UpdateEmployeeCommand({id: id, ...data}))
             .catch(error => {
                 console.log(error);
-            });
+            })
     };
 
     useEffect(() => {
@@ -122,13 +120,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         let submitData = data as any;
 
         if (isEditing) {
+            setInputDisabled(true);
             updateUser(id, submitData);
-            setInputDisabled(true);
         } else {
-            createUser(submitData);
             setInputDisabled(true);
+            createUser(submitData);
         }
-    });
+    }, (errors) => {console.log(errors)});
 
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
@@ -136,6 +134,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
+    };
+    
+    const enumToOptions = (enumObject) => {
+        return Object.keys(enumObject).map((key) => ({
+            id: key,
+            title: t(enumObject[key])
+        }));
     };
 
     return (
@@ -257,10 +262,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='privilegeLevel'
                                         data-testid='user-role-input'
                                         disabled={inputDisabled}
-                                        options={Object.entries(userRoles).map(([id, role]) => ({
-                                            id: parseInt(id,10),
-                                            title: role
-                                        }))}
+                                        options={enumToOptions(userRoles)}
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>
@@ -306,10 +308,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='contractType'
                                         data-testid='contract-type-input'
                                         disabled={inputDisabled}
-                                        options={Object.entries(contracts).map(([id, type]) => ({
-                                            id: parseInt(id,10),
-                                            title: type
-                                        }))}
+                                        options={enumToOptions(contractTypes)}
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>

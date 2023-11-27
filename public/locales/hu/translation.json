@@ -93,6 +93,20 @@
       "1": "Aktív",
       "2": "Fenntartás",
       "3": "Befejezett"
+    },
+    "EMPLOYEE_PRIVILEGE_ENUM": {
+      "0": "Adminisztrátor",
+      "1": "Menedzser",
+      "2": "Alkalmazott"
+    },
+    "EMPLOYEE_CONTRACT_TYPE_ENUM": {
+      "0": "Teljes munkaidő",
+      "1": "Fél munkaidő",
+      "2": "Rész munkaidő (1 n/h)",
+      "3": "Rész munkaidő (2 n/h)",
+      "4": "Rész munkaidő (3 n/h)",
+      "5": "Rész munkaidő (4 n/h)",
+      "6": "Rugalmas"
     }
   }
 }

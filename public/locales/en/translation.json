@@ -93,6 +93,20 @@
         "1": "Active",
         "2": "Maintenance",
         "3": "Completed"
+    },
+    "EMPLOYEE_PRIVILEGE_ENUM": {
+      "0": "Administrator",
+      "1": "Manager",
+      "2": "Employee"
+    },
+    "EMPLOYEE_CONTRACT_TYPE_ENUM": {
+      "0": "Fulltime",
+      "1": "Halftime",
+      "2": "Part time (1 d/w)",
+      "3": "Part time (2 d/w)",
+      "4": "Part time (3 d/w)",
+      "5": "Part time (4 d/w)",
+      "6": "Flexible"
     }
   }
 }

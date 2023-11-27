@@ -1,12 +1,12 @@
-import { z } from 'zod';
+import {z} from 'zod';
 import {EmployeeContractType, EmployeePriviligeLevel} from "../../../api-client.ts";
 
 export const userEditFormSchema = (isEditing: boolean) =>
     z.object({
-        email: z.string().min(1).nullish(),
-        priviligeLevel: z.nativeEnum(EmployeePriviligeLevel),
         givenName: z.string().min(1),
         familyName: z.string().min(1),
+        email: z.string().min(1).nullish(),
+        privilegeLevel: z.coerce.number(),
         birthPlace: z.string().nullish(),
         birthDate: z.date().nullish(),
         phoneNumber: z.string().nullish(),
@@ -14,9 +14,9 @@ export const userEditFormSchema = (isEditing: boolean) =>
         hireDate: z.date().nullish(),
         terminationDate: z.date().nullish(),
         jobTitle: z.string().nullish(),
-        hourlyWage: z.number().nullish(),
-        contractType: z.nativeEnum(EmployeeContractType).nullish(),
-        expectedMonthlyHours: z.number().nullish(),
-});
+        hourlyWage: z.coerce.number().nullish(),
+        contractType: z.coerce.number().nullish(),
+        expectedMonthlyHours: z.coerce.number().nullish(),
+    });
 
 export type UserEditFormSchema = z.infer<ReturnType<typeof userEditFormSchema>>;
