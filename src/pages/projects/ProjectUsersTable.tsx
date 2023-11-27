@@ -12,6 +12,7 @@ import {BackendUrl} from "../../App.tsx";
 import {GridActionsCellItem, GridRowParams} from "@mui/x-data-grid";
 import {Tooltip} from "@mui/material";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 
 interface Props {
     data?: string[];
@@ -37,6 +38,7 @@ const ProjectUsersTable = ({
   onSortChange,
 }: Props) => {
     const { t } = useTypeSafeTranslation();
+    const auth = useAuthentication();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -44,27 +46,22 @@ const ProjectUsersTable = ({
         {
             field: 'projectTitle',
             headerName: t('TEXT.PROJECT_NAME'),
-            width: 350,
+            width: 250,
         },
         {
             field: 'employeeFamilyName',
             headerName: t('TEXT.FAMILY_NAME'),
-            width: 350,
+            width: 250,
         },
         {
             field: 'employeeGivenName',
             headerName: t('TEXT.FIRST_NAME'),
-            width: 350,
-        },
-        {
-            field: 'role',
-            headerName: t('TEXT.POSITION'),
-            width: 350,
+            width: 250,
         },
         {
             field: 'hourlyRate',
             headerName: t('TEXT.VALUE_FOR_PROJECT'),
-            width: 350,
+            width: 300,
         }
     ];
 
@@ -119,7 +116,7 @@ const ProjectUsersTable = ({
             onSortModelChange={(model) => onSortChange(model)}
             initialState={{
                 sorting: {
-                    sortModel: [{ field: defaultSort?.sortBy ?? 'fullName', sort: defaultSort?.sortDir ?? 'asc' }],
+                    sortModel: [{ field: defaultSort?.sortBy ?? 'projectTitle', sort: defaultSort?.sortDir ?? 'asc' }],
                 },
                 pagination: { page: defaultPagination?.page, pageSize: defaultPagination?.pageSize },
             }}

@@ -40,23 +40,18 @@ const UserTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'fullName',
+            field: 'givenName',
             headerName: `${t('TEXT.FULL_NAME')}`,
             width: 250,
         },
         {
-            field: 'seniority',
+            field: 'familyName',
             headerName: `${t('TEXT.SENIORITY')}`,
             width: 250,
         },
         {
-            field: 'position',
+            field: 'jobTitle',
             headerName: `${t('TEXT.POSITION')}`,
-            width: 250,
-        },
-        {
-            field: 'currentProject',
-            headerName: `${t('TEXT.CURRENT_PROJECT')}`,
             width: 250,
         },
     ];

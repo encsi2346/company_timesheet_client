@@ -37,49 +37,6 @@ const EmployeesPlannerTableQuery = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchResults]);
 
-    /*const employeesData = [
-        {
-            id: 1,
-            fullName: 'Példa Elek',
-            workedTime: '152/160',
-            holidayTime: '8',
-            fullTime: '160/160',
-            closingTime: '2023.10.02. 12:56'
-        },
-        {
-            id: 2,
-            fullName: 'Példa Zoltán',
-            workedTime: '160/160',
-            holidayTime: '0',
-            fullTime: '160/160',
-            closingTime: '-'
-        },
-        {
-            id: 3,
-            fullName: 'Példa Kata',
-            workedTime: '160/160',
-            holidayTime: '0',
-            fullTime: '160/160',
-            closingTime: '-'
-        },
-        {
-            id: 4,
-            fullName: 'Példa Sára',
-            workedTime: '148/160',
-            holidayTime: '12',
-            fullTime: '160/160',
-            closingTime: '2023.10.02. 12:56'
-        },
-        {
-            id: 5,
-            fullName: 'Példa Péter',
-            workedTime: '160/160',
-            holidayTime: '0',
-            fullTime: '160/160',
-            closingTime: '-'
-        }
-    ];*/
-
     return (
         <EmployeesPlannerTable
             allowSelection={allowSelection}

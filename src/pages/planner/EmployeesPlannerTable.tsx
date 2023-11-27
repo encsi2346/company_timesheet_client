@@ -11,6 +11,9 @@ import {Tooltip} from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
+import {useEffect} from "react";
+import {WorkMonthsClient} from "../../api-client";
+import {BackendUrl} from "../../App";
 
 interface Props {
     data?: string[];
@@ -45,23 +48,23 @@ const EmployeesPlannerTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'fullName',
+            field: 'employeeName',
             headerName: t('TEXT.FULL_NAME'),
             width: 200,
         },
         {
-            field: 'workedTime',
+            field: 'hoursWorked',
             headerName: t('TEXT.WORKED_TIME'),
+            width: 200,
+        },
+        {
+            field: 'hoursExpected',
+            headerName: t('TEXT.EXPECTED_MONTHLY_HOURS'),
             width: 200,
         },
         {
             field: 'holidayTime',
             headerName: t('TEXT.HOLIDAY_TIME'),
-            width: 200,
-        },
-        {
-            field: 'fullTime',
-            headerName: t('TEXT.FULL_TIME'),
             width: 200,
         },
         {
@@ -73,7 +76,7 @@ const EmployeesPlannerTable = ({
 
     if (showActions) {
         columns.push({
-            field: 'actions',
+            field: 'isClosed',
             headerName: t('TEXT.CLOSING'),
             type: 'actions',
             getActions: (params: GridRowParams) => [

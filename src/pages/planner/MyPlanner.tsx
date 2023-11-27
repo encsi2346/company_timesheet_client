@@ -93,7 +93,7 @@ const MyPlanner = () => {
 
     }, [editable]);
 
-    //TODO: on backend closing project, reopen project????????
+    //TODO: API calls
 
     return (
         <Box>

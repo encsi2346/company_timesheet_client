@@ -38,7 +38,7 @@ const LogsTable = ({
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
             field: 'userName', //TODO: backenden eldönteni hogy usernamet ad e vissza vagy emailt?
-            headerName: t('TEXT.FULL_NAME'),
+            headerName: t('TEXT.EMAIL'),
             width: 280,
         },
         {

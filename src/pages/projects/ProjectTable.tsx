@@ -50,8 +50,8 @@ const ProjectTable = ({
             width: 250,
         },
         {
-            field: 'projectManager',
-            headerName: t('TEXT.PROJECT_MANAGER'),
+            field: 'partner',
+            headerName: t('TEXT.PARTNER'),
             width: 250,
         },
         {

@@ -25,7 +25,7 @@ import {
 import {BackendUrl} from "../../App.tsx";
 import {userEditFormSchema, UserEditFormSchema} from "./schemas/user-edit-form-schema.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import {useAuthentication, AuthProvider } from "../../auth/AuthProvider.tsx";
+import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import useSelection from "../../components/inputFields/hooks/useSelection.tsx";
 
 interface Props {
@@ -46,11 +46,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         projectManager: 'Project Manager',
         softwareTester: 'Szoftvertesztelő'
     });
-    const [senioritys, setSenioritys] = useState({
-        0: 'Junior',
-        1: 'Medior',
-        2: 'Senior'
-    });
     const [userRoles, setUserRoles] = useState({
         0: 'Administrator',
         1: 'Manager',
@@ -64,11 +59,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         4: 'PartTime3DaysPerWeek',
         5: 'PartTime4DaysPerWeek',
         6: 'Flexible',
-    });
-    const [directManagers, setDirectManagers] = useState({
-        managerA: 'Példa Kata',
-        managerB: 'Példa Éva',
-        managerC: 'Példa Zoltán'
     });
 
     const {
@@ -88,8 +78,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             phoneNumber: '',
             address: '',
             jobTitle: '',
-            hourlyWage: 0, //TODO: missing other field from backend: seniority, grossHourlyWage, grossValueForProjects, !!!!!!!!
-            //TODO: missing other field from backend: directManager, netHourlyWage, netValueForProjects !!!!!!!
+            hourlyWage: 0,
             contractType: 1,
             expectedMonthlyHours: 40,
         },
@@ -97,10 +86,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         mode: 'all',
     });
 
-    //TODO: cors-policyval 401et dob, friss bejelentkezés után is
-
     const createUser = (data) => {
-        console.log(data);
         const employeesClient = new EmployeesClient(BackendUrl, auth.http);
         return employeesClient.createEmployee( new CreateEmployeeCommand(data))
             .then(response => {
@@ -131,8 +117,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                 })
         }
     }, [id, reset]);
-
-    //TODO: employee törléshez api?
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
@@ -304,52 +288,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={t('TEXT.SENIORITY')} />
-                                    <SelectInput
-                                        label={t('TEXT.SENIORITY')}
-                                        control={control}
-                                        name='seniority'
-                                        data-testid='seniority-input'
-                                        disabled={inputDisabled}
-                                        options={Object.values(senioritys).map((seniority) => ({
-                                            id: seniority,
-                                            title: seniority
-                                        }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position='end'>
-                                                    <IconButton onClick={() => setValue('seniority', undefined)} edge="end" >
-                                                        <ClearRoundedIcon />
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                            sx: {
-                                                '.MuiSelect-icon': {
-                                                    display: 'none',
-                                                },
-                                            },
-                                        }}
-                                    />
-                                </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={t('TEXT.GROSS_HOURLY_WAGE')} />
                                     <TextFieldInput
                                         placeholder={t('TEXT.GROSS_HOURLY_WAGE')}
                                         control={control}
-                                        name='hourlyWage' //TODO grossHourlyWage
+                                        name='hourlyWage'
                                         type='number'
                                         data-testid='gross-hourly-wage-input'
-                                        disabled={inputDisabled}
-                                    />
-                                </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={t('TEXT.GROSS_VALUE_FOR_PROJECTS')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.GROSS_VALUE_FOR_PROJECTS')}
-                                        control={control}
-                                        name='grossValueForProjects'
-                                        type='text'
-                                        data-testid='gross-value-for-project-input'
                                         disabled={inputDisabled}
                                     />
                                 </Box>
@@ -383,34 +328,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Box>
                             </Grid>
                             <Grid item xs={4} md={6}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={t('TEXT.DIRECT_MANAGER')} />
-                                    <SelectInput
-                                        label={t('TEXT.DIRECT_MANAGER')}
-                                        control={control}
-                                        name='directManager'
-                                        data-testid='direct-manager-input'
-                                        disabled={inputDisabled}
-                                        options={Object.values(directManagers).map((directManager) => ({
-                                            id: directManager,
-                                            title: directManager
-                                        }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position='end'>
-                                                    <IconButton onClick={() => setValue('directManager', undefined)} edge="end" >
-                                                        <ClearRoundedIcon />
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                            sx: {
-                                                '.MuiSelect-icon': {
-                                                    display: 'none',
-                                                },
-                                            },
-                                        }}
-                                    />
-                                </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     <NormalText text={t('TEXT.DATE_OF_TERMINATE')} />
                                     <DatePickerInput
@@ -447,28 +364,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                                 },
                                             },
                                         }}
-                                    />
-                                </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={t('TEXT.NET_HOURLY_WAGE')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.NET_HOURLY_WAGE')}
-                                        control={control}
-                                        name='netHourlyWage'
-                                        type='text'
-                                        data-testid='net-hourly-wage-input'
-                                        disabled={inputDisabled}
-                                    />
-                                </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <NormalText text={t('TEXT.NET_VALUE_FOR_PROJECT')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.NET_VALUE_FOR_PROJECT')}
-                                        control={control}
-                                        name='netValueForProjects'
-                                        type='text'
-                                        data-testid='net-value-for-project-input'
-                                        disabled={inputDisabled}
                                     />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>

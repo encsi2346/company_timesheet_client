@@ -93,7 +93,8 @@ const Navbar = () => {
                                 data-testid='select-language-input'
                                 value={lang}
                                 onChange={handleChangeLanguage}
-                                sx={{color: '#ffffff'}}
+                                defaultValue={language}
+                                sx={{color: '#ffffff', borderColor: '#ffffff', backgroundColor: '#45277b'}}
                             >
                                 <MenuItem value={'hu'}>Hu</MenuItem>
                                 <MenuItem value={'en'}>En</MenuItem>

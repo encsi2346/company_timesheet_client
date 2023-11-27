@@ -11,11 +11,13 @@ import {WorkMonthsClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
+import MediumText from "../../components/text/MediumText.tsx";
 
 const EmployeesPlannerList = () => {
     const { t } = useTypeSafeTranslation();
     const auth = useAuthentication();
     const { palette } = useTheme();
+    const [months, setMonths] = useState([]);
     const [planners, setPlanners] = useState([]);
     const [search, setSearch] = useState('');
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
@@ -24,16 +26,33 @@ const EmployeesPlannerList = () => {
         if (auth.isAuthenticated === true) {
             var workMonthsClient = new WorkMonthsClient(BackendUrl, auth.http);
             workMonthsClient.getListWorkMonths().then((response) => {
-                const planners = response.map((planner) => {
+                const months = response.map((planner) => {
                     return {
-                        //id: Math.floor(Math.random() * 1000000),
-                        id: planner.id, //TODO: create new api request for this
+                        id: planner.id,
+                        start: planner.start,
+                        end: planner.end,
+                    };
+                });
+                setMonths(months);
+            });
+        }
+    }, [auth.isAuthenticated]);
+
+    /*useEffect(() => {
+        if (auth.isAuthenticated === true) {
+            var workMonthsClient = new WorkMonthsClient(BackendUrl, auth.http);
+            workMonthsClient.employee().then((response) => {
+                const planners = response.map((employee) => {
+                    return {
+                        id: employee.id,
+                        start: employee.start,
+                        end: employee.end,  //TODO: other fields
                     };
                 });
                 setPlanners(planners);
             });
         }
-    }, [auth.isAuthenticated]);
+    }, [auth.isAuthenticated]);*/
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
@@ -43,6 +62,9 @@ const EmployeesPlannerList = () => {
         <Box sx={{ display: 'block', width: 1300}}>
             <PageHeader text={t('TEXT.MY_EMPLOYEES_PLANNER')}/>
 
+            {/*<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: -3, marginBottom: -3}}>
+                <MediumText text={`${months[0].start}` + ' - ' + `${months[0].end}`}/>
+            </Box>*/}
             <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 2, alignItems: 'center'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                     <FormControl sx={{ marginTop: 5, marginBottom: 5, marginLeft: 2, marginRight: 80}}>

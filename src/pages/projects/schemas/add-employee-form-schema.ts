@@ -4,7 +4,7 @@ export const addEmployeeFormSchema =
     z.object({
         projectId: z.number(),
         employeeId: z.number(),
-        role: z.string(),
+        role: z.string().optional(),
         hourlyRate: z.number(),
     });
 

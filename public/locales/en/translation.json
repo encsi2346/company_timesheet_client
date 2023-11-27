@@ -80,6 +80,7 @@
     "EDIT": "Edit",
     "CLOSE_MONTH": "Close month",
     "REMOVE_EMPLOYEE": "Remove employee",
-    "REMOVING": "Removing"
+    "REMOVING": "Removing",
+    "LOCKING": "Locking"
   }
 }
