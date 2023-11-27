@@ -73,7 +73,7 @@ const EmployeesPlannerTable = ({
             width: 250,
         },
     ];
-
+    
     if (showActions) {
         columns.push({
             field: 'isClosed',
@@ -115,9 +115,6 @@ const EmployeesPlannerTable = ({
             checkboxSelection={allowSelection}
             selectionModel={selectionModel ?? []}
             data-testid='planner-table'
-            onCellClick={(params, event) =>
-                allowNavigation ? handleDataGridCellClick(params, event, navigate, location.search) : null
-            }
             pageSize={data?.length ?? 10}
             onPageChange={(page) => onPageChange(page)}
             onPageSizeChange={(pageSize) => onPageSizeChange(pageSize)}

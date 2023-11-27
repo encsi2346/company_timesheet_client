@@ -7,7 +7,7 @@ import EmployeesPlannerTableQuery from "./EmployeesPlannerTableQuery.tsx";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import {WorkMonthsClient} from "../../api-client.ts";
+import {IEmployeeWorkMonthDto, WorkMonthsClient} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
@@ -18,7 +18,8 @@ const EmployeesPlannerList = () => {
     const auth = useAuthentication();
     const { palette } = useTheme();
     const [months, setMonths] = useState([]);
-    const [planners, setPlanners] = useState([]);
+    const [currentMonth, setCurrentMonth] = useState(null);
+    const [employeeMonths, setEmployeeMonths] = useState<IEmployeeWorkMonthDto[]>([]);
     const [search, setSearch] = useState('');
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
@@ -34,9 +35,20 @@ const EmployeesPlannerList = () => {
                     };
                 });
                 setMonths(months);
+                months.sort((a, b) => (a.start.getTime() > b.start.getTime()) ? 1 : -1);
+                setCurrentMonth(months[months.length - 1].id);
             });
         }
     }, [auth.isAuthenticated]);
+
+    useEffect(() => {
+        if (currentMonth) {
+            var workMonthsClient = new WorkMonthsClient(BackendUrl, auth.http);
+            workMonthsClient.workMonths(currentMonth).then((response) => {
+                setEmployeeMonths(response.employeeWorkMonths);
+            });
+        }
+    }, [auth.http, currentMonth]);
 
     /*useEffect(() => {
         if (auth.isAuthenticated === true) {
@@ -108,17 +120,17 @@ const EmployeesPlannerList = () => {
                 <Box sx={{ display: 'flex', marginTop: 5, marginBottom: 10}}>
                     <EmployeesPlannerTableQuery
                         searchResults={
-                            planners
+                            employeeMonths
                                 .filter((item) => {
-                                    return search.toLowerCase() === ''
+                                    return !search || search.toLowerCase() === ''
                                         ? item
-                                        : item.title.toLowerCase().includes(search);
+                                        : item.employeeName.toLowerCase().includes(search);
                                 })
                         }
                         selectionModel={selectionModel}
                         onSelectionChange={handleSelectionChange}
                         onDataChange={handleDataChange}
-                    />
+                        filters={[]}/>
                 </Box>
             </ContentCard>
         </Box>
