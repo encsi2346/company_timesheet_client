@@ -15,6 +15,7 @@ import Sidebar from "../sidebar/Sidebar.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {setMode, setLanguage} from "../../state.ts";
 import {useTranslation} from "react-i18next";
+import {Lan} from "@mui/icons-material";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -25,17 +26,25 @@ const Navbar = () => {
     const [t, i18n] = useTranslation();
     
     const theme = useTheme();
-    const dispatch = useDispatch();
-    const language = useSelector((state) => state.language);
     
-    const [languageValue, setLanguageValue] = useState('hu');
+    const [languageValue, setLanguageValue] = useState(null);
 
     const handleChangeLanguage = (event: SelectChangeEvent) => {
         setLanguageValue(event.target.value as string);
     }
 
     useEffect(() => {
-        dispatch(setLanguage(languageValue));
+        if (languageValue === null) {
+            const language = localStorage.getItem('language');
+            if (language) {
+                setLanguageValue(language);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (languageValue === null) return;
+        localStorage.setItem('language', languageValue);
         i18n.changeLanguage(languageValue)
             .then(() => {
                 console.log('Language changed');
