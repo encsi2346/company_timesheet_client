@@ -384,7 +384,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 <MediumText text={t('TEXT.CURRENT_PROJECT')} />
 
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10}}>
+                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, minHeight: 300}}>
                     <UserProjectTableQuery
                         selectionModel={selectionModel}
                         onSelectionChange={handleSelectionChange}

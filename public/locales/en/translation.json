@@ -81,6 +81,18 @@
     "CLOSE_MONTH": "Close month",
     "REMOVE_EMPLOYEE": "Remove employee",
     "REMOVING": "Removing",
-    "LOCKING": "Locking"
+    "LOCKING": "Locking",
+    "PROJECT_ROLE": "Role in project",
+    "PROJECT_TYPE_ENUM": {
+      "0": "Internal",
+      "1": "TimeAndMaterial",
+      "2": "FixedPrice"
+    },
+    "PROJECT_STATUS_ENUM": {
+        "0": "Planning",
+        "1": "Active",
+        "2": "Maintenance",
+        "3": "Completed"
+    }
   }
 }

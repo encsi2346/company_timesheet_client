@@ -26,13 +26,15 @@ const UserList = ({ onCreateClicked }: Props) => {
     const theme = useTheme();
     const location = useLocation();
     const [userData, setUsers] = useState([]);
+    const [userDataLoading, setUserDataLoading] = useState(false);
     const [search, setSearch] = useState('');
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
     const auth = useAuthentication();
 
     useEffect(() => {
-        if (auth.isAuthenticated === true) {
+        if (auth.isAuthenticated === true && !userDataLoading) {
+            setUserDataLoading(true);
             var employeesClient = new EmployeesClient(BackendUrl, auth.http);
             employeesClient.getEmployeeList().then((response) => {
                 const userData = response.map((user) => {

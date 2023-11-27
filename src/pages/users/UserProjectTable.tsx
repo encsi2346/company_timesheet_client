@@ -42,9 +42,14 @@ const UserProjectTable = ({
         },
         {
             field: 'hourlyRate',
-            headerName: `${t('TEXT.PROJECT_MANAGER')}`,
+            headerName: `${t('TEXT.GROSS_VALUE_FOR_PROJECTS')}`,
             width: 350,
-        }
+        },
+        {
+            field: 'role',
+            headerName: `${t('TEXT.PROJECT_ROLE')}`,
+            width: 350,
+        },
     ];
 
     return (
@@ -53,7 +58,7 @@ const UserProjectTable = ({
             pagination
             rows={data ?? []}
             columns={columns}
-            rowHeight={data?.length ? 48 : 120}
+            rowHeight={data?.length ? 65 : 120}
             rowCount={data?.length ?? 0}
             checkboxSelection={allowSelection}
             data-testid='user-project-table'

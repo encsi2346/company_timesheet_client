@@ -53,9 +53,9 @@ const ProjectList = ({ onCreateClicked }: Props) => {
                         id: project.id,
                         title: project.title,
                         partner: project.partner,
-                        projectType: project.projectType,
+                        projectType: t('TEXT.PROJECT_TYPE_ENUM.' + project.projectType),
                         projectManager: project.projectManagerFamilyName + ' ' + project.projectManagerGivenName,
-                        projectStatus: project.projectStatus,
+                        projectStatus: t('TEXT.PROJECT_STATUS_ENUM.' + project.projectStatus),
                     };
                 });
                 setProjects(projectData);

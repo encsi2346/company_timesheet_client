@@ -89,7 +89,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
 export default StyledDataGrid;
 
 export const sharedDataGridProps = {
-    autoHeight: false,
+    autoHeight: true,
     height: '100%',
     checkboxSelection: true,
     disableSelectionOnClick: true,

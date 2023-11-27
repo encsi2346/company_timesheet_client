@@ -81,6 +81,18 @@
     "CLOSE_MONTH": "Hónap lezárása",
     "REMOVE_EMPLOYEE": "Alkalmazott eltávolítása",
     "REMOVING": "Eltávolítás",
-    "LOCKING": "Zárás"
+    "LOCKING": "Zárás",
+    "PROJECT_ROLE": "Projektben betöltött szerep",
+    "PROJECT_TYPE_ENUM": {
+      "0": "Belső",
+      "1": "Idő- és anyagelszámolású",
+      "2": "Fix áras"
+    },
+    "PROJECT_STATUS_ENUM": {
+      "0": "Tervezés",
+      "1": "Aktív",
+      "2": "Fenntartás",
+      "3": "Befejezett"
+    }
   }
 }

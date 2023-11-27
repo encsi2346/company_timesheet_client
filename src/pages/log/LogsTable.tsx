@@ -37,7 +37,7 @@ const LogsTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'email',
+            field: 'userName',
             headerName: t('TEXT.EMAIL'),
             width: 280,
         },

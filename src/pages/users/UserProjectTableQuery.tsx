@@ -60,6 +60,7 @@ const UserProjectTableQuery = ({
 
     return (
         <UserProjectTable
+            minHeight={300}
             allowSelection={allowSelection}
             allowNavigation={allowNavigation}
             showActions={showActions}

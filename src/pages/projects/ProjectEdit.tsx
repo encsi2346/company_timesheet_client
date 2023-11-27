@@ -390,7 +390,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             </Box>
                         </Box>
 
-                        <Box sx={{ display: 'flex', marginTop: 7, marginBottom: 10}}>
+                        <Box sx={{ display: 'flex', marginTop: 7, marginBottom: 10, minHeight: 300}}>
                             <ProjectUsersTableQuery
                                 selectionModel={selectionModel}
                                 onSelectionChange={handleSelectionChange}
