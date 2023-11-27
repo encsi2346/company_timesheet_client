@@ -3,7 +3,7 @@ beforeEach(() => {
 })
 
 describe('Create users', () => {
-    it('Should create an employee', () => {
+    it('Should create a project', () => {
         cy.createProject()
     })
 })

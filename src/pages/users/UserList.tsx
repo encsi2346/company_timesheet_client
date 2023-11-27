@@ -25,7 +25,7 @@ const UserList = ({ onCreateClicked }: Props) => {
     const { t } = useTypeSafeTranslation();
     const theme = useTheme();
     const location = useLocation();
-    const [userData, setUserData] = useState([]);
+    const [userData, setUsers] = useState([]);
     const [search, setSearch] = useState('');
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
@@ -43,7 +43,7 @@ const UserList = ({ onCreateClicked }: Props) => {
                         jobTitle: user.jobTitle,
                     };
                 });
-                setUserData(userData);
+                setUsers(userData);
             });
         }
     }, [auth.isAuthenticated]);

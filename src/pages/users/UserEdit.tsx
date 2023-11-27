@@ -81,7 +81,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     } = useForm<UserEditFormSchema>({
         defaultValues: {
             email: '',
-            priviligeLevel: 2,
+            privilegeLevel: 2,
             givenName: '',
             familyName: '',
             birthPlace: '',
@@ -270,7 +270,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     <SelectInput
                                         label={t('TEXT.USER_ROLE')}
                                         control={control}
-                                        name='priviligeLevel'
+                                        name='privilegeLevel'
                                         data-testid='user-role-input'
                                         disabled={inputDisabled}
                                         options={Object.entries(userRoles).map(([id, role]) => ({
@@ -280,7 +280,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>
-                                                    <IconButton onClick={() => setValue('priviligeLevel', undefined)} edge="end" >
+                                                    <IconButton onClick={() => setValue('privilegeLevel', undefined)} edge="end" >
                                                         <ClearRoundedIcon />
                                                     </IconButton>
                                                 </InputAdornment>

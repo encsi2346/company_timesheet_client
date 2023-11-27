@@ -3,20 +3,21 @@ Cypress.Commands.add('login', () => {
     cy.get('[data-testid="email-input"]').type(Cypress.env('user'))
     cy.get('[data-testid="password-input"]').type(Cypress.env('password'))
     cy.get('button[type="submit"]').click()
+    cy.wait(3000)
 })
 
 Cypress.Commands.add('logout', () => {
+    cy.wait(3000)
     cy.visit('http://localhost:3000/logout');
 })
 
-Cypress.Commands.add('createUser', () => {
-    cy.visit('http://localhost:3000/users');
-    cy.get('[data-testid="new-employee-button"]').click();
+Cypress.Commands.add('createUser', (email) => {
+    cy.visit('http://localhost:3000/users/new');
     cy.get('[data-testid="first-name-input"]').type('Test')
     cy.get('[data-testid="family-name-input"]').type('Test')
     cy.get('[data-testid="datepicker-birthDate"]').type('1990.01.01')
     cy.get('[data-testid="birth-place-input"]').type('TestLand')
-    cy.get('[data-testid="email-input"]').type('test@test.test')
+    cy.get('[data-testid="email-input"]').type(email)
     cy.get('[data-testid="phone-input"]').type('123456789')
     cy.get('[data-testid="address-input"]').type('TestLand TestCity, Test Drive -12.')
     cy.get('[data-testid="user-role-input"]').click()
@@ -40,8 +41,7 @@ Cypress.Commands.add('createUser', () => {
 })
 
 Cypress.Commands.add('createProject', () => {
-    cy.visit('http://localhost:3000/projects')
-    cy.get('[data-testid="new-project-button"]').click()
+    cy.visit('http://localhost:3000/projects/new')
     cy.get('[data-testid="type-input"]').click()
     cy.get('[data-value="Internal"]').click()
     cy.get('[data-testid="title-input"]').type('TestProject')
@@ -60,4 +60,6 @@ Cypress.Commands.add('createProject', () => {
     cy.get('[data-testid="real-value-input"]').type('1337')
     cy.get('[data-testid="real-gross-expenditure-input"]').type('1337')
     cy.get('[data-testid="save-button"]').click()
+    cy.wait(3000)
+    cy.visit('http://localhost:3000/projects/')
 })

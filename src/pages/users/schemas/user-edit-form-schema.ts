@@ -4,7 +4,7 @@ import {EmployeeContractType, EmployeePriviligeLevel} from "../../../api-client.
 export const userEditFormSchema = (isEditing: boolean) =>
     z.object({
         email: z.string().min(1).nullish(), //TODO: create emailregex, valid schemas
-        priviligeLevel: z.nativeEnum(EmployeePriviligeLevel),
+        privilegeLevel: z.nativeEnum(EmployeePriviligeLevel),
         givenName: z.string().min(1),
         familyName: z.string().min(1),
         birthPlace: z.string().nullish(),

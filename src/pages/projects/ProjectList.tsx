@@ -53,6 +53,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
                         //id: Math.floor(Math.random() * 1000000),
                         id: project.id,
                         title: project.title,
+                        partner: project.partner,
                         projectType: project.projectType,
                         projectManager: project.projectManagerFamilyName + ' ' + project.projectManagerGivenName,
                         projectStatus: project.projectStatus,
