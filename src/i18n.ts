@@ -6,7 +6,7 @@ i18n
     .use(Backend)
     .use(initReactI18next)
     .init({
-        fallbackLng: 'hu', //TODO: this change the language
+        fallbackLng: 'hu',
         debug: false,
         interpolation: {
             escapeValue: false,

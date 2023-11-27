@@ -58,29 +58,6 @@ const UserProjectTableQuery = ({
         }
     }, [auth.isAuthenticated]);
 
-    /*const userData = [
-        {
-            id: 1,
-            projectName: 'Projekt1',
-            projectManager: 'Példa Elek',
-        },
-        {
-            id: 2,
-            projectName: 'A Projekt',
-            projectManager: 'Példa Zoltán',
-        },
-        {
-            id: 3,
-            projectName: 'B Projekt',
-            projectManager: 'Példa Kata',
-        },
-        {
-            id: 4,
-            projectName: 'Projekt2',
-            projectManager: 'Példa Kata',
-        }
-    ];*/
-
     return (
         <UserProjectTable
             allowSelection={allowSelection}

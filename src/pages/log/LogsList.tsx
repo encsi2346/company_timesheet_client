@@ -29,8 +29,7 @@ const LogsList = () => {
             auditLogsClient.getAuditLogList().then((response) => {
                 const logsData = response.map((log) => {
                     return {
-                        id: Math.floor(Math.random() * 1000000),
-                        //id: log.id, //TODO: create id on backend
+                        id: log.id,
                         projectName: log.projectName,
                         userName: log.userName,
                         description: log.description,

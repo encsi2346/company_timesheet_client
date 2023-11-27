@@ -20,12 +20,10 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import TextFieldInput from "../../components/inputFields/TextFieldInput.tsx";
 import NormalText from "../../components/text/NormalText.tsx";
 import {AddEmployeeFormSchema, addEmployeeFormSchema} from "./schemas/add-employee-form-schema.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {
-    CreateEmployeeCommand,
-    CreateParticipationCommand,
-    EmployeesClient,
-    ParticipationClient
+    CreateParticipationCommand, EmployeesClient,
+    ParticipationClient, ProjectsClient
 } from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthProvider.tsx";
@@ -81,19 +79,10 @@ const AddEmployeeDialog = NiceModal.create(
         const modal = useModal();
         const { t } = useTypeSafeTranslation();
         const auth = useAuthentication();
-        const { selectionModel, handleSelectionChange } = useSelection(props.defaultSelected);
 
-        const [projects, setProjects] = useState({
-            projectA: 0,
-            projectB: 1,
-            projectC: 2
-        });
+        const [projects, setProjects] = useState({});
 
-        const [employees, setEmployees] = useState({
-            userA: 0,
-            UserB: 1,
-            UserC: 2
-        });
+        const [employees, setEmployees] = useState({});
 
         const {
             control,
@@ -105,12 +94,44 @@ const AddEmployeeDialog = NiceModal.create(
             defaultValues: {
                 projectId: 0,
                 employeeId: 0,
-                role: '', //TODO: a role-t felesleges belevenni, vegyük ki a backendből, logikusan max a jobTitle jöhetne ide
+                role: '',
                 hourlyRate: 0,
             },
             resolver: zodResolver(addEmployeeFormSchema),
             mode: 'all',
         });
+
+        useEffect(() => {
+            var employeesClient = new EmployeesClient(BackendUrl, auth.http);
+            employeesClient.getEmployeeList().then((response) => {
+                const userData = response.map((user) => {
+                    return {
+                        id: user.id,
+                        givenName: user.givenName,
+                        familyName: user.familyName,
+                        jobTitle: user.jobTitle,
+                    };
+                });
+                setEmployees(userData);
+            });
+        }, [auth.http]);
+
+        useEffect(() => {
+            var projectClient = new ProjectsClient(BackendUrl, auth.http);
+            projectClient.getProjectsList().then((response) => {
+                const projectData = response.map((project) => {
+                    return {
+                        id: project.id,
+                        title: project.title,
+                        partner: project.partner,
+                        projectType: project.projectType,
+                        projectManager: project.projectManagerFamilyName + ' ' + project.projectManagerGivenName,
+                        projectStatus: project.projectStatus,
+                    };
+                });
+                setProjects(projectData);
+            });
+        }, [auth.http]);
 
         const addEmployeesForProject = (data) => {
             const participationClient = new ParticipationClient(BackendUrl, auth.http);
@@ -147,8 +168,8 @@ const AddEmployeeDialog = NiceModal.create(
                             control={control}
                             name='projectId'
                             options={Object.values(projects).map((project) => ({
-                                id: project,
-                                title: project
+                                id: project.id,
+                                title: project.title
                             }))}
                             InputProps={{
                                 endAdornment: (
@@ -173,8 +194,8 @@ const AddEmployeeDialog = NiceModal.create(
                             control={control}
                             name='employeeId'
                             options={Object.values(employees).map((employee) => ({
-                                id: employee,
-                                title: employee
+                                id: employee.id,
+                                name: employee.givenName + ' ' + employee.familyName,
                             }))}
                             InputProps={{
                                 endAdornment: (

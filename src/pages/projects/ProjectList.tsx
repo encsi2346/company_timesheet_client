@@ -50,7 +50,6 @@ const ProjectList = ({ onCreateClicked }: Props) => {
             projectClient.getProjectsList().then((response) => {
                 const projectData = response.map((project) => {
                     return {
-                        //id: Math.floor(Math.random() * 1000000),
                         id: project.id,
                         title: project.title,
                         partner: project.partner,
@@ -106,7 +105,7 @@ const ProjectList = ({ onCreateClicked }: Props) => {
                     <Box sx={{ display: 'flex', flexDirection: 'row'}}>
                         <FormControl sx={{ marginTop: 1, marginBottom: 5, marginLeft: 2}}>
                             <Input
-                                id="projectName"
+                                id="title"
                                 placeholder="Project name"
                                 autoFocus
                                 onChange={(e) => setSearch(e.target.value)}

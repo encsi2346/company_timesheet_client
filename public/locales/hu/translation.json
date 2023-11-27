@@ -80,6 +80,7 @@
     "EDIT": "Szerkesztés",
     "CLOSE_MONTH": "Hónap lezárása",
     "REMOVE_EMPLOYEE": "Alkalmazott eltávolítása",
-    "REMOVING": "Eltávolítás"
+    "REMOVING": "Eltávolítás",
+    "LOCKING": "Zárás"
   }
 }

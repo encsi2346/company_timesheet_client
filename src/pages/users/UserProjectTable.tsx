@@ -36,12 +36,12 @@ const UserProjectTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'projectName',
+            field: 'projectTitle',
             headerName: `${t('TEXT.PROJECT')}`,
             width: 350,
         },
         {
-            field: 'projectManager',
+            field: 'hourlyRate',
             headerName: `${t('TEXT.PROJECT_MANAGER')}`,
             width: 350,
         }
