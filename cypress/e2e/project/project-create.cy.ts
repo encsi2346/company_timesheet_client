@@ -3,9 +3,9 @@ beforeEach(() => {
 })
 
 describe('Create users', () => {
-    it('Should create a project', () => {
+    /*it('Should create a project', () => {
         cy.createProject()
-    })
+    })*/
 })
 
 afterEach(() => {

@@ -13,7 +13,8 @@ export default defineConfig({
           'cypress/e2e/user/user-create.cy.ts',
           'cypress/e2e/user/user-list.cy.ts',
           'cypress/e2e/project/project-create.cy.ts',
-          'cypress/e2e/project/project-list.cy.ts'
+          'cypress/e2e/project/project-list.cy.ts',
+          'cypress/e2e/log/log-list.cy.ts'
       ]
       return config
     },

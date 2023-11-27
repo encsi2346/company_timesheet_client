@@ -4,7 +4,7 @@ beforeEach(() => {
 })
 
 describe('List users', () => {
-    it('Should list users', () => {
+    it('Should return 200 response code on listing users', () => {
         cy.visit('http://localhost:3000/users')
 
         cy.wait('@listUsers').then((interception) => {
