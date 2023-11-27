@@ -20,7 +20,13 @@ import DatePickerInput from "../../components/inputFields/DatePickerInput.tsx";
 import {parseDatePickerDate} from "../../components/inputFields/utils/parse-datepicker-date.ts";
 import {useTypeSafeTranslation} from "../../components/inputFields/hooks/useTypeSafeTranslation.tsx";
 import {ProjectEditFormSchema, projectEditFormSchema} from "./schemas/project-edit-form-schema.ts";
-import {CreateProjectCommand, ProjectsClient, UpdateProjectCommand} from "../../api-client.ts";
+import {
+    CreateProjectCommand,
+    EmployeesClient,
+    ProjectsClient,
+    UpdateProjectCommand,
+    UsersClient
+} from "../../api-client.ts";
 import {BackendUrl} from "../../App.tsx";
 import {useAuthentication} from "../../auth/AuthProvider.tsx";
 import {useModal} from "@ebay/nice-modal-react";
@@ -58,18 +64,36 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
-    const [types, setTypes] = useState({
-        0: 'Internal',
-        1: 'TimeAndMaterial',
-        2: 'FixedPrice',
-    });
-    const [statusOptions, setStatusOptions] = useState({
-        0: 'Planning',
-        1: 'Active',
-        2: 'Maintenance',
-        3: 'Completed',
-    });
-    const [managers, setManagers] = useState([]);//TODO: kell api hívás ami csak a managereket adja vissza
+    
+    const projectTypes = {
+        0: 'TEXT.PROJECT_TYPE_ENUM.0',
+        1: 'TEXT.PROJECT_TYPE_ENUM.1',
+        2: 'TEXT.PROJECT_TYPE_ENUM.2'
+    };
+    const projectStatuses = {
+        0: 'TEXT.PROJECT_STATUS_ENUM.0',
+        1: 'TEXT.PROJECT_STATUS_ENUM.1',
+        2: 'TEXT.PROJECT_STATUS_ENUM.2',
+        3: 'TEXT.PROJECT_STATUS_ENUM.3'
+    };
+    const [managers, setManagers] = useState([]);
+    const [managersLoading, setManagersLoading] = useState(false);
+    
+    useEffect(() => {
+        if (!managersLoading) {
+            setManagersLoading(true);
+            const usersClient = new EmployeesClient(BackendUrl, auth.http);
+            usersClient.getEmployeeList(true)
+                .then(response => {
+                    setManagers(response.map((manager) => {
+                        return {
+                            id: manager.id,
+                            title: manager.givenName + ' ' + manager.familyName
+                        }
+                    }));
+                });
+        }
+    }, []);
 
     const {
         control,
@@ -109,7 +133,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const updateProject = (id, data) => {
         const projectsClient = new ProjectsClient(BackendUrl, auth.http);
-        return projectsClient.updateProject( id, new UpdateProjectCommand(data))
+        return projectsClient.updateProject( id, new UpdateProjectCommand({id: id, ...data}))
             .then(response => {
                 navigate(`/projects`); // todo open in view mode
             })
@@ -159,6 +183,13 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             })
             .catch(() => null);
     };
+    
+    const enumToOptions = (enumObject) => {
+        return Object.keys(enumObject).map((key) => ({
+            id: key,
+            title: t(enumObject[key])
+        }));
+    };
 
     return (
         <Box sx={{ display: 'block', width: 1300}}>
@@ -179,10 +210,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='projectType'
                                     disabled={inputDisabled}
-                                    options={Object.values(types).map((projectType) => ({
-                                        id: projectType,
-                                        title: projectType
-                                    }))}
+                                    options={enumToOptions(projectTypes)}
                                     data-testid='type-input'
                                     InputProps={{
                                         endAdornment: (
@@ -262,10 +290,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='projectStatus'
                                     disabled={inputDisabled}
-                                    options={Object.values(statusOptions).map((projectStatus) => ({
-                                        id: projectStatus,
-                                        title: projectStatus
-                                    }))}
+                                    options={enumToOptions(projectStatuses)}
                                     data-testid='status-input'
                                     InputProps={{
                                         endAdornment: (
@@ -323,10 +348,7 @@ const ProjectEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     control={control}
                                     name='projectManagerId'
                                     disabled={inputDisabled}
-                                    options={Object.values(managers).map((manager) => ({
-                                        id: manager.id, //TODO
-                                        title: manager.name //TODO
-                                    }))}
+                                    options={managers}
                                     data-testid='project-type-input'
                                     InputProps={{
                                         endAdornment: (
