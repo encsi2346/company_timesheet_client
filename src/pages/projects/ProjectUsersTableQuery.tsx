@@ -58,30 +58,6 @@ const ProjectUsersTableQuery = ({
         }
     }, [auth.isAuthenticated]);
 
-    /*const projectData = [
-        {
-            id: 1,
-            fullName: 'Példa Elek',
-            seniority: 'Junior',
-            position: 'Szoftverfejlesztő',
-            value: 2300,
-        },
-        {
-            id: 2,
-            fullName: 'Példa Éva',
-            seniority: 'Senior',
-            position: 'Projekt manager',
-            value: 3500,
-        },
-        {
-            id: 3,
-            fullName: 'Példa Zoltán',
-            seniority: 'Junior',
-            position: 'Szoftverfejlesztő',
-            value: 2300,
-        }
-    ];*/
-
     return (
         <ProjectUsersTable
             allowSelection={allowSelection}

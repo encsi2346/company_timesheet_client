@@ -37,7 +37,7 @@ const LogsTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'userName', //TODO: backenden eldönteni hogy usernamet ad e vissza vagy emailt?
+            field: 'email',
             headerName: t('TEXT.EMAIL'),
             width: 280,
         },
@@ -47,7 +47,7 @@ const LogsTable = ({
             width: 270,
         },
         {
-            field: 'timestamp', //TODO: formatting
+            field: 'timestamp', //TODO: formatting on backend
             headerName: t('TEXT.DATE'),
             width: 270,
         },

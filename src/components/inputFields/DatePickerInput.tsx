@@ -63,7 +63,7 @@ export default function DatePickerInput<TFieldValues extends FieldValues>({
                 >
                     <DatePicker
                         {...rest}
-                        value={value ? value : null} //TODO
+                        value={value ? value : null}
                         onClose={onBlur}
                         sx={{
                             disableUnderline: 'true',
